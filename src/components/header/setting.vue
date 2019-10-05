@@ -1,5 +1,6 @@
 <template>
 	<v-menu
+		transition="slide-y-transition"
 		bottom
 		left
 		nudge-bottom="50"
