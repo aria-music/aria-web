@@ -1,67 +1,76 @@
 <template>
 	<v-footer
 		absolute
-		class="py-0"
+		class="pa-0 d-flex"
+		height="65"
 	>
-		<v-row>
-			<v-col class="py-0">
+		<!-- progress bar -->
+		<v-progress-linear
+			:value="nowTime"
+			fixed
+			height="5"
+			class="d-flex align-self-start"
+			:background-color="`${themeColor} lighten-3`"
+			:color="`${themeColor} lighten-1`"
+		></v-progress-linear>
+		<div
+			class="d-flex flex-row align-center mx-auto px-2"
+			:style="{width: `${width}px`}"
+		>
+			<!-- play btn-->
+			<v-btn
+				icon
+				large
+				@click="playAndPause()"
+				class="mr-2"
+			><v-icon large>{{ nowState == "paused" ? "play_arrow" : "pause" }}</v-icon>
+			</v-btn>
 
-				<!-- progress bar -->
-				<v-progress-linear
-          :value="nowTime"
-					fixed
-          height="5"
-          :background-color="`${themeColor} lighten-3`"
-          :color="`${themeColor} lighten-1`"
-        ></v-progress-linear>
-				<v-row class="pt-3 pb-2 px-3">
-					<div>
+			<!-- skip btn, shuffle btn, repeat btn  -->
+			<v-btn
+				v-for="(item, index) in leftControlItems"
+				:key="index"
+				icon
+				@click="controlFunc(item.content)"
+				class="mr-2"
+			><v-icon>{{ item.icon }}</v-icon>
+			</v-btn>
 
-						<!-- play btn-->
-						<v-btn
-							icon
-							large
-							@click="playAndPause(nowState)"
-							class="mr-2"
-						><v-icon large>{{ nowState == "paused" ? "play_arrow" : "pause" }}</v-icon>
-						</v-btn>
+			<!-- volume btn -->
+			<v-hover v-slot:default="{ hover }">
+				<div class="d-flex flex-row align-center">
+					<v-btn
+						icon
+						@click="mute"
+					><v-icon>{{ volumeIcon }}</v-icon>
+					</v-btn>
+					<v-expand-x-transition mode="out-in">
+						<v-slider
+							v-show="hover"
+							v-model="volume"
+							dence
+							hide-details
+							style="width: 90px"
+							:color="`${themeColor} lighten-3`"
+							track-color="grey lighten-1"
+						></v-slider>
+					</v-expand-x-transition>
+				</div>
+			</v-hover>
 
-						<!-- skip btn, shuffle btn, repeat btn  -->
-						<v-btn
-							v-for="(item, index) in leftControlItems"
-							:key="index"
-							icon
-							@click="controlFunc(item.content)"
-							class="mr-2"
-						><v-icon>{{ item.icon }}</v-icon>
-						</v-btn>
+			<v-spacer v-if="$vuetify.breakpoint.smAndUp"></v-spacer>
 
-						<!-- volume btn -->
-						<v-hover v-slot:default="{ hover }">
-							<span>
-								<v-btn
-									icon
-									@click="mute"
-								><v-icon>{{ volumeIcon }}</v-icon>
-								</v-btn>
-								<v-slider
-									v-if="hover"
-									v-model="volume"
-									style="width: 75px, transition-duration: .5s"
-									:color="`${themeColor} lighten-3`"
-								></v-slider>
-							</span>
-						</v-hover>
-					</div>
-
-					<div class="flex-grow-1"></div>
-
-					<div>
-
-					</div>
-				</v-row>
-			</v-col>
-		</v-row>
+			<v-card
+				height="50"
+				width="50"
+			>
+				<v-img
+					src="@/assets/thinkingAria.png"
+					:aspect-ratio="1/1"
+					contain
+				></v-img>
+			</v-card>
+		</div>
 	</v-footer>
 </template>
 <script>
@@ -73,7 +82,10 @@ const LeftControlItems = [
 
 export default {
 	props: {
-
+		width: {
+			type: Number,
+			required: true,
+		},
 	},
   data: () => ({
 		leftControlItems: LeftControlItems,
@@ -95,7 +107,7 @@ export default {
 		},
 	},
 	methods: {
-		playAndPause(nowState) {
+		playAndPause() {
 
 		},
 		controlFunc(content) {
@@ -109,7 +121,7 @@ export default {
 			}
 		},
 		mute() {
-			if(this.volume == 0){
+			if(this.volume !== 0){
 				this.volumeBuff = this.volume
 				this.volume = 0
 			}else{

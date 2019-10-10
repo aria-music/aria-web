@@ -1,8 +1,12 @@
 <template>
   <v-app>
     <div style="height: 100vh, width: 100vh">
-      <AriaHeader/>
-      <AriaFooter/>
+      <AriaHeader
+        :width="width"
+      />
+      <AriaFooter
+        :width="width"
+      />
     </div>
   </v-app>
 </template>
@@ -20,5 +24,11 @@ export default {
   data: () => ({
     //
   }),
+  computed: {
+    width() {
+      const windowWidth = window.innerWidth
+      return windowWidth > 1200 ? 1200 : windowWidth
+    }
+  }
 };
 </script>

@@ -1,61 +1,66 @@
 <template>
 	<v-app-bar>
-		<!-- product name -->
-		<v-toolbar-title>Aria_music</v-toolbar-title>
-
-		<div class="flex-grow-1"></div>
-
-		<!-- searchbox -->
-		<!-- for sp -->
 		<div
-			v-if="$vuetify.breakpoint.xs"
-			:style="{width: `${spWidth}px`}"
-			style="transition-duration: .3s"
-			class="mt-5"
+			class="d-flex align-center mx-auto"
+			:style="{width: `${width}px`}"
 		>
-			<v-text-field
-				ref="searchbox"
-				v-model="text"
-				dense
-				prepend-inner-icon="search"
-				:loading="isLoading"
-				:color="themeColor"
-				@click:prepend-inner="focusAndSearch"
-				@keyup.enter="checkMac"
-				@keypress="canSearch = true"
-				@focus="isFocus = true"
-				@blur="isFocus = false"
-			></v-text-field>
+			<!-- product name -->
+			<v-toolbar-title>Aria_music</v-toolbar-title>
+
+			<v-spacer></v-spacer>
+
+			<!-- searchbox -->
+			<!-- for sp -->
+			<div
+				v-if="$vuetify.breakpoint.xs"
+				:style="{width: `${spWidth}px`}"
+				style="transition-duration: .3s"
+				class="mt-5"
+			>
+				<v-text-field
+					ref="searchbox"
+					v-model="text"
+					dense
+					prepend-inner-icon="search"
+					:loading="isLoading"
+					:color="themeColor"
+					@click:prepend-inner="focusAndSearch"
+					@keyup.enter="checkMac"
+					@keypress="canSearch = true"
+					@focus="isFocus = true"
+					@blur="isFocus = false"
+				></v-text-field>
+			</div>
+			<!-- for dt -->
+			<div
+				v-if="$vuetify.breakpoint.smAndUp"
+				class="mt-5"
+			>
+				<v-text-field
+					v-model="text"
+					dense
+					prepend-inner-icon="search"
+					:loading="isLoading"
+					:color="themeColor"
+					@click:prepend-inner="search"
+					@keyup.enter="checkMac"
+					@keypress="canSearch = true"
+				></v-text-field>
+			</div>
+
+			<!-- Audio reload btn -->
+			<v-btn
+				v-if="$vuetify.breakpoint.smAndUp"
+				icon
+				small
+				@click="initAudioContext"
+			><v-icon>refresh</v-icon>
+			</v-btn>
+
+			<!-- setting btn -->
+			<setting/>
+
 		</div>
-		<!-- for dt -->
-		<div
-			v-if="$vuetify.breakpoint.smAndUp"
-			class="mt-5"
-		>
-			<v-text-field
-				v-model="text"
-				dense
-				prepend-inner-icon="search"
-				:loading="isLoading"
-				:color="themeColor"
-				@click:prepend-inner="search"
-				@keyup.enter="checkMac"
-				@keypress="canSearch = true"
-			></v-text-field>
-		</div>
-
-		<!-- Audio reload btn -->
-		<v-btn
-			v-if="$vuetify.breakpoint.smAndUp"
-			icon
-			small
-			@click="initAudioContext"
-		><v-icon>refresh</v-icon>
-		</v-btn>
-
-		<!-- setting btn -->
-		<setting/>
-
 	</v-app-bar>
 </template>
 <script>
@@ -63,7 +68,10 @@ import setting from './setting'
 
 export default {
 	props: {
-
+		width: {
+			type: Number,
+			required: true,
+		}
 	},
 	data: () => ({
 		text: "",
