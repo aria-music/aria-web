@@ -34,6 +34,7 @@
 			<!-- for dt -->
 			<div
 				v-if="$vuetify.breakpoint.smAndUp"
+				style="width: 300px;"
 				class="mt-5"
 			>
 				<v-text-field

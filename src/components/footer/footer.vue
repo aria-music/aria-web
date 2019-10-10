@@ -60,6 +60,7 @@
 
 			<v-spacer v-if="$vuetify.breakpoint.smAndUp"></v-spacer>
 
+			<!-- thumnail -->
 			<v-card
 				height="50"
 				width="50"
@@ -70,6 +71,19 @@
 					contain
 				></v-img>
 			</v-card>
+
+			<!-- TODO marquee -->
+
+			<!-- TODO love btn -->
+			<!-- <v-btn
+				icon
+				flat
+				:color="nowPlayingData.is_liked ? 'pink lighten-3' : ''"
+				><v-icon v-if="nowPlayingData.is_liked" color="pink darken-1">favorite</v-icon>
+				<v-icon v-else>favorite_border</v-icon>
+			</v-btn> -->
+
+			<!-- TODO sub queuelist -->
 		</div>
 	</v-footer>
 </template>
