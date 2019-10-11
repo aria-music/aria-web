@@ -74,20 +74,35 @@
 
 			<!-- TODO marquee -->
 
-			<!-- TODO love btn -->
-			<!-- <v-btn
+			<!-- love btn -->
+			<v-btn
 				icon
 				flat
+				:color="g ? 'pink lighten-3' : ''"
+				@click="g = !g"
+			>
+				<v-scale-transition mode="out-in">
+					<v-icon
+						v-if="g"
+						color="pink darken-1"
+						style="position: absolute;"
+					>favorite</v-icon>
+				</v-scale-transition>
+					<v-icon>favorite_border</v-icon>
+			</v-btn>
+			<!--
 				:color="nowPlayingData.is_liked ? 'pink lighten-3' : ''"
 				><v-icon v-if="nowPlayingData.is_liked" color="pink darken-1">favorite</v-icon>
-				<v-icon v-else>favorite_border</v-icon>
-			</v-btn> -->
+			-->
 
-			<!-- TODO sub queuelist -->
+			<!-- sub queuelist -->
+			<subQueuelist/>
 		</div>
 	</v-footer>
 </template>
 <script>
+import subQueuelist from './subQueueliist'
+
 const LeftControlItems = [
 	{icon: "skip_next", content: "skip"},
 	{icon: "shuffle", content: "shuffle"},
@@ -101,6 +116,9 @@ export default {
 			required: true,
 		},
 	},
+	components: {
+		subQueuelist
+	},
   data: () => ({
 		leftControlItems: LeftControlItems,
 		nowTime: 55.0,
@@ -110,14 +128,15 @@ export default {
 		themeColor: "pink",
 		nowState: "paused",
 		isRepeat: false,
+		g: false,
 	}),
 	watch: {
 		volume: function() {
 			if(this.volume >= 50) this.volumeIcon = "volume_up"
 			else if(this.volume == 0) this.volumeIcon = "volume_off"
 			else this.volumeIcon = "volume_down"
-      // this.$store.commit('setVolume', this.volume)
-      // localStorage.setItem('volume', this.volume)
+			// this.$store.commit('setVolume', this.volume)
+			// localStorage.setItem('volume', this.volume)
 		},
 	},
 	methods: {
