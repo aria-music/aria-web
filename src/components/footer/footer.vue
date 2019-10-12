@@ -23,7 +23,8 @@
 				large
 				@click="playAndPause()"
 				class="mr-2"
-			><v-icon large>{{ nowState == "paused" ? "play_arrow" : "pause" }}</v-icon>
+			>
+				<v-icon large>{{ nowState == "paused" ? "play_arrow" : "pause" }}</v-icon>
 			</v-btn>
 
 			<!-- skip btn, shuffle btn, repeat btn  -->
@@ -33,7 +34,8 @@
 				icon
 				@click="controlFunc(item.content)"
 				class="mr-2"
-			><v-icon>{{ item.icon }}</v-icon>
+			>
+				<v-icon>{{ item.icon }}</v-icon>
 			</v-btn>
 
 			<!-- volume btn -->
@@ -42,7 +44,8 @@
 					<v-btn
 						icon
 						@click="mute"
-					><v-icon>{{ volumeIcon }}</v-icon>
+					>
+						<v-icon>{{ volumeIcon }}</v-icon>
 					</v-btn>
 					<v-expand-x-transition mode="out-in">
 						<v-slider
