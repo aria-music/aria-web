@@ -1,13 +1,11 @@
 <template>
   <v-app>
-    <div style="height: 100vh, width: 100vh">
-      <AriaHeader
-        :width="width"
-      />
-      <AriaFooter
-        :width="width"
-      />
-    </div>
+    <AriaHeader
+      :width="width"
+    />
+    <AriaFooter
+      :width="width"
+    />
   </v-app>
 </template>
 

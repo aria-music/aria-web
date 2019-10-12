@@ -5,7 +5,7 @@
 		left
 		nudge-bottom="50"
 	>
-		<template v-slot:activator="{ on }">
+		<template #activator="{ on }">
 			<v-btn
 				small
 				icon

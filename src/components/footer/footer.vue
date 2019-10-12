@@ -39,7 +39,7 @@
 			</v-btn>
 
 			<!-- volume btn -->
-			<v-hover v-slot:default="{ hover }">
+			<v-hover #default="{ hover }">
 				<div class="d-flex flex-row align-center">
 					<v-btn
 						icon
@@ -80,7 +80,7 @@
 			<!-- love btn -->
 			<v-btn
 				icon
-				flat
+				text
 				:color="g ? 'pink lighten-3' : ''"
 				@click="g = !g"
 			>
