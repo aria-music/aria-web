@@ -5,6 +5,7 @@
     style="overflow: auto"
     class="py-0 queue"
     dense
+    :ripple="false"
   >
     <v-list-item-group>
       <v-list-item
@@ -22,9 +23,7 @@
                 :aspect-ratio="1"
                 contain
                 height="35"
-              >
-
-              </v-img>
+              ></v-img>
             </v-col>
 
             <!-- title -->
@@ -36,7 +35,7 @@
             </v-col>
 
             <!-- btns -->
-            <v-col cols="4" class="py-0 align-center">
+            <v-col cols="4" class="py-0 d-flex align-center">
               <div v-show="hover">
                 <!-- love btn -->
                 <lovebtn small/>

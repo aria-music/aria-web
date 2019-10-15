@@ -45,7 +45,7 @@
         <v-col cols="1">
         </v-col>
         <v-divider vertical class="my-1"></v-divider>
-        <v-col cols="7">
+        <v-col cols="7" class="d-flex align-center">
           <v-list-item-title class="font-weight-medium caption py-0">Title</v-list-item-title>
         </v-col>
         <v-divider vertical class="my-1"></v-divider>
