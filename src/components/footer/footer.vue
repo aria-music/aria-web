@@ -78,25 +78,7 @@
 			<!-- TODO marquee -->
 
 			<!-- love btn -->
-			<v-btn
-				icon
-				text
-				:color="g ? 'pink lighten-3' : ''"
-				@click="g = !g"
-			>
-				<v-scale-transition mode="out-in">
-					<v-icon
-						v-if="g"
-						color="pink darken-1"
-						style="position: absolute;"
-					>favorite</v-icon>
-				</v-scale-transition>
-					<v-icon>favorite_border</v-icon>
-			</v-btn>
-			<!--
-				:color="nowPlayingData.is_liked ? 'pink lighten-3' : ''"
-				><v-icon v-if="nowPlayingData.is_liked" color="pink darken-1">favorite</v-icon>
-			-->
+			<lovebtn/>
 
 			<!-- sub queuelist -->
 			<subQueuelist/>
@@ -104,7 +86,8 @@
 	</v-footer>
 </template>
 <script>
-import subQueuelist from './subQueueliist'
+import subQueuelist from '../options/btns/subQueueliist'
+import lovebtn from '../options/btns/love'
 
 const LeftControlItems = [
 	{icon: "skip_next", content: "skip"},
@@ -120,7 +103,8 @@ export default {
 		},
 	},
 	components: {
-		subQueuelist
+		subQueuelist,
+		lovebtn,
 	},
   data: () => ({
 		leftControlItems: LeftControlItems,
@@ -131,7 +115,6 @@ export default {
 		themeColor: "pink",
 		nowState: "paused",
 		isRepeat: false,
-		g: false,
 	}),
 	watch: {
 		volume: function() {
