@@ -82,7 +82,7 @@
 
 			<!-- sub queuelist -->
 			<subQueuelist
-			 :height="size.height"
+				:height="size.height"
 			/>
 		</div>
 	</v-footer>
