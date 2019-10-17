@@ -11,9 +11,7 @@
 <script>
 export default {
   props: {
-    small: {
-      default: false,
-    }
+    small: Boolean,
   },
   data: () => ({
     //

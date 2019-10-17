@@ -2,21 +2,27 @@
   <v-list
     :max-height="maxHeight"
     :min-height="200"
+    :width="width"
     style="overflow: auto"
     class="py-0 queue"
     dense
-    :ripple="false"
   >
     <v-list-item-group>
       <v-list-item
         v-for="(item, index) in queue"
         :key="index"
+        class="pa-0"
+        :ripple="false"
       >
         <v-hover #default="{ hover }">
-          <v-row dense style="height: 40px">
+          <v-row
+            dense
+            class="ma-0"
+            style="height: 40px"
+          >
 
             <!-- thumnail -->
-            <v-col cols="1" class="py-0 my-auto">
+            <v-col cols="2" class="py-0 my-auto">
               <v-img
                 :src="item.thumnail"
                 eager
@@ -27,7 +33,7 @@
             </v-col>
 
             <!-- title -->
-            <v-col cols="7" class="py-0 my-auto">
+            <v-col cols="6" class="py-0 my-auto">
               <v-list-item-content class="py-0">
                 <v-list-item-title v-text="item.title" class="text-truncate"></v-list-item-title>
                 <v-list-item-subtitle v-text="item.artist" class="text-truncate"></v-list-item-subtitle>
@@ -44,7 +50,7 @@
                 <deletebtn small/>
 
                 <!-- info btn -->
-                <infobtn small/>
+                <infobtn small v-if="$vuetify.breakpoint.smAndUp"/>
               </div>
             </v-col>
           </v-row>
@@ -80,8 +86,12 @@ const QUEUE = [
 export default {
   props: {
     maxHeight: {
-      style: String,
+      type: Number,
       required: true,
+    },
+    width: {
+      type: Number,
+      default: 500,
     }
   },
   components: {

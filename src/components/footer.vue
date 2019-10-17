@@ -15,7 +15,7 @@
 		></v-progress-linear>
 		<div
 			class="d-flex flex-row align-center mx-auto px-2"
-			:style="{width: `${width}px`}"
+			:style="{width: `${size.width}px`}"
 		>
 			<!-- play btn-->
 			<v-btn
@@ -81,13 +81,15 @@
 			<lovebtn/>
 
 			<!-- sub queuelist -->
-			<subQueuelist/>
+			<subQueuelist
+			 :height="size.height"
+			/>
 		</div>
 	</v-footer>
 </template>
 <script>
-import subQueuelist from '../options/btns/subQueueliist'
-import lovebtn from '../options/btns/love'
+import subQueuelist from './options/btns/subQueueliist'
+import lovebtn from './options/btns/love'
 
 const LeftControlItems = [
 	{icon: "skip_next", content: "skip"},
@@ -97,10 +99,10 @@ const LeftControlItems = [
 
 export default {
 	props: {
-		width: {
-			type: Number,
-			required: true,
-		},
+		size: {
+			type: Object,
+			required: true
+		}
 	},
 	components: {
 		subQueuelist,

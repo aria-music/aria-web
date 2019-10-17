@@ -65,7 +65,7 @@
 	</v-app-bar>
 </template>
 <script>
-import setting from './setting'
+import setting from './options/btns/setting'
 
 export default {
 	props: {

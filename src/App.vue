@@ -1,17 +1,17 @@
 <template>
-  <v-app>
+  <v-app v-resize="setSize">
     <AriaHeader
-      :width="width"
+      :width="size.width"
     />
     <AriaFooter
-      :width="width"
+      :size="size"
     />
   </v-app>
 </template>
 
 <script>
-import AriaHeader from './components/header/header'
-import AriaFooter from './components/footer/footer'
+import AriaHeader from './components/header'
+import AriaFooter from './components/footer'
 
 export default {
   name: 'App',
@@ -20,12 +20,15 @@ export default {
     AriaFooter,
   },
   data: () => ({
-    //
+    size: {
+      width: 0,
+      height: 0
+    }
   }),
-  computed: {
-    width() {
-      const windowWidth = window.innerWidth
-      return windowWidth > 1200 ? 1200 : windowWidth
+  methods: {
+    setSize() {
+      this.size.width = window.innerWidth > 1200 ? 1200 : window.innerWidth
+      this.size.height = window.innerHeight
     }
   }
 };
