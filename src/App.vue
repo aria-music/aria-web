@@ -3,9 +3,21 @@
     <AriaHeader
       :width="size.width"
     />
-    <mainContainer
-      :size="size"
-    />
+    <v-content>
+      <div
+        style="position: absolute; z-index: 5; height: 99%; width: 99%;"
+        class="d-flex align-end justify-end"
+      >
+        <subQueue
+          class="align-end"
+          :height="size.height"
+        />
+      </div>
+      <mainContainer
+        style="z-index: 4; position: relative;"
+        :size="size"
+      />
+    </v-content>
     <AriaFooter
       :size="size"
     />
@@ -16,6 +28,7 @@
 import AriaHeader from './components/header'
 import mainContainer from './components/container/mainContainer'
 import AriaFooter from './components/footer'
+import subQueue from './components/subQueue'
 
 export default {
   name: 'App',
@@ -23,6 +36,7 @@ export default {
     AriaHeader,
     mainContainer,
     AriaFooter,
+    subQueue,
   },
   data: () => ({
     size: {

@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar fixed>
+	<v-app-bar fixed app>
 		<div
 			class="d-flex align-center mx-auto"
 			:style="{width: `${width}px`}"

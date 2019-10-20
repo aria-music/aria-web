@@ -193,6 +193,7 @@ const store = new Vuex.Store({
     // searchedData: null,
     // searchContents: localStorage.searchContents ? '' : localStorage.searchContents,
     playingData: container,
+    playingTitle: "",
     nowState: "paused",
     queue: [],
     // playlists: [],
@@ -201,7 +202,23 @@ const store = new Vuex.Store({
   },
   mutations: {
     changeState(state, result) {
-      if (result.entry) state.playingData = Object.assign({}, result.entry)
+      if (result.entry){
+        state.playingData = Object.assign({}, result.entry)
+        switch (state.playingData.source) {
+          case 'gpm':
+            state.playingTitle = state.playingData.entry.title
+            break
+          case 'youtube':
+            state.playingTitle = state.playingData.title
+            break
+          case 'soundcloud':
+            state.playingTitle = state.playingData.title
+            break
+          default:
+            state.playingTitle = state.playingData.title
+            break
+        }
+      }
       state.nowState = result.state
     },
     changeQueue(state, result) {

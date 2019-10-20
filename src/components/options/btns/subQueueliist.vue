@@ -15,13 +15,14 @@
       </v-btn>
     </template>
     <v-card
-      max-width="600"
+      max-width="500"
+      class="align-self-end"
     >
       <v-hover #default="{ hover }">
         <v-img
           class="align-end"
           height="150px"
-          width="500px"
+          max-width="500px"
           :src="playingData.thumbnail"
           gradient="rgba(100,115,201,.33), rgba(25,32,72,.7)"
         >
@@ -30,7 +31,7 @@
             <v-col
               cols="11"
               class="text-truncate font-weight-midium white--text"
-              :alt="playingTitle"
+              :title="playingTitle"
             >
               {{ playingTitle }}
             </v-col>
@@ -69,11 +70,11 @@
           :maxHeight="maxHeight"
         />
       </div>
-
     </v-card>
   </v-menu>
 </template>
 <script>
+import { mapState } from 'vuex'
 import ariaQueue from '../queue/queue'
 import funcbtn from './fuctional'
 

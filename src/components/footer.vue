@@ -1,6 +1,7 @@
 <template>
 	<v-footer
-		absolute
+		app
+		fixed
 		class="pa-0 d-flex"
 		height="65"
 	>
@@ -81,17 +82,16 @@
 			/>
 
 			<!-- sub queuelist -->
-			<subQueuelist
-				:height="size.height"
-				:playingData="playingData"
-				:playingTitle="playingTitle"
-			/>
+      <v-btn
+        icon
+      >
+        <v-icon>playlist_play</v-icon>
+      </v-btn>
 		</div>
 	</v-footer>
 </template>
 <script>
 import { mapState } from 'vuex'
-import subQueuelist from './options/btns/subQueueliist'
 import lovebtn from './options/btns/love'
 
 const LeftControlItems = [
@@ -108,7 +108,6 @@ export default {
 		}
 	},
 	components: {
-		subQueuelist,
 		lovebtn,
 	},
   data: () => ({
@@ -123,20 +122,7 @@ export default {
 		interval: null,
 	}),
 	computed: {
-		...mapState(["nowState", "playingData"]),
-    playingTitle() {
-      const data = this.playingData
-      switch(data.source){
-        case 'gpm':
-          return data.entry.title
-        case 'youtube':
-          return data.title
-        case 'soundcloud':
-          return data.title
-				default:
-					return data.title
-      }
-    },
+		...mapState(["nowState", "playingData", "playingTitle"]),
     countTime() {
       return 10 / this.playingData.duration
     },
