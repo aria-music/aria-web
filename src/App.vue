@@ -3,6 +3,9 @@
     <AriaHeader
       :width="size.width"
     />
+    <mainContainer
+      :size="size"
+    />
     <AriaFooter
       :size="size"
     />
@@ -11,12 +14,14 @@
 
 <script>
 import AriaHeader from './components/header'
+import mainContainer from './components/container/mainContainer'
 import AriaFooter from './components/footer'
 
 export default {
   name: 'App',
   components: {
     AriaHeader,
+    mainContainer,
     AriaFooter,
   },
   data: () => ({
