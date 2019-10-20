@@ -21,7 +21,7 @@
 			<v-btn
 				icon
 				large
-				@click="playAndPause()"
+				@click="playAndPause(nowState)"
 				class="mr-2"
 			>
 				<v-icon large>{{ nowState == "paused" ? "play_arrow" : "pause" }}</v-icon>
@@ -45,12 +45,12 @@
 						icon
 						@click="mute"
 					>
-						<v-icon>{{ volumeIcon }}</v-icon>
+						<v-icon>{{ volume.icon }}</v-icon>
 					</v-btn>
 					<v-expand-x-transition mode="out-in">
 						<v-slider
 							v-show="hover"
-							v-model="volume"
+							v-model="volume.value"
 							dence
 							hide-details
 							style="width: 90px"
@@ -67,27 +67,30 @@
 			<v-card
 				height="50"
 				width="50"
+				:img="playingData.thumbnail_small"
 			>
-				<v-img
-					src="@/assets/thinkingAria.png"
-					:aspect-ratio="1/1"
-					contain
-				></v-img>
+				<!-- <v-img aspect-ratio="1"></v-img> -->
 			</v-card>
 
 			<!-- TODO marquee -->
 
 			<!-- love btn -->
-			<lovebtn/>
+			<lovebtn
+				:isLoved="playingData.is_liked"
+				:uri="playingData.uri"
+			/>
 
 			<!-- sub queuelist -->
 			<subQueuelist
 				:height="size.height"
+				:playingData="playingData"
+				:playingTitle="playingTitle"
 			/>
 		</div>
 	</v-footer>
 </template>
 <script>
+import { mapState } from 'vuex'
 import subQueuelist from './options/btns/subQueueliist'
 import lovebtn from './options/btns/love'
 
@@ -110,45 +113,96 @@ export default {
 	},
   data: () => ({
 		leftControlItems: LeftControlItems,
-		nowTime: 55.0,
-		volume: 100,
-		volumeBuff: 100,
-		volumeIcon: "volume_up",
-		themeColor: "pink",
-		nowState: "paused",
-		isRepeat: false,
-	}),
-	watch: {
-		volume: function() {
-			if(this.volume >= 50) this.volumeIcon = "volume_up"
-			else if(this.volume == 0) this.volumeIcon = "volume_off"
-			else this.volumeIcon = "volume_down"
-			// this.$store.commit('setVolume', this.volume)
-			// localStorage.setItem('volume', this.volume)
+		nowTime: 0,
+		volume: {
+			value: 100,
+			buff: 100,
+			icon: "volume_up"
 		},
+		themeColor: "pink",
+		interval: null,
+	}),
+	computed: {
+		...mapState(["nowState", "playingData"]),
+    playingTitle() {
+      const data = this.playingData
+      switch(data.source){
+        case 'gpm':
+          return data.entry.title
+        case 'youtube':
+          return data.title
+        case 'soundcloud':
+          return data.title
+				default:
+					return data.title
+      }
+    },
+    countTime() {
+      return 10 / this.playingData.duration
+    },
 	},
+	watch: {
+		'volume.value': function() {
+			if(this.volume.value >= 50) this.volume.icon = "volume_up"
+			else if(this.volume.value == 0) this.volume.icon = "volume_off"
+			else this.volume.icon = "volume_down"
+			// this.$store.commit('setVolume', this.volume.value)
+			// localStorage.setItem('volume', this.volume.value)
+		},
+    nowPlayingData: function() {
+      this.nowTime = this.countTime * this.playingData.position * 10
+    },
+	},
+	mounted(){
+		this.setIntervalForSeekbar()
+	},
+	beforeDestroy() {
+    clearInterval(this.interval)
+  },
 	methods: {
-		playAndPause() {
-
+		playAndPause(nowState) {
+			if(nowState == "paused") this.$store.dispatch('sendAsResume')
+      else this.$store.dispatch('sendAsPause')
 		},
 		controlFunc(content) {
 			switch(content) {
 				case "skip":
+					this.skip()
 					break
 				case "shuffle":
+					this.shuffle()
 					break
 				case "repeat":
+					this.repeat()
 					break
 			}
 		},
+		skip() {
+      this.$store.dispatch('sendAsSkip')
+    },
+		repeat() {
+			this.$store.dispatch('sendAsRepeat', this.playingData.uri)
+    },
+		shuffle() {
+      this.$store.dispatch('sendAsShuffle')
+    },
 		mute() {
-			if(this.volume !== 0){
-				this.volumeBuff = this.volume
-				this.volume = 0
+			// TODO: dispatch volume action
+			if(this.volume.value !== 0){
+				this.volume.buff = this.volume.value
+				this.volume.value = 0
 			}else{
-				this.volume = this.volumeBuff
+				this.volume.value = this.volume.buff
 			}
-		}
+		},
+		setIntervalForSeekbar() {
+      this.interval = setInterval(() => {
+        this.progressSeekbar()
+      }, 100)
+    },
+    progressSeekbar() {
+      if(this.nowTime < 100 && this.nowState == 'playing') this.nowTime += this.countTime
+    },
 	},
 }
 </script>
