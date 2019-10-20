@@ -3,7 +3,8 @@
     :close-on-content-click="false"
     transition="slide-y-reverse-transition"
     top
-    nudge-top="70"
+    :nudge-top="70"
+    class="my-5"
   >
     <template #activator="{ on }">
       <v-btn
@@ -20,20 +21,29 @@
         <v-img
           class="align-end"
           height="150px"
-          :src="nowPlaying.thumnail"
+          width="500px"
+          :src="playingData.thumbnail"
+          gradient="rgba(100,115,201,.33), rgba(25,32,72,.7)"
         >
-          <v-card-text class="py-0">Playing:</v-card-text>
+          <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
           <v-row class="title pl-4 pb-3 pt-1" no-gutters>
-            <v-col cols="11" class="font-weight-medium text-truncate">
-              {{ nowPlaying.title }}
+            <v-col
+              cols="11"
+              class="text-truncate font-weight-midium white--text"
+              :alt="playingTitle"
+            >
+              {{ playingTitle }}
             </v-col>
             <v-col cols="1" class="align-self-end">
               <!-- functional btn -->
               <funcbtn
                 :show="hover"
                 hover
+                white
                 addList
-                removeQueue
+                skip
+                like
+                :songData="playingData"
               />
             </v-col>
           </v-row>
@@ -44,7 +54,7 @@
         <v-col cols="2"></v-col>
         <v-col cols="6" class="d-flex align-center px-0">
           <v-divider vertical></v-divider>
-          <v-list-item-title class="font-weight-medium caption py-0">Title</v-list-item-title>
+          <v-list-item-title class="font-weight-medium caption py-0 ml-1">Title</v-list-item-title>
         </v-col>
         <v-col cols="4" class="d-flex align-center">
           <v-divider vertical></v-divider>
@@ -54,9 +64,11 @@
         </v-col>
       </v-row>
       <v-divider></v-divider>
-      <ariaQueue
-        :maxHeight="maxHeight"
-      />
+      <div style="height: 100%">
+        <ariaQueue
+          :maxHeight="maxHeight"
+        />
+      </div>
 
     </v-card>
   </v-menu>
@@ -69,25 +81,25 @@ export default {
   props: {
     height: {
       type: Number,
-      required: true,
+      required: true
+    },
+    playingData: {
+      type: Object,
+      required: true
+    },
+    playingTitle: {
+      type: String,
+      required: true
     }
   },
   components: {
     ariaQueue,
     funcbtn,
   },
-  data: () => ({
-    nowPlaying: {
-      title: "水瀬いのり『Inori Minase LIVE TOUR Catch the Rainbow！』ダイジェスト",
-      artist: "水瀬いのり",
-      thumnail: "https://images-na.ssl-images-amazon.com/images/I/51aYItqS1iL._AC_.jpg",
-    },
-  }),
   computed: {
     maxHeight() {
       return this.height - 340
-    }
-  }
-
+    },
+  },
 }
 </script>
