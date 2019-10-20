@@ -2,8 +2,8 @@
   <v-btn
     icon
     text
-    :color="isLoved? 'pink lighten-3' : ''"
-    @click="isLoved = !isLoved"
+    :color="isLoved ? 'pink lighten-3' : ''"
+    @click="like"
   >
     <v-scale-transition mode="out-in">
       <v-icon
@@ -14,19 +14,25 @@
       >favorite</v-icon>
     </v-scale-transition>
     <v-icon :small="small">favorite_border</v-icon>
-      <!--
-				:color="nowPlayingData.is_liked ? 'pink lighten-3' : ''"
-				><v-icon v-if="nowPlayingData.is_liked" color="pink darken-1">favorite</v-icon>
-			-->
   </v-btn>
 </template>
 <script>
 export default {
   props: {
     small: Boolean,
+    isLoved: {
+      type: Boolean,
+      required: true
+    },
+    uri: {
+      type: String,
+      required: true
+    }
   },
-  data: () => ({
-    isLoved: false,
-  })
+  methods: {
+    like(){
+      this.$store.dispatch('sendAsLike', this.uri)
+    }
+  }
 }
 </script>

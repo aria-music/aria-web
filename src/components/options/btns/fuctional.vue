@@ -14,7 +14,7 @@
           small
           v-on="on"
           v-show="show"
-        ><v-icon>more_vert</v-icon>
+        ><v-icon :color="white ? 'white' : 'black'">more_vert</v-icon>
         </v-btn>
       </v-fade-transition>
     </template>
@@ -29,7 +29,7 @@
 					v-for="(item, index) in funcList"
 					:key="index"
 					class="pl-2"
-					@click="settingFunc(item.contents)"
+					@click="settingFunc(item.content)"
 				>
 					<v-list-item-title class="mr-4">
 						<v-icon class="mb-1 mr-4" small>{{ item.icon }}</v-icon>
@@ -41,12 +41,13 @@
   </v-menu>
 </template>
 <script>
-const like = { content: 'like', text: 'Like',  icon: 'fas fa-heart' }
-const addList = { content: 'addList', text: 'Add to Playlist', icon: 'fas fa-plus' }
-const removeQueue = { content: 'removeQueue', text: 'Remove', icon: 'far fa-trash-alt' }
-const removeList = { content: 'removeList', text: 'Remove', icon: 'far fa-trash-alt' }
-const playNext = { content: 'playNext', text: 'Play Next', icon: 'fas fa-play-circle' }
-const playNow = { content: 'playNow', text: 'Play Now', icon: 'far fa-play-circle' }
+const LIKE = { content: 'like', text: 'Like',  icon: 'fas fa-heart' }
+const ADDLIST = { content: 'addList', text: 'Add to Playlist', icon: 'fas fa-plus' }
+const REMOVEQUEUE = { content: 'removeQueue', text: 'Remove', icon: 'far fa-trash-alt' }
+const REMOVELIST = { content: 'removeList', text: 'Remove', icon: 'far fa-trash-alt' }
+const PLAYNEXT = { content: 'playNext', text: 'Play Next', icon: 'fas fa-play-circle' }
+const PLAYNOW = { content: 'playNow', text: 'Play Now', icon: 'far fa-play-circle' }
+const SKIP = { content: 'skip', text: 'skip', icon: 'fas fa-forward' }
 
 export default {
   props: {
@@ -58,6 +59,12 @@ export default {
     removeList: Boolean,
     playNext: Boolean,
     playNow: Boolean,
+    skip: Boolean,
+    songData: {
+      type: Object,
+      required: true
+    },
+    white: Boolean,
   },
   data: () => ({
     themeColor: "pink lighten-3",
@@ -68,13 +75,64 @@ export default {
   },
   methods: {
     makeList() {
-      if(this.like) this.funcList.push(like)
-      if(this.addList) this.funcList.push(addList)
-      if(this.removeQueue) this.funcList.push(removeQueue)
-      if(this.removeList) this.funcList.push(removeList)
-      if(this.playNext) this.funcList.push(playNext)
-      if(this.playNow) this.funcList.push(playNow)
+      if(this.like) this.funcList.push(LIKE)
+      if(this.addList) this.funcList.push(ADDLIST)
+      if(this.removeQueue) this.funcList.push(REMOVEQUEUE)
+      if(this.removeList) this.funcList.push(REMOVELIST)
+      if(this.playNext) this.funcList.push(PLAYNEXT)
+      if(this.playNow) this.funcList.push(PLAYNOW)
+      if(this.skip) this.funcList.push(SKIP)
     },
+    settingFunc(content) {
+      switch(content){
+        case 'like':
+          this._like(this.songData.uri)
+          break
+        case 'addList':
+          this._addList(this.songData.uri)
+          break
+        case 'removeQueue':
+          this._removeQueue(this.songData)
+          break
+        case 'playnext':
+          this._playnext(this.songData)
+          break
+        case 'playnow':
+          this._playnow(this.songData)
+          break
+        case 'removeList':
+          if(this.playlistName) this._removeList(this.playlistName, this.songData.uri)
+          else throw new Error()
+          break
+        case 'skip':
+          this._skip()
+          break
+      }
+    },
+    _like(uri) {
+      this.$store.dispatch('sendAsLike', uri)
+    },
+    _addList(url) {
+      //
+    },
+    _removeQueue(songData) {
+      this.$store.dispatch('sendAsRemoveFromQueue', songData)
+    },
+    _playnext(songData) {
+      this.$store.dispatch('sendAsQueueToHead', songData.uri)
+      this.toaster(songData.title)
+    },
+    _playnow(songData) {
+      this.$store.dispatch('sendAsPlay', songData.uri)
+      this.toaster(songData.title)
+    },
+    _removeList(name, uri) {
+      this.$store.dispatch('sendAsRemoveFromPlaylist', { playlistName: name, removeUri: uri })
+      this.$store.dispatch('sendAsPlaylist', name)
+    },
+    _skip() {
+      this.$store.dispatch('sendAsSkip')
+    }
   }
 }
 </script>
