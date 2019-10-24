@@ -1,18 +1,23 @@
 <template>
-  <v-card>
+  <v-card elevation="8">
     <v-hover #default="{ hover }">
+      <!-- why doesn't v-img have dynamic src ????????? -->
+      <!-- TODO TODO TODO TODO TODO TODO TODO -->
       <v-img
+        :src="playingData.thumbnail"
+        lazy-src="@/assets/logo.svg"
+        :max-width="maxWidth"
         class="align-end"
         height="150px"
-        :max-width="$vuetify.breakpoint.xs ? 250 : 500"
-        :src="playingData.thumbnail"
         gradient="rgba(100,115,201,.33), rgba(25,32,72,.7)"
       >
+      <!-- TODO TODO TODO TODO TODO TODO TODO -->
         <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
         <v-row class="title pl-4 pb-3 pt-1" no-gutters>
           <v-col
             :cols="$vuetify.breakpoint.xs ? 10 : 11"
-            class="text-truncate font-weight-midium white--text"
+            class="text-truncate font-weight-midium white--text align-self-center"
+            :class="{'subtitle-2': $vuetify.breakpoint.xs}"
             :title="playingTitle"
           >
             {{ playingTitle }}
@@ -39,7 +44,7 @@
     <v-row dense class="ma-0">
       <v-col
         offset="2"
-        :cols="$vuetify.breakpoint.xs ? 10 :6"
+        :cols="$vuetify.breakpoint.xs ? 10 : 6"
         class="d-flex align-center px-0"
       >
         <v-divider vertical></v-divider>
@@ -60,7 +65,8 @@
     <div style="height: 100%">
       <ariaQueue
         :maxHeight="maxHeight"
-        :width="$vuetify.breakpoint.xs ? 250 : 500"
+        :width="maxWidth"
+        :imgWidth="imgWidth"
       />
     </div>
   </v-card>
@@ -86,6 +92,12 @@ export default {
     maxHeight() {
       return this.height - 340
     },
+    maxWidth() {
+      return this.$vuetify.breakpoint.xs ? 250 : 500
+    },
+    imgWidth() {
+      return this.$vuetify.breakpoint.xs ? 35 : 70
+    }
   },
 }
 </script>
