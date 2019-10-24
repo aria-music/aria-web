@@ -196,6 +196,7 @@ const store = new Vuex.Store({
     playingTitle: "",
     nowState: "paused",
     queue: [],
+    subQueue: false,
     // playlists: [],
     // forcusedPlaylist: [],
     // volume: 50,
@@ -221,6 +222,9 @@ const store = new Vuex.Store({
       }
       state.nowState = result.state
     },
+    // changeSubQueue(state) {
+    //   if(state.subQueue)
+    // },
     changeQueue(state, result) {
       if(result) state.queue = result
       console.log(state.queue)

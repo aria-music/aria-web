@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs>
+  <v-container>
     <v-card
       width="500"
       height="500"

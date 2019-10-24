@@ -14,7 +14,7 @@
         />
       </div>
       <mainContainer
-        style="z-index: 4; position: relative;"
+        style="position: relative; z-index: 4;"
         :size="size"
       />
     </v-content>

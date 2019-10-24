@@ -16,79 +16,78 @@
           class="pa-0"
         >
           <v-hover #default="{ hover }">
-            <v-card :max-width="width" flat>
-              <v-row
-                dense
-                class="ma-0"
-                style="height: 40px"
+            <v-row
+              dense
+              class="ma-0"
+              style="height: 40px"
+              :style="{width: `${width-1}px`}"
+            >
+
+              <!-- thumnail -->
+              <v-col
+                :cols="2"
+                class="py-0 d-flex align-center justify-start"
               >
+                <v-img
+                  :src="item.thumbnail_small"
+                  eager
+                  :height="imgHeight"
+                  :max-width="imgWidth"
+                  contain
+                  @error.prevent
+                ></v-img>
+              </v-col>
 
-                <!-- thumnail -->
-                <v-col
-                  :cols="2"
-                  class="py-0 d-flex align-center justify-start"
-                >
-                  <v-img
-                    :src="item.thumbnail_small"
-                    eager
-                    height="35"
-                    :max-width="$vuetify.breakpoint.smAndUp ? 70 : 35"
-                    contain
-                    @error.prevent
-                  ></v-img>
-                </v-col>
+              <!-- title -->
+              <v-col
+                :cols="$vuetify.breakpoint.smAndUp ? 6 : 10"
+                class="py-0 my-auto"
+                :title="item.title"
+              >
+                <v-list-item-content class="py-0">
+                  <v-list-item-title
+                    v-text="item.entry ? item.entry.title : item.title"
+                    class="text-truncate"
+                  ></v-list-item-title>
+                  <v-list-item-subtitle
+                    v-text="item.entry ? item.entry.artist : ''"
+                    class="text-truncate"
+                  ></v-list-item-subtitle>
+                </v-list-item-content>
+              </v-col>
 
-                <!-- title -->
-                <v-col
-                  :cols="$vuetify.breakpoint.smAndUp ? 6 : 10"
-                  class="py-0 my-auto"
-                  :title="item.title"
-                >
-                  <v-list-item-content class="py-0">
-                    <v-list-item-title
-                      v-text="item.entry ? item.entry.title : item.title"
-                      class="text-truncate"
-                    ></v-list-item-title>
-                    <v-list-item-subtitle
-                      v-text="item.entry ? item.entry.artist : ''"
-                      class="text-truncate"
-                    ></v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-col>
+              <!-- btns -->
+              <v-col
+                :cols="4"
+                class="py-0 d-flex align-center"
+                v-if="$vuetify.breakpoint.smAndUp"
+              >
+                <!-- love btn -->
+                <lovebtn
+                  v-show="hover"
+                  small
+                  :uri="item.uri"
+                  :isLoved="false"
+                />
+                  <!-- v-show="item.is_liked || hover"
+                  :isLoved="item.is_liked" -->
 
-                <!-- btns -->
-                <v-col
-                  cols="4"
-                  class="py-0 d-flex align-center"
-                  v-if="$vuetify.breakpoint.smAndUp"
-                >
-                  <!-- love btn -->
-                  <lovebtn
-                    v-show="hover"
+                <div v-show="hover">
+                  <!-- delete btn -->
+                  <deletebtn
                     small
+                    where="queue"
                     :uri="item.uri"
-                    :isLoved="false"
+                    :index="index"
                   />
-                    <!-- v-show="item.is_liked || hover"
-                    :isLoved="item.is_liked" -->
 
-                  <div v-show="hover">
-                    <!-- delete btn -->
-                    <deletebtn
-                      small
-                      where="queue"
-                      :uri="item.uri"
-                      :index="index"
-                    />
-
-                    <!-- info btn -->
-                    <infobtn
-                      small
-                    />
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card>
+                  <!-- info btn -->
+                  <infobtn
+                    small
+                  />
+                </div>
+              </v-col>
+            </v-row>
           </v-hover>
         </v-list-item>
       </v-fade-transition>
@@ -110,6 +109,14 @@ export default {
     width: {
       type: Number,
       default: 500,
+    },
+    imgHeight: {
+      type: Number,
+      default: 35
+    },
+    imgWidth: {
+      type: Number,
+      default: 70
     }
   },
   components: {
