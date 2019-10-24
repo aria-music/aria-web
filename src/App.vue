@@ -26,7 +26,7 @@
 
 <script>
 import AriaHeader from './components/header'
-import mainContainer from './components/container/mainContainer'
+import mainContainer from './components/mainContainer'
 import AriaFooter from './components/footer'
 import subQueue from './components/subQueue'
 
