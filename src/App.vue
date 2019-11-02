@@ -5,6 +5,7 @@
     />
     <v-content>
       <div
+        v-if="false"
         style="position: absolute; z-index: 5; height: 99%; width: 99%;"
         class="d-flex align-end justify-end"
       >
@@ -14,7 +15,7 @@
         />
       </div>
       <mainContainer
-        style="position: relative; z-index: 4;"
+        style="position: relative; z-index: 0;"
         :size="size"
       />
     </v-content>
@@ -50,5 +51,5 @@ export default {
       this.size.height = window.innerHeight
     }
   }
-};
+}
 </script>

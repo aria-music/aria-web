@@ -1,17 +1,20 @@
 <template>
-  <v-container>
-    <v-card
-      width="500"
-      height="500"
-    >
-      sample
-    </v-card>
-  </v-container>
+  <v-card
+    class="mx-auto pa-3 scroller"
+    style="overflow: auto"
+    :flat="false"
+  >
+    <playlistView
+      :size="size"
+    />
+  </v-card>
 </template>
 <script>
+import playlistView from '@/views/playlistView'
+
 export default {
   components: {
-    //
+    playlistView
   },
   props: {
 		size: {
@@ -21,3 +24,4 @@ export default {
   }
 }
 </script>
+<style lang="scss" src="@/components/options/scss/scroller.scss">
