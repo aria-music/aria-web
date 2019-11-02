@@ -231,7 +231,7 @@ const store = new Vuex.Store({
     },
     storePlaylists(state, result) {
       state.playlists = result.map(property => {
-        property.ident = 'playlist'
+        property.id = 'playlist'
         return property
       })
     },
