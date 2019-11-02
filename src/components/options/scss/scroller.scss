@@ -1,0 +1,31 @@
+.scroller {
+  &::-webkit-scrollbar {
+    display: block;
+    overflow: hidden;
+    width: 1px;
+    background: rgb(230, 230, 230);
+
+    &:horizontal {
+      height: 1px;
+    }
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-piece {
+    background: #eee;
+    &:start {
+      background: #eee;
+    }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(180, 180, 180);
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: rgb(180, 180, 180);
+  }
+}

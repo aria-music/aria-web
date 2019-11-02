@@ -4,7 +4,7 @@
     :min-height="200"
     :max-width="width"
     style="overflow: auto"
-    class="py-0 queue"
+    class="py-0 scroller"
     dense
   >
     <v-list-item-group>
@@ -129,35 +129,4 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.queue {
-  &::-webkit-scrollbar {
-    overflow:hidden;
-    width:1px;
-    background:#fafafa;
-
-    &:horizontal {
-      height:1px;
-    }
-  }
-
-  &::-webkit-scrollbar-button {
-    display:none;
-  }
-
-  &::-webkit-scrollbar-piece {
-    background:#eee;
-    &:start {
-      background:#eee;
-    }
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background:#333;
-  }
-
-  &::-webkit-scrollbar-corner {
-    background:#333;
-  }
-}
-</style>
+<style lang="scss" src="@/components/options/scss/scroller.scss">
