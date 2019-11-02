@@ -2,6 +2,8 @@
   <v-card
     class="mx-auto pa-3 scroller"
     style="overflow: auto"
+    :width="size.width"
+    height="100%"
     :flat="false"
   >
     <playlistView
