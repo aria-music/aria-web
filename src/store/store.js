@@ -1,25 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { sendJson, stateContainer, playlistContainer } from './container'
 // import AudioWorker from 'worker-loader!@/../static/opus/audio.worker.js'
 
 Vue.use(Vuex)
-
-let sendJson = {
-  op: '',
-  key: '',
-}
-
-let container = {
-  duration: 0.0,
-  entry: null,
-  is_liked: false,
-  position: 0.0,
-  source: "",
-  thumbnail: "",
-  thumbnail_small: "",
-  title: "",
-  uri: "",
-}
 
 // const FRAME_SIZE = 960
 // const FLUSH_SIZE = FRAME_SIZE * 10
@@ -192,12 +176,12 @@ const store = new Vuex.Store({
     // theme: false,
     // searchedData: null,
     // searchContents: localStorage.searchContents ? '' : localStorage.searchContents,
-    playingData: container,
+    playingData: stateContainer,
     playingTitle: "",
     nowState: "paused",
     queue: [],
     subQueue: false,
-    // playlists: [],
+    playlists: playlistContainer,
     // forcusedPlaylist: [],
     // volume: 50,
   },
@@ -246,9 +230,8 @@ const store = new Vuex.Store({
       localStorage.searchContents = text
     },
     storePlaylists(state, result) {
-      state.playlists = result.map((property, index) => {
-        property.index = index
-        property.kind = 'playlist'
+      state.playlists = result.map(property => {
+        property.ident = 'playlist'
         return property
       })
     },
