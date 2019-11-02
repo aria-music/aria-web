@@ -1,19 +1,20 @@
 <template>
   <v-app v-resize="setSize">
+    <v-scroll-y-reverse-transition>
+      <subQueue
+        v-show="subQueue"
+        v-click-outside="{
+          callback: closeSubQueue,
+          isOpen: subQueue
+          }"
+        style="position: fixed; z-index: 5; right: 1%; bottom: 75px;"
+        :height="size.height"
+      />
+    </v-scroll-y-reverse-transition>
     <AriaHeader
       :width="size.width"
     />
     <v-content>
-      <div
-        v-if="false"
-        style="position: absolute; z-index: 5; height: 99%; width: 99%;"
-        class="d-flex align-end justify-end"
-      >
-        <subQueue
-          class="align-end"
-          :height="size.height"
-        />
-      </div>
       <mainContainer
         style="position: relative; z-index: 0;"
         :size="size"
@@ -24,12 +25,13 @@
     />
   </v-app>
 </template>
-
 <script>
+import { mapState } from 'vuex'
 import AriaHeader from './components/header'
 import mainContainer from './components/mainContainer'
 import AriaFooter from './components/footer'
 import subQueue from './components/subQueue'
+import clickOutside from './directives/click-outside'
 
 export default {
   name: 'App',
@@ -38,6 +40,9 @@ export default {
     mainContainer,
     AriaFooter,
     subQueue,
+  },
+  computed: {
+    ...mapState(["subQueue"])
   },
   data: () => ({
     size: {
@@ -49,7 +54,13 @@ export default {
     setSize() {
       this.size.width = window.innerWidth > 1200 ? 1200 : window.innerWidth
       this.size.height = window.innerHeight
+    },
+    closeSubQueue() {
+      this.$store.commit('closeSubQueue')
     }
+  },
+  directives: {
+    clickOutside
   }
 }
 </script>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// import AudioWorker from '@/../static/opus/audio.worker.js'
 import { sendJson, stateContainer, playlistContainer } from './container'
-// import AudioWorker from 'worker-loader!@/../static/opus/audio.worker.js'
 
 Vue.use(Vuex)
 
@@ -206,9 +206,12 @@ const store = new Vuex.Store({
       }
       state.nowState = result.state
     },
-    // changeSubQueue(state) {
-    //   if(state.subQueue)
-    // },
+    openSubQueue(state) {
+      setTimeout(() => state.subQueue = true, 100)
+    },
+    closeSubQueue(state) {
+      state.subQueue = false
+    },
     changeQueue(state, result) {
       if(result) state.queue = result
       console.log(state.queue)

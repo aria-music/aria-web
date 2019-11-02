@@ -84,6 +84,7 @@
 			<!-- sub queuelist -->
       <v-btn
         icon
+				@click="openSubQueue"
       >
         <v-icon>playlist_play</v-icon>
       </v-btn>
@@ -105,7 +106,7 @@ export default {
 		size: {
 			type: Object,
 			required: true
-		}
+		},
 	},
 	components: {
 		lovebtn,
@@ -189,6 +190,9 @@ export default {
     progressSeekbar() {
       if(this.nowTime < 100 && this.nowState == 'playing') this.nowTime += this.countTime
     },
+		openSubQueue() {
+			this.$store.commit('openSubQueue')
+		}
 	},
 }
 </script>
