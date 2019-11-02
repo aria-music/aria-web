@@ -8,7 +8,7 @@
         :width="maxWidth"
         class="align-end"
         height="150px"
-        gradient="rgba(100,115,201,.33), rgba(25,32,72,.7)"
+        gradient="rgba(100,115,201,.33), rgba(25,25,25,.7)"
       >
       <!-- TODO TODO TODO TODO TODO TODO TODO -->
         <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
