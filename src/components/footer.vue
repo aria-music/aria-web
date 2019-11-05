@@ -113,7 +113,7 @@ export default {
 	},
   data: () => ({
 		leftControlItems: LeftControlItems,
-		nowTime: 0,
+		nowTime: 0.0,
 		volume: {
 			value: 100,
 			buff: 100,
@@ -136,7 +136,7 @@ export default {
 			// this.$store.commit('setVolume', this.volume.value)
 			// localStorage.setItem('volume', this.volume.value)
 		},
-    nowPlayingData: function() {
+    playingData: function() {
       this.nowTime = this.countTime * this.playingData.position * 10
     },
 	},
