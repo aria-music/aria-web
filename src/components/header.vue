@@ -5,7 +5,10 @@
 			:style="{width: `${width}px`}"
 		>
 			<!-- product name -->
-			<v-toolbar-title>Aria_music</v-toolbar-title>
+			<v-toolbar-title
+				style="cursor: pointer"
+				@click="pushToHome"
+			>Aria_music</v-toolbar-title>
 
 			<v-spacer></v-spacer>
 
@@ -33,7 +36,7 @@
 			</div>
 			<!-- for dt -->
 			<div
-				v-if="$vuetify.breakpoint.smAndUp"
+				v-if="isSmAndUp"
 				style="width: 300px;"
 				class="mt-5"
 			>
@@ -51,7 +54,7 @@
 
 			<!-- Audio reload btn -->
 			<v-btn
-				v-if="$vuetify.breakpoint.smAndUp"
+				v-if="isSmAndUp"
 				icon
 				small
 				@click="initAudioContext"
@@ -83,7 +86,9 @@ export default {
 		isFocus: false,
 	}),
 	computed: {
-
+		isSmAndUp() {
+			return this.$vuetify.breakpoint.smAndUp
+		}
 	},
 	components: {
 		setting
@@ -123,6 +128,9 @@ export default {
 				this.isFocus = true
 			}
 		},
+		pushToHome() {
+			this.$router.push({name: 'playlist-view'})
+		}
 	}
 }
 </script>
