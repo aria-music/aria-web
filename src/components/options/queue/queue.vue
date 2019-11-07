@@ -64,10 +64,10 @@
               >
                 <!-- love btn -->
                 <lovebtn
-                  v-show="hover"
+                  v-show="item.is_liked || hover"
                   small
                   :uri="item.uri"
-                  :isLoved="false"
+                  :isLoved="item.is_liked"
                 />
                   <!-- v-show="item.is_liked || hover"
                   :isLoved="item.is_liked" -->

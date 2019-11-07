@@ -7,8 +7,38 @@
       <v-fade-transition>
         <playlistObject
           v-if="list.id == 'playlist'"
-          :img="list.thumbnails[0]"
+          :img="list.thumbnail == '' ? require('@/assets/thinking-face.png') : list.thumbnail"
+          v-slot="on"
         >
+          <div
+            class="d-flex flex-column fill-height justify-center"
+            @click="goPlaylistContents(index)"
+          >
+            <v-scroll-y-reverse-transition>
+              <div
+                v-show="( $vuetify.breakpoint.xs || on.hover ) && !nowLoading"
+                class="font-weight-black headline text-truncate ml-5"
+                style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
+              >{{ list.name }}</div>
+            </v-scroll-y-reverse-transition>
+            <v-fade-transition>
+              <v-progress-circular
+                v-if="nowLoading && focusedIndex === index"
+                class="mx-auto"
+                :size="100"
+                :width="4"
+                color="grey darken-1"
+                indeterminate
+              ></v-progress-circular>
+            </v-fade-transition>
+            <v-scroll-y-transition>
+              <div
+                v-show="( $vuetify.breakpoint.xs || on.hover ) && !nowLoading"
+                class="text-end font-weight-medium title mr-5"
+                style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
+              >{{ list.length == 0 ? "No" : list.length }} {{ list.length == 1 ? "track" : "tracks" }}</div>
+            </v-scroll-y-transition>
+          </div>
         </playlistObject>
       </v-fade-transition>
       <playlistObject
@@ -31,10 +61,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(["playlists"]),
+    ...mapState(["playlists", "focusedPlaylist"]),
     maxRowSize() {
-      if(this.size.width >= 972) return 3
-      if(this.size.width >= 648) return 2
+      const width = this.size.width
+      if(width >= 972) return 3
+      if(width >= 648) return 2
       return 1
     },
     decoyNum() {
@@ -42,13 +73,53 @@ export default {
       return diff ? this.maxRowSize - diff : diff
     },
     playlistCore() {
-      const _playlist = this.playlists.slice()
+      let _playlist = this.playlists.slice()
       for(let i = 0; i < this.decoyNum; i++) _playlist.push({ id: "decoy" })
       return _playlist
-    }
+    },
   },
+  data: () => ({
+    nowLoading: false,
+    focusedIndex: -1,
+    // interval: 0,
+    // srcNo: 0,
+  }),
   components: {
     playlistObject
-  }
+  },
+  methods: {
+    goPlaylistContents(index) {
+      this.focusedIndex = index
+      this.nowLoading = true
+      const listname = this.playlists[index].name
+      this.$store.dispatch('sendAsPlaylist', listname)
+    },
+    // changeThumbnails() {
+		// 	this.interval = setInterval(() => {
+    //     this.srcNo++
+    //     if(this.srcNo === 12) this.srcNo = 0
+		// 	}, 4000)
+		// },
+    // thumbnail(thumbnails) {
+    //   let thumb = ""
+    //   if(thumbnails.length){
+    //     thumb = thumbnails[this.srcNo % thumbnails.length]
+    //   }else{
+    //     thumb = require('@/assets/thinking-face.png')
+    //   }
+    //   return thumb
+    // }
+  },
+  watch: {
+    focusedPlaylist: function(newPlaylist) {
+      this.$router.push({ name: 'playlist-contents', params: { name: newPlaylist.name } })
+    }
+  },
+  // mounted() {
+  //   this.changeThumbnails()
+  // },
+  // beforeDestroy() {
+	// 	clearInterval(this.interval)
+	// },
 }
 </script>

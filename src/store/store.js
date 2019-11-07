@@ -1,34 +1,34 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import AudioWorker from '@/../static/opus/audio.worker.js'
+import AudioWorker from 'worker-loader!@/static/opus/audio.worker.js'
 import { sendJson, stateContainer, playlistContainer } from './container'
 
 Vue.use(Vuex)
 
-// const FRAME_SIZE = 960
-// const FLUSH_SIZE = FRAME_SIZE * 10
-// const FLUSH_PACKET_SIZE = FLUSH_SIZE * 2
+const FRAME_SIZE = 960
+const FLUSH_SIZE = FRAME_SIZE * 10
+const FLUSH_PACKET_SIZE = FLUSH_SIZE * 2
 
-// let context = new (window.AudioContext || window.webkitAudioContext)()
-// let GainNode = context.createGain()
-// GainNode.connect(context.destination)
+let context = new (window.AudioContext || window.webkitAudioContext)()
+let GainNode = context.createGain()
+GainNode.connect(context.destination)
 let session_key
 
 let ws
 let connecting = false
 connectWs()
 
-// const audioWorker = new AudioWorker()
-// audioWorker.onmessage = (event) => {
-//   // console.log(event.data)
-//   queueAudio(event.data)
-// }
-// let buf
-// let leftchannel
-// let rightchannel
-// let bufSource
-// let offset = 0
-// let playing = 0
+const audioWorker = new AudioWorker()
+audioWorker.onmessage = (event) => {
+  // console.log(event.data)
+  queueAudio(event.data)
+}
+let buf
+let leftchannel
+let rightchannel
+let bufSource
+let offset = 0
+let playing = 0
 
 function connectWs() {
   return new Promise((resolve, reject) => {
@@ -53,47 +53,47 @@ function connectWs() {
   })
 }
 
-// function resetAudio() {
-//   context.close()
-//   context = new (window.AudioContext || window.webkitAudioContext)()
-//   GainNode = context.createGain()
-//   GainNode.gain.value = store.state.volume / 50
-//   GainNode.connect(context.destination)
-//   playing = 0
-//   // refreshBuffer()
-// }
+function resetAudio() {
+  context.close()
+  context = new (window.AudioContext || window.webkitAudioContext)()
+  GainNode = context.createGain()
+  GainNode.gain.value = store.state.volume / 50
+  GainNode.connect(context.destination)
+  playing = 0
+  // refreshBuffer()
+}
 
-// function refreshBuffer(packet_length) {
-//   // console.log(`packet length ${packet_length}`)
-//   buf = context.createBuffer(2, packet_length / 2, 48000)
-//   leftchannel = buf.getChannelData(0)
-//   rightchannel = buf.getChannelData(1)
-//   bufSource = context.createBufferSource()
-//   bufSource.buffer = buf
-//   bufSource.connect(GainNode)
-//   offset = 0
-// }
+function refreshBuffer(packet_length) {
+  // console.log(`packet length ${packet_length}`)
+  buf = context.createBuffer(2, packet_length / 2, 48000)
+  leftchannel = buf.getChannelData(0)
+  rightchannel = buf.getChannelData(1)
+  bufSource = context.createBufferSource()
+  bufSource.buffer = buf
+  bufSource.connect(GainNode)
+  offset = 0
+}
 
-// function queueAudio(msg) {
-//   if (msg.len === 0)
-//     return
+function queueAudio(msg) {
+  if (msg.len === 0)
+    return
 
-//   refreshBuffer(msg.len)
-//   const decodedF32 = new Float32Array(msg.buf)
-//   for (let x = 0; x < msg.len; x += 2) {
-//     leftchannel[offset] = decodedF32[x]
-//     rightchannel[offset] = decodedF32[x + 1]
-//     offset++
-//   }
+  refreshBuffer(msg.len)
+  const decodedF32 = new Float32Array(msg.buf)
+  for (let x = 0; x < msg.len; x += 2) {
+    leftchannel[offset] = decodedF32[x]
+    rightchannel[offset] = decodedF32[x + 1]
+    offset++
+  }
 
-//   if (playing < context.currentTime)
-//     playing = context.currentTime + 0.1
+  if (playing < context.currentTime)
+    playing = context.currentTime + 0.1
 
-//   bufSource.start(playing)
-//   playing += bufSource.buffer.duration
+  bufSource.start(playing)
+  playing += bufSource.buffer.duration
 
-//   // refreshBuffer()
-// }
+  // refreshBuffer()
+}
 
 function WSonmessage(event, resolve) {
   const container = JSON.parse(event.data)
@@ -103,9 +103,9 @@ function WSonmessage(event, resolve) {
     case 'hello':
       session_key = container.key
       sendJson.key = session_key
-      // store.commit('setVolume', localStorage.getItem('volume'))
-      // if (store.state.volume !== 0)
-      //   audioWorker.postMessage({ op: 'connect', key: session_key })
+      store.commit('setVolume', localStorage.getItem('volume'))
+      if (store.state.volume !== 0)
+        audioWorker.postMessage({ op: 'connect', key: session_key })
       resolve()
       break
 
@@ -127,9 +127,9 @@ function WSonmessage(event, resolve) {
 
     case 'event_player_state_change':
       console.log(`[event_player_state_change] ${store.state.nowState} => ${container.data.state}`)
-      // if (container.data.state === 'stopped') {
-      //   audioWorker.postMessage({ op: 'flush' })
-      // }
+      if (container.data.state === 'stopped') {
+        audioWorker.postMessage({ op: 'flush' })
+      }
       console.log(container.data)
       store.commit('changeState', container.data)
       break
@@ -182,7 +182,7 @@ const store = new Vuex.Store({
     queue: [],
     subQueue: false,
     playlists: playlistContainer,
-    // forcusedPlaylist: [],
+    focusedPlaylist: {},
     // volume: 50,
   },
   mutations: {
@@ -214,7 +214,6 @@ const store = new Vuex.Store({
     },
     changeQueue(state, result) {
       if(result) state.queue = result
-      console.log(state.queue)
     },
     changeTheme(state, nowTheme) {
       state.theme = nowTheme
@@ -235,12 +234,16 @@ const store = new Vuex.Store({
     storePlaylists(state, result) {
       state.playlists = result.map(property => {
         property.id = 'playlist'
+        if (property.thumbnails.length) property.thumbnails = property.thumbnails.filter(nail => nail != '')
+        property.thumbnail = property.thumbnails.length ? property.thumbnails[0] : ''
         return property
       })
     },
-
+    initFocus(state) {
+      state.focusedPlaylist = {}
+    },
     storePlaylistContents(state, contents) {
-      state.forcusedPlaylist = contents
+      state.focusedPlaylist = contents
     },
     // setVolume(state, volume) {
     //   const newVolume = Number(volume)
@@ -322,10 +325,10 @@ const store = new Vuex.Store({
     sendAsClearQueue() {
       sendToSocket('clear_queue')
     },
-    // initAudio() {
-    //   resetAudio()
-    //   console.log('audiocontext initialized')
-    // }
+    initAudio() {
+      resetAudio()
+      console.log('audiocontext initialized')
+    }
   }
 })
 
