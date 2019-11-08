@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row style="height: 100%">
     <v-col :cols="isSmAndDown ? 12 : 4">
       <titleView
         :theme="theme"
@@ -38,17 +38,21 @@
       :cols="isSmAndDown ? 12 : 8"
     >
       <v-card
-        height=""
+        height="100%"
+        class="pa-3"
       >
-        <v-card-title primary-title>
-          {{listContents}}
-        </v-card-title>
+        <playlist
+          :contents="listContents"
+          :theme="theme"
+          :size="size"
+        />
       </v-card>
     </v-col>
   </v-row>
 </template>
 <script>
 import titleView from '@/components/options/title'
+import playlist from '@/components/options/queue/playlist'
 import deleteBtn from '@/components/options/btns/delete'
 
 export default {
@@ -62,7 +66,7 @@ export default {
   computed: {
     listContents() {
       const entries = this.$store.state.focusedPlaylist.entries
-      return entries ? entries.slice() : 'undefined'
+      return entries ? entries.slice() : []
     },
     listname() {
       return decodeURIComponent(this.$route.params.name)
@@ -78,7 +82,7 @@ export default {
         if(this.listContents[i].thumbnail == "undefined") break
       }
       return this.listContents[i].thumbnail
-    }
+    },
   },
   methods: {
     queueAll() {
@@ -88,14 +92,12 @@ export default {
 
     }
   },
-  mounted() {
-    if(this.listContents == 'undefined') this.$router.push({name: 'playlist-view'})
-  },
   beforeDestroy() {
     this.$store.commit('initFocus')
   },
   components: {
     titleView,
+    playlist,
     deleteBtn
   }
 }
