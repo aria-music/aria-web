@@ -40,7 +40,7 @@
 
               <!-- title -->
               <v-col
-                :cols="$vuetify.breakpoint.smAndUp ? 6 : 10"
+                :cols="isXs ? 6 : 10"
                 class="py-0 my-auto"
                 :title="item.title"
               >
@@ -60,7 +60,7 @@
               <v-col
                 :cols="4"
                 class="py-0 d-flex align-center"
-                v-if="$vuetify.breakpoint.smAndUp"
+                v-if="isXs"
               >
                 <!-- love btn -->
                 <lovebtn
@@ -126,6 +126,9 @@ export default {
   },
   computed: {
     ...mapState(["queue"]),
+    isXs() {
+      return this.$vuetify.breakpoint.xs
+    }
   },
 }
 </script>

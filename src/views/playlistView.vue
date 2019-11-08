@@ -16,7 +16,7 @@
           >
             <v-scroll-y-reverse-transition>
               <div
-                v-show="( $vuetify.breakpoint.xs || on.hover ) && !nowLoading"
+                v-show="( isXs || on.hover ) && !nowLoading"
                 class="font-weight-black headline text-truncate ml-5"
                 style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
               >{{ list.name }}</div>
@@ -33,7 +33,7 @@
             </v-fade-transition>
             <v-scroll-y-transition>
               <div
-                v-show="( $vuetify.breakpoint.xs || on.hover ) && !nowLoading"
+                v-show="( isXs || on.hover ) && !nowLoading"
                 class="text-end font-weight-medium title mr-5"
                 style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
               >{{ list.length == 0 ? "No" : list.length }} {{ list.length == 1 ? "track" : "tracks" }}</div>
@@ -77,6 +77,9 @@ export default {
       for(let i = 0; i < this.decoyNum; i++) _playlist.push({ id: "decoy" })
       return _playlist
     },
+    isXs() {
+      return this.$vuetify.breakpoint.xs
+    }
   },
   data: () => ({
     nowLoading: false,

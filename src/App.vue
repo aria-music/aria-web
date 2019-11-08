@@ -42,12 +42,12 @@ export default {
     subQueue,
   },
   computed: {
-    ...mapState(["subQueue"])
+    ...mapState(["subQueue"]),
   },
   data: () => ({
     size: {
       width: 0,
-      height: 0
+      height: 0,
     }
   }),
   methods: {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import AudioWorker from 'worker-loader!@/static/opus/audio.worker.js'
+import AudioWorker from 'worker-loader!@/../public/opus/audio.worker.js'
 import { sendJson, stateContainer, playlistContainer } from './container'
 
 Vue.use(Vuex)
