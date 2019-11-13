@@ -12,7 +12,7 @@
             <v-btn
               text
               @click="queueAll"
-              class="my-0 py-3"
+              class="my-0 py-3 px-2"
             >
               <v-icon>fas fa-plus</v-icon>
               <div class="ml-2 pt-1">Queue</div>
@@ -20,7 +20,7 @@
             <v-btn
               text
               @click="playAll"
-              class="my-0 py-3"
+              class="my-0 py-3 px-2"
             >
               <v-icon>play_arrow</v-icon>
               <div class="ml-1 pt-1">Play</div>

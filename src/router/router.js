@@ -7,19 +7,25 @@ export default new Router({
   // mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    // {
-    //   path: '*',
-    //   redirect: '/playlist'
-    // },
     {
       path: '/',
       name: 'playlist-view',
       component: () => import('@/views/playlistView')
     },
     {
-      path: '/:name',
+      path: '/playlist?:name',
       name: 'playlist-contents',
       component: () => import('@/views/playlistContents')
-    }
+    },
+    {
+      path: '/search?:item',
+      name: 'search',
+      component: () => import('@/views/search')
+    },
+    {
+      path: '/play',
+      name: 'play',
+      component: () => import('@/views/play')
+    },
   ]
 })

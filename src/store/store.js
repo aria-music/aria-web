@@ -174,7 +174,7 @@ async function sendToSocket(op, data) {
 const store = new Vuex.Store({
   state: {
     // theme: false,
-    // searchedData: null,
+    searchData: null,
     // searchContents: localStorage.searchContents ? '' : localStorage.searchContents,
     playingData: stateContainer,
     playingTitle: "",
@@ -222,10 +222,7 @@ const store = new Vuex.Store({
       state.theme = theme
     },
     storeSearchResult(state, result) {
-      state.searchedData = result.map((property, index) => {
-        property.key = index
-        return property
-      })
+      state.searchData = Object.assign({}, result)
     },
     setSearchContents(state, text) {
       state.searchContents = text

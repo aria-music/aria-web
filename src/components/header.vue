@@ -1,8 +1,12 @@
 <template>
-	<v-app-bar fixed app>
+	<v-app-bar
+		fixed
+		app
+	>
 		<div
 			class="d-flex align-center mx-auto"
 			:style="{width: `${width}px`}"
+			style="background-color: transparent;"
 		>
 			<!-- product name -->
 			<v-toolbar-title
@@ -69,6 +73,7 @@
 </template>
 <script>
 import setting from './options/btns/setting'
+import { mapState } from 'vuex'
 
 export default {
 	props: {
@@ -110,8 +115,8 @@ export default {
 		search() {
 			this.canSearch = false
 			// this.$store.dispatch('sendAsSearch', this.text)
-			// this.text = ""
-			// this.$router.push('/search')
+			this.$router.push({name: 'search', params: {item: this.text}})
+			this.text = ""
     },
 		checkMac() {
 			if(this.canSearch){

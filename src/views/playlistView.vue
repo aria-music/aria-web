@@ -34,7 +34,7 @@
             <v-scroll-y-transition>
               <div
                 v-show="( isXs || on.hover ) && !nowLoading"
-                class="text-end font-weight-medium title mr-5"
+                class="text-end font-weight-medium title mr-5 black--text"
                 style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
               >{{ list.length == 0 ? "No" : list.length }} {{ list.length == 1 ? "track" : "tracks" }}</div>
             </v-scroll-y-transition>
