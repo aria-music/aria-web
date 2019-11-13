@@ -87,10 +87,10 @@ export default {
   },
   methods: {
     queueAll() {
-
+      this.$store.dispatch('sendAsQueueWithPlaylist', this.listname)
     },
     playAll() {
-
+      this.$store.dispatch('sendAsPlayWithPlaylist', this.listname)
     }
   },
   beforeDestroy() {
