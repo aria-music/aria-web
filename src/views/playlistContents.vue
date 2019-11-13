@@ -45,6 +45,7 @@
           :contents="listContents"
           :theme="theme"
           :size="size"
+          :playlistName="listname"
         />
       </v-card>
     </v-col>

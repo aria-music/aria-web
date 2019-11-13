@@ -3,7 +3,7 @@
     display: block;
     overflow: hidden;
     width: 1px;
-    background: rgb(230, 230, 230);
+    background: transparent;
 
     &:horizontal {
       height: 1px;
@@ -15,9 +15,9 @@
   }
 
   &::-webkit-scrollbar-piece {
-    background: #eee;
+    background: transparent;
     &:start {
-      background: #eee;
+      background: transparent;
     }
   }
 

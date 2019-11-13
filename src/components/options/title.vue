@@ -15,12 +15,12 @@
           </v-img>
         </v-card>
         <v-card class="mt-2">
-          <v-card-title class="title">
+          <v-card-title class="title font-weight-bold">
             {{ name }}
           </v-card-title>
-          <v-divider class="mx-3"></v-divider>
           <v-expand-transition>
             <div v-show="isSmAndDown || hover">
+              <v-divider class="mx-3"></v-divider>
               <slot></slot>
             </div>
           </v-expand-transition>

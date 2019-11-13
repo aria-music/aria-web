@@ -65,9 +65,10 @@ export default {
       required: true
     },
     white: Boolean,
+    playlistName: String,
   },
   data: () => ({
-    themeColor: "pink lighten-3",
+    themeColor: "pink lighten-2",
     funcList: [],
   }),
   mounted() {
@@ -77,11 +78,11 @@ export default {
     makeList() {
       if(this.like) this.funcList.push(LIKE)
       if(this.addList) this.funcList.push(ADDLIST)
-      if(this.removeQueue) this.funcList.push(REMOVEQUEUE)
-      if(this.removeList) this.funcList.push(REMOVELIST)
       if(this.playNext) this.funcList.push(PLAYNEXT)
       if(this.playNow) this.funcList.push(PLAYNOW)
       if(this.skip) this.funcList.push(SKIP)
+      if(this.removeQueue) this.funcList.push(REMOVEQUEUE)
+      if(this.removeList) this.funcList.push(REMOVELIST)
     },
     settingFunc(content) {
       switch(content){
@@ -94,15 +95,14 @@ export default {
         case 'removeQueue':
           this._removeQueue(this.songData)
           break
-        case 'playnext':
-          this._playnext(this.songData)
+        case 'playNext':
+          this._playnext(this.songData.uri)
           break
-        case 'playnow':
-          this._playnow(this.songData)
+        case 'playNow':
+          this._playnow(this.songData.uri)
           break
         case 'removeList':
           if(this.playlistName) this._removeList(this.playlistName, this.songData.uri)
-          else throw new Error()
           break
         case 'skip':
           this._skip()
@@ -118,13 +118,13 @@ export default {
     _removeQueue(songData) {
       this.$store.dispatch('sendAsRemoveFromQueue', songData)
     },
-    _playnext(songData) {
-      this.$store.dispatch('sendAsQueueToHead', songData.uri)
-      this.toaster(songData.title)
+    _playnext(uri) {
+      this.$store.dispatch('sendAsQueueToHead', uri)
+      // this.toaster(songData.title)
     },
-    _playnow(songData) {
-      this.$store.dispatch('sendAsPlay', songData.uri)
-      this.toaster(songData.title)
+    _playnow(uri) {
+      this.$store.dispatch('sendAsPlay', uri)
+      // this.toaster(songData.title)
     },
     _removeList(name, uri) {
       this.$store.dispatch('sendAsRemoveFromPlaylist', { playlistName: name, removeUri: uri })

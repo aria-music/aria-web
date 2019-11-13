@@ -22,19 +22,48 @@
               :ripple="false"
               class="pa-0"
             >
-              <v-hover #default="{ hover }">
-                <v-row
-                  dense
-                  class="ma-0"
-                  style="height: 40px"
-                >
-                <v-col>
-                  <div>
-                    {{item.title}}
-                  </div>
-                </v-col>
-                </v-row>
-              </v-hover>
+              <v-tooltip
+                top
+                :open-delay="800"
+                :color="theme"
+              >
+                <template #activator="{ on }">
+                  <v-row
+                    no-gutters
+                    class="ma-0"
+                    style="height: 50px; width: 100%;"
+                    align="center"
+                    v-on="on"
+                  >
+                    <v-col :cols="isXs ? 2 : 1">
+                      <v-img
+                        :src="item.thumbnail_small"
+                        :aspect-ratio="1"
+                        height="45"
+                        contain
+                        class="ml-1"
+                      ></v-img>
+                    </v-col>
+                    <v-col :cols="isXs ? 9 : 10" class="px-3">
+                      <div class="text-truncate font-weight-medium">
+                        {{item.title}}
+                      </div>
+                    </v-col>
+                    <v-col cols="1">
+                      <funcbtn
+                        :songData="item"
+                        :playlistName="playlistName"
+                        show
+                        playNext
+                        playNow
+                        removeList
+                        :white="isDark"
+                      />
+                    </v-col>
+                  </v-row>
+                </template>
+                <span>{{ item.title }}</span>
+              </v-tooltip>
             </v-list-item>
           </v-fade-transition>
         </v-list-item-group>
@@ -47,14 +76,22 @@
   </v-card>
 </template>
 <script>
+import funcbtn from '../btns/fuctional'
+
 export default {
   props: {
     contents: {
       type: Array,
-      default: []
+      default: () => []
     },
     theme: String,
     size: Object,
+    playlistName: String
+  },
+  watch: {
+    hover: function(){
+      this.$emit()
+    }
   },
   computed: {
     isXs() {
@@ -62,8 +99,14 @@ export default {
     },
     isContentsExist() {
       return this.contents.length > 0
+    },
+    isDark() {
+      return this.$vuetify.theme.dark
     }
   },
+  components: {
+    funcbtn
+  }
 }
 </script>
 <style lang="scss" src="@/components/options/scss/scroller.scss">

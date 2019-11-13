@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="8">
     <v-hover #default="{ hover }">
-      <!-- why doesn't v-img have dynamic src ????????? -->
+      <!-- why doesn't v-img have dynamic src ? -->
       <!-- TODO TODO TODO TODO TODO TODO TODO -->
       <v-img
         :src="playingData.thumbnail"
@@ -17,9 +17,16 @@
             :cols="$vuetify.breakpoint.xs ? 10 : 11"
             class="text-truncate font-weight-midium white--text align-self-center"
             :class="{'subtitle-2': $vuetify.breakpoint.xs}"
-            :title="playingTitle"
           >
-            {{ playingTitle }}
+            <v-tooltip
+              top
+              open-delay="1000"
+            >
+              <template #activator="{ on }">
+                <span v-on="on">{{ playingTitle }}</span>
+              </template>
+              <span>{{ playingTitle }}</span>
+            </v-tooltip>
           </v-col>
           <v-col
             :cols="$vuetify.breakpoint.xs ? 2 : 1"

@@ -17,7 +17,7 @@
             <v-scroll-y-reverse-transition>
               <div
                 v-show="( isXs || on.hover ) && !nowLoading"
-                class="font-weight-black headline text-truncate ml-5"
+                class="font-weight-black headline text-truncate ml-5 black--text"
                 style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
               >{{ list.name }}</div>
             </v-scroll-y-reverse-transition>

@@ -44,6 +44,9 @@ export default {
   computed: {
     ...mapState(["subQueue"]),
   },
+  mounted(){
+    // this.$vuetify.theme.dark = true
+  },
   data: () => ({
     size: {
       width: 0,
