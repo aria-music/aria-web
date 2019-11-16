@@ -1,8 +1,6 @@
 <template>
   <v-card elevation="8">
     <v-hover #default="{ hover }">
-      <!-- why doesn't v-img have dynamic src ? -->
-      <!-- TODO TODO TODO TODO TODO TODO TODO -->
       <v-img
         :src="playingData.thumbnail"
         :width="maxWidth"
@@ -10,7 +8,6 @@
         height="150px"
         gradient="rgba(100,115,201,.33), rgba(25,25,25,.7)"
       >
-      <!-- TODO TODO TODO TODO TODO TODO TODO -->
         <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
         <v-row class="title pl-4 pb-3 pt-1" no-gutters>
           <v-col
@@ -80,7 +77,7 @@
 <script>
 import { mapState } from 'vuex'
 import ariaQueue from './options/queue/queue'
-import funcbtn from './options/btns/fuctional'
+import funcbtn from './options/btns/functional'
 
 export default {
   props: {

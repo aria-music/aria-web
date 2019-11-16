@@ -83,7 +83,8 @@
 
                   <!-- info btn -->
                   <infobtn
-                    small
+                    theme="pink lighten-2"
+                    :songData="item"
                   />
                 </div>
               </v-col>

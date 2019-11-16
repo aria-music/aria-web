@@ -11,15 +11,18 @@
           <v-img
             :src="thumb"
             :aspect-ratio="1"
+            max-height="500"
           >
           </v-img>
         </v-card>
         <v-card class="mt-2">
-          <v-card-title class="title font-weight-bold">
-            {{ name }}
+          <v-card-title
+            class="title font-weight-bold"
+          >
+            <span :class="{'text-truncate': !play && !hover}">{{ name }}</span>
           </v-card-title>
           <v-expand-transition>
-            <div v-show="isSmAndDown || hover">
+            <div v-show="isSmAndDown || hover || play">
               <v-divider class="mx-3"></v-divider>
               <slot></slot>
             </div>
@@ -42,8 +45,9 @@ export default {
     },
     name: {
       type: String,
-      default: "",
-    }
+      default: ""
+    },
+    play: Boolean
   },
   computed: {
     isSmAndDown() {

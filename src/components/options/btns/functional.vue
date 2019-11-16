@@ -1,5 +1,6 @@
 <template>
   <v-menu
+    v-model="isOpen"
     :open-on-hover="hover"
     :open-delay="hover ? 250 : 0"
     transition="scale-transition"
@@ -11,7 +12,7 @@
       <v-fade-transition mode="out-in">
         <v-btn
           icon
-          small
+          :small="!defualt"
           v-on="on"
           v-show="show"
         ><v-icon :color="white ? 'white' : 'black'">more_vert</v-icon>
@@ -32,7 +33,7 @@
 					@click="settingFunc(item.content)"
 				>
 					<v-list-item-title class="mr-4">
-						<v-icon class="mb-1 mr-4" small>{{ item.icon }}</v-icon>
+            <v-icon small class="mb-1 mr-3 ml-1">{{ item.icon }}</v-icon>
 						<span>{{ item.text }}</span>
 					</v-list-item-title>
 				</v-list-item>
@@ -66,13 +67,20 @@ export default {
     },
     white: Boolean,
     playlistName: String,
+    defualt: Boolean
   },
   data: () => ({
     themeColor: "pink lighten-2",
     funcList: [],
+    isOpen: false
   }),
   mounted() {
     this.makeList();
+  },
+  watch: {
+    isOpen: function(newVal) {
+      this.$emit('isOpen', newVal)
+    }
   },
   methods: {
     makeList() {

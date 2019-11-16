@@ -84,7 +84,7 @@
   </v-card>
 </template>
 <script>
-import funcbtn from '../btns/fuctional'
+import funcbtn from '../btns/functional'
 
 export default {
   props: {

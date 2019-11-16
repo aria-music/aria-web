@@ -69,6 +69,7 @@
 				height="50"
 				width="50"
 				:img="playingData.thumbnail_small"
+				@click="goPlay"
 			>
 				<!-- <v-img aspect-ratio="1"></v-img> -->
 			</v-card>
@@ -192,6 +193,9 @@ export default {
     },
 		openSubQueue() {
 			this.$store.commit('openSubQueue')
+		},
+		goPlay() {
+			this.$router.push({name: 'play'})
 		}
 	},
 }
