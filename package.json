@@ -11,7 +11,8 @@
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "vuetify": "^2.0.0",
+    "vuedraggable": "^2.23.2",
+    "vuetify": "^2.1.10",
     "vuex": "^3.0.1",
     "worker-loader": "^2.0.0"
   },
