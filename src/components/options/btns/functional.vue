@@ -23,7 +23,7 @@
 			class="mb-0 py-0 pr-0 pl-2"
 			border="left"
 			colored-border
-			:color="themeColor"
+			:color="theme"
 		>
 			<v-list shaped dense>
 				<v-list-item
@@ -73,10 +73,10 @@ export default {
     },
     white: Boolean,
     playlistName: String,
-    defualt: Boolean
+    defualt: Boolean,
+    theme: String,
   },
   data: () => ({
-    themeColor: "pink lighten-2",
     funcList: [],
     isOpen: false,
     dialog: false,

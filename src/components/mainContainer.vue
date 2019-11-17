@@ -12,17 +12,22 @@
     <v-fade-transition mode="out-in">
       <router-view
         :size="size"
+        :theme="theme"
       ></router-view>
     </v-fade-transition>
   </v-card>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
 		size: {
 			type: Object,
 			required: true
 		}
+  },
+  computed: {
+    ...mapState(["theme"])
   }
 }
 </script>

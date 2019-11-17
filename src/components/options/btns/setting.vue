@@ -28,7 +28,7 @@
 					v-for="(item, index) in settingItems"
 					:key="index"
 					class="pl-2"
-					@click="settingFunc(item.contents)"
+					@click="setting(item.content)"
 				>
 					<v-list-item-title class="mr-4">
 						<v-icon class="mb-1 mr-4">{{ item.icon }}</v-icon>
@@ -37,21 +37,26 @@
 				</v-list-item>
 			</v-list>
 		</v-alert>
+		<themeSelector
+			:show="selectTheme"
+		/>
 	</v-menu>
 </template>
 <script>
 import {version} from "@/assets/VERSION.json"
+import themeSelector from '@/components/options/themeSelectDialog'
 
 const settingItems = [
-	{text: "Theme Color", icon: "palette"},
-	{text: "No Idea", icon: "mood_bad"}
+	{content: "theme", text: "Theme Color", icon: "palette"},
+	{content: "", text: "No Idea", icon: "mood_bad"}
 ]
 
 export default {
 	data: () => ({
 		settingItems: settingItems,
 		themeColor: "pink lighten-3",
-		subheader: "KANARI VERY FAST"
+		subheader: "KANARI VERY FAST",
+		selectTheme: false,
 	}),
 	computed: {
 		ariaVersion() {
@@ -59,18 +64,23 @@ export default {
     }
 	},
 	methods: {
-		settingFunc(contents){
+		setting(contents){
 			switch(contents){
-				case "Theme Color":
+				case "theme":
 					this.changeThemeColor()
 					break
 				case "No Idea":
 					break
+				default:
+					break
 			}
 		},
 		changeThemeColor(){
-			//
+			this.selectTheme = !this.selectTheme
 		}
+	},
+	components: {
+		themeSelector,
 	}
 }
 </script>

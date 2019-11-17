@@ -58,6 +58,7 @@ export default {
     index: Number,
     listname: String,
     dialog: Boolean,
+    theme: String
   },
   methods: {
     checkDialog() {
@@ -93,7 +94,6 @@ export default {
   },
   data: () => ({
     show: false,
-    theme: "pink lighten-2"
   })
 }
 </script>

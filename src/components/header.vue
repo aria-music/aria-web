@@ -49,7 +49,7 @@
 					dense
 					prepend-inner-icon="search"
 					:loading="isLoading"
-					:color="themeColor"
+					:color="theme"
 					@click:prepend-inner="search"
 					@keyup.enter="checkMac"
 					@keypress="canSearch = true"
@@ -86,11 +86,11 @@ export default {
 		text: "",
 		canSearch: false,
 		isLoading: false,
-		themeColor: "pink lighten-3",
 		spWidth: "25",
 		isFocus: false,
 	}),
 	computed: {
+		...mapState(["theme"]),
 		isSmAndUp() {
 			return this.$vuetify.breakpoint.smAndUp
 		}

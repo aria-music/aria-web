@@ -23,12 +23,13 @@
             <funcbtn
               show
               :white="isDark"
+              :songData="playingData"
+              :theme="theme"
+              defualt
               like
               addList
               skip
-              :songData="playingData"
               @isOpen="statusChange"
-              defualt
             />
           </v-toolbar-items>
         </v-toolbar>
@@ -57,8 +58,10 @@ export default {
     infobtn,
     funcbtn,
   },
+  props: {
+    theme: String
+  },
   data: () => ({
-    theme: 'pink lighten-2',
     play: false,
   }),
   computed: {

@@ -59,10 +59,7 @@ import deleteBtn from '@/components/options/btns/delete'
 export default {
   props: {
     size: Object,
-    theme: {
-      type: String,
-      default: "pink lighten-2"
-    }
+    theme: String,
   },
   computed: {
     listContents() {

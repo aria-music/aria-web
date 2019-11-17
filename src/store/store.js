@@ -173,7 +173,7 @@ async function sendToSocket(op, data) {
 
 const store = new Vuex.Store({
   state: {
-    // theme: false,
+    theme: "pink lighten-2",
     searchData: null,
     // searchContents: localStorage.searchContents ? '' : localStorage.searchContents,
     playingData: stateContainer,

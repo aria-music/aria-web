@@ -11,8 +11,8 @@
 			fixed
 			height="5"
 			class="d-flex align-self-start"
-			:background-color="`${themeColor} lighten-3`"
-			:color="`${themeColor} lighten-1`"
+			background-color="grey lighten-2"
+			:color="theme"
 		></v-progress-linear>
 		<div
 			class="d-flex flex-row align-center mx-auto px-2"
@@ -55,7 +55,7 @@
 							dence
 							hide-details
 							style="width: 90px"
-							:color="`${themeColor} lighten-3`"
+							:color="theme"
 							track-color="grey lighten-1"
 						></v-slider>
 					</v-expand-x-transition>
@@ -120,11 +120,10 @@ export default {
 			buff: 100,
 			icon: "volume_up"
 		},
-		themeColor: "pink",
 		interval: null,
 	}),
 	computed: {
-		...mapState(["nowState", "playingData", "playingTitle"]),
+		...mapState(["nowState", "playingData", "playingTitle", "theme"]),
     countTime() {
       return 10 / this.playingData.duration
     },

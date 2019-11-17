@@ -8,6 +8,9 @@ export default {
   components: {
 
   },
+  props: {
+    theme: String
+  },
   data: () => ({
     loading: false,
   }),

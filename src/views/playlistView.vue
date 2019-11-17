@@ -12,7 +12,7 @@ export default {
     size: {
       type: Object,
       required: true
-    }
+    },
   },
   components: {
     playlists
