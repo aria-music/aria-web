@@ -79,14 +79,12 @@ export default {
     ...mapState(["playlists", "focusedPlaylist"]),
     maxRowSize() {
       const width = this.size.width
-      if(view){
+      if(this.view){
         if(width >= 972) return 3
         if(width >= 648) return 2
         return 1
       }else{
-        if(width >= 972) return 3
-        if(width >= 648) return 2
-        return 1
+        //
       }
     },
     playlistsWithAdd() {
@@ -107,7 +105,7 @@ export default {
       return this.$vuetify.breakpoint.xs
     },
     playlistSize() {
-      return view ? 300 : 100
+      return this.view ? 300 : 100
     }
   },
   data: () => ({
