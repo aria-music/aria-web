@@ -3,8 +3,8 @@
     <v-card
       class="mx-auto"
       style="opacity: 0.9;"
-      width="300px"
-      height="300px"
+      :width="size"
+      :height="size"
       :elevation="decoy ? 0 : (hover ? 10 : 4)"
       :img="img"
     >
@@ -20,6 +20,7 @@ export default {
       default: ""
     },
     decoy: Boolean,
+    size: Number,
   },
 }
 </script>
