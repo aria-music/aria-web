@@ -99,6 +99,8 @@ export default {
           return 'fab fa-youtube'
         case 'soundcloud':
           return 'fab fa-soundcloud'
+        default:
+          return ''
       }
     },
     httpUri() {

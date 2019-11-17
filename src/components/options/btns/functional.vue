@@ -39,16 +39,22 @@
 				</v-list-item>
 			</v-list>
 		</v-alert>
+    <listSelector
+     :show="dialog"
+    />
   </v-menu>
 </template>
 <script>
+import listSelector from '@/components/options/playlistSelectDialog'
+
 const LIKE = { content: 'like', text: 'Like',  icon: 'fas fa-heart' }
 const ADDLIST = { content: 'addList', text: 'Add to Playlist', icon: 'fas fa-plus' }
 const REMOVEQUEUE = { content: 'removeQueue', text: 'Remove', icon: 'far fa-trash-alt' }
 const REMOVELIST = { content: 'removeList', text: 'Remove', icon: 'far fa-trash-alt' }
 const PLAYNEXT = { content: 'playNext', text: 'Play Next', icon: 'fas fa-play-circle' }
 const PLAYNOW = { content: 'playNow', text: 'Play Now', icon: 'far fa-play-circle' }
-const SKIP = { content: 'skip', text: 'skip', icon: 'fas fa-forward' }
+const SKIP = { content: 'skip', text: 'Skip', icon: 'fas fa-forward' }
+// const INFO = { content: 'info', text: 'Info', icon: 'fas fa-info-circle' }
 
 export default {
   props: {
@@ -72,7 +78,8 @@ export default {
   data: () => ({
     themeColor: "pink lighten-2",
     funcList: [],
-    isOpen: false
+    isOpen: false,
+    dialog: false,
   }),
   mounted() {
     this.makeList();
@@ -120,8 +127,8 @@ export default {
     _like(uri) {
       this.$store.dispatch('sendAsLike', uri)
     },
-    _addList(url) {
-      //
+    _addList() {
+      this.dialog = !this.dialog
     },
     _removeQueue(songData) {
       this.$store.dispatch('sendAsRemoveFromQueue', songData)
@@ -141,6 +148,9 @@ export default {
     _skip() {
       this.$store.dispatch('sendAsSkip')
     }
+  },
+  components: {
+    listSelector,
   }
 }
 </script>

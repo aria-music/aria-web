@@ -69,22 +69,18 @@ import playlistObject from '@/components/options/playlistObject'
 
 export default {
   props: {
-    size: {
-      type: Object,
-      required: true
-    },
+    size: Object,
     view: Boolean
   },
   computed: {
     ...mapState(["playlists", "focusedPlaylist"]),
     maxRowSize() {
-      const width = this.size.width
       if(this.view){
-        if(width >= 972) return 3
-        if(width >= 648) return 2
+        if(this.size.width >= 972) return 3
+        if(this.size.width >= 648) return 2
         return 1
       }else{
-        //
+        return 2
       }
     },
     playlistsWithAdd() {
@@ -119,8 +115,8 @@ export default {
   },
   methods: {
     onClick(index){
-      if(this.view) goPlaylistContents(index)
-      else addToPlaylist(index)
+      if(this.view) this.goPlaylistContents(index)
+      // else this.addToPlaylist(index)
     },
     goPlaylistContents(index) {
       if(this.nowLoading) this.nowLoading = false
@@ -129,9 +125,9 @@ export default {
       this.nowLoading = true
       this.$store.dispatch('sendAsPlaylist', this.focusedName)
     },
-    addToPlaylist(index){
-      //
-    },
+    // addToPlaylist(index){
+      
+    // },
     makeList() {
       //
     }

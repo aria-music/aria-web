@@ -8,7 +8,8 @@
     <router-link :to="{ name: 'playlist-view' }"></router-link>
     <router-link :to="{ name: 'playlist-contents', params: { name: 'focused-playlist-name' }}"></router-link>
     <router-link :to="{ name: 'search', params: { item: 'serched-item' }}"></router-link>
-    <v-fade-transition>
+    <router-link :to="{ name: 'play' }"></router-link>
+    <v-fade-transition mode="out-in">
       <router-view
         :size="size"
       ></router-view>
@@ -16,12 +17,7 @@
   </v-card>
 </template>
 <script>
-import playlistView from '@/views/playlistView'
-
 export default {
-  components: {
-    playlistView
-  },
   props: {
 		size: {
 			type: Object,

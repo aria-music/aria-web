@@ -259,22 +259,22 @@ const store = new Vuex.Store({
       commit('setSearchContents', text)
       sendToSocket('search', { query: text })
     },
-    sendAsNewplaylist({}, newName) {
+    sendAsNewplaylist(context, newName) {
       sendToSocket('create_playlist', { name: newName })
     },
-    sendAsPlay({}, playUri) {
+    sendAsPlay(context, playUri) {
       sendToSocket('play', { uri: playUri })
     },
-    sendAsPlayWithPlaylist({}, list) {
+    sendAsPlayWithPlaylist(context, list) {
       sendToSocket('play', { playlist: list })
     },
-    sendAsQueue({}, playUri) {
+    sendAsQueue(context, playUri) {
       sendToSocket('queue', { uri: playUri })
     },
-    sendAsQueueWithPlaylist({}, list) {
+    sendAsQueueWithPlaylist(context, list) {
       sendToSocket('queue', { playlist: list })
     },
-    sendAsQueueToHead({}, playUri) {
+    sendAsQueueToHead(context, playUri) {
       sendToSocket('queue', { uri: playUri, head: true })
     },
     sendAsPause() {
@@ -289,34 +289,34 @@ const store = new Vuex.Store({
     sendAsSkip() {
       sendToSocket('skip')
     },
-    sendAsSkipTo({}, element) {
+    sendAsSkipTo(context, element) {
       sendToSocket('skip_to', { index: element.index, uri: element.uri })
     },
-    sendAsEditedQueue({}, newQueue) {
+    sendAsEditedQueue(context, newQueue) {
       sendToSocket('edit_queue', { queue: newQueue })
     },
     sendAsShuffle() {
       sendToSocket('shuffle')
     },
-    sendAsRemoveFromQueue({}, {uri, index}) {
+    sendAsRemoveFromQueue(context, {uri, index}) {
       sendToSocket('remove', { uri: uri, index: index })
     },
-    sendAsLike({}, likeUri) {
+    sendAsLike(context, likeUri) {
       sendToSocket('like', { uri: likeUri })
     },
-    sendAsPlaylist({}, playlistName) {
+    sendAsPlaylist(context, playlistName) {
       sendToSocket('playlist', { name: playlistName })
     },
-    sendAsRemoveFromPlaylist({}, {playlistName, removeUri}) {
+    sendAsRemoveFromPlaylist(context, {playlistName, removeUri}) {
       sendToSocket('remove_from_playlist', { name: playlistName, uri: removeUri })
     },
-    sendAsDeletePlaylist({}, listname) {
+    sendAsDeletePlaylist(context, listname) {
       sendToSocket('delete_playlist', { name: listname })
     },
-    sendAsAddToPlaylist({}, {listname, addedUri}) {
+    sendAsAddToPlaylist(context, {listname, addedUri}) {
       sendToSocket('add_to_playlist', { name: listname, uri: addedUri })
     },
-    sendAsRepeat({}, repeatUri) {
+    sendAsRepeat(context, repeatUri) {
       sendToSocket('repeat', { uri: repeatUri })
     },
     sendAsClearQueue() {
