@@ -186,7 +186,7 @@ export default {
 		setIntervalForSeekbar() {
       this.interval = setInterval(() => {
         this.progressSeekbar()
-      }, 100)
+      }, 0)
     },
     progressSeekbar() {
       if(this.nowTime < 100 && this.nowState == 'playing') this.nowTime += this.countTime
