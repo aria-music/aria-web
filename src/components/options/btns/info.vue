@@ -1,6 +1,5 @@
 <template>
   <v-dialog
-    v-model="dialog"
     max-width="600px"
   >
     <template v-slot:activator="{ on }">
@@ -11,7 +10,7 @@
       >
         <v-icon
           small
-        >info</v-icon>
+        >fas fa-info-circle</v-icon>
       </v-btn>
     </template>
     <v-card :color="theme">
@@ -79,9 +78,6 @@ export default {
       required: true,
     }
   },
-  data: () => ({
-    dialog: false,
-  }),
   computed: {
     thumb() {
       return this.songData.thumbnail ? this.songData.thumbnail : require('@/assets/thinking-face.png')

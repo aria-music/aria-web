@@ -10,6 +10,12 @@
         <v-toolbar flat>
           <v-spacer></v-spacer>
           <v-toolbar-items>
+            <v-btn
+              icon
+              text
+              @click="twitterShare(playingData)"
+            ><v-icon>fab fa-twitter</v-icon>
+            </v-btn>
             <infobtn
               :theme="theme"
               :songData="playingData"
@@ -68,11 +74,21 @@ export default {
     },
     isSmAndDown() {
       return this.$vuetify.breakpoint.smAndDown
-    }
+    },
+    httpUri() {
+      return !this.playingData.uri.indexOf('http')
+    },
   },
   methods: {
     statusChange(newVal) {
       this.play = newVal
+    },
+    twitterShare(playingData) {
+      let twitterText = playingData.title + '\r\n'
+      if(this.httpUri) twitterText = twitterText + playingData.uri + '\r\n'
+      twitterText = twitterText + '#NowPlaying #AriaMusic'
+      twitterText = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(twitterText)
+      window.open(twitterText)
     }
   }
 }

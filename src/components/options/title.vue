@@ -7,7 +7,7 @@
         class="pl-2"
         :color="theme"
       >
-        <v-card class="pa-1">
+        <v-card class="pa-2">
           <v-img
             :src="thumb"
             :aspect-ratio="1"

@@ -42,7 +42,7 @@
                       >
                         <v-col :cols="isXs ? 2 : 1">
                           <v-img
-                            :src="item.thumbnail_small"
+                            :src="replaceSrc(item.thumbnail_small)"
                             :aspect-ratio="1"
                             height="45"
                             contain
@@ -110,6 +110,11 @@ export default {
     },
     isDark() {
       return this.$vuetify.theme.dark
+    },
+  },
+  methods: {
+    replaceSrc (thumb) {
+      return thumb ? thumb : require('@/assets/thinking-face.png')
     }
   },
   components: {

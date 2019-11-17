@@ -2,7 +2,7 @@
   <v-card elevation="8">
     <v-hover #default="{ hover }">
       <v-img
-        :src="playingData.thumbnail"
+        :src="thumb"
         :width="maxWidth"
         class="align-end"
         height="150px"
@@ -61,7 +61,7 @@
         <v-divider vertical></v-divider>
         <v-icon small class="ml-2">favorite_border</v-icon>
         <v-icon small class="ml-5">delete_outline</v-icon>
-        <v-icon small class="ml-5">info</v-icon>
+        <v-icon small class="ml-5">fas fa-info-circle</v-icon>
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -100,6 +100,9 @@ export default {
     },
     imgWidth() {
       return this.$vuetify.breakpoint.xs ? 35 : 70
+    },
+    thumb() {
+      return this.playingData.thumbnail ? this.playingData.thumbnail : require("@/assets/thinking-face.png")
     }
   },
 }
