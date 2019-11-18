@@ -21,7 +21,7 @@ jobs:
         npm install
         npm run build --if-present
     - name: deploy to github pages
-      if: github.ref == master
+      if: github.ref == 'master'
       uses: peaceiris/actions-gh-pages@v2.5.1
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_SECRET }}
