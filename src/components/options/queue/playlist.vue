@@ -17,12 +17,13 @@
         <v-list-item-group>
           <v-fade-transition group>
             <v-list-item
-              v-for="(item, index) in contents"
+              v-for="(item, index) in listContents"
               :key="index"
               :ripple="false"
               class="pa-0"
             >
               <v-tooltip
+                v-if="index < lazy"
                 top
                 :open-delay="800"
                 :color="theme"
@@ -63,6 +64,7 @@
                             playNow
                             removeList
                             :white="isDark"
+                            :theme="theme"
                           />
                         </v-col>
                       </v-row>
@@ -88,10 +90,10 @@ import funcbtn from '../btns/functional'
 
 export default {
   props: {
-    contents: {
-      type: Array,
-      default: () => []
-    },
+    // contents: {
+    //   type: Array,
+    //   default: () => []
+    // },
     theme: String,
     size: Object,
     playlistName: String
@@ -101,21 +103,51 @@ export default {
       this.$emit()
     }
   },
+  data: () => ({
+    lazy: 0,
+  }),
   computed: {
+    listContents() {
+      const entries = this.$store.state.focusedPlaylist.entries
+      return entries ? entries.slice() : []
+    },
     isXs() {
       return this.$vuetify.breakpoint.xs
     },
     isContentsExist() {
-      return this.contents.length > 0
+      return this.listContents.length > 0
     },
     isDark() {
       return this.$vuetify.theme.dark
+    },
+    thumbnail() {
+      if(!this.listContents.length) return ""
+
+      let i = 0
+      const list = this.listContents.slice()
+
+      while(list[i].thumbnail == ""){
+        i++
+        if(list[i].thumbnail == "undefined") break
+      }
+      return list[i].thumbnail
     },
   },
   methods: {
     replaceSrc (thumb) {
       return thumb ? thumb : require('@/assets/thinking-face.png')
+    },
+    lazyload() {
+      const length = this.listContents.length
+      const interval = setInterval(() => {
+        this.lazy = this.lazy + 25
+        if (this.lazy > length) clearInterval(interval)
+      }, 10);
     }
+  },
+  mounted() {
+    this.lazyload()
+    this.$emit('thumb', this.thumbnail)
   },
   components: {
     funcbtn

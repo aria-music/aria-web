@@ -42,10 +42,10 @@
         class="pa-3"
       >
         <playlist
-          :contents="listContents"
           :theme="theme"
           :size="size"
           :playlistName="listname"
+          @thumb="fetchThumb"
         />
       </v-card>
     </v-col>
@@ -61,25 +61,15 @@ export default {
     size: Object,
     theme: String,
   },
+  data: () => ({
+    thumbnail: "",
+  }),
   computed: {
-    listContents() {
-      const entries = this.$store.state.focusedPlaylist.entries
-      return entries ? entries.slice() : []
-    },
     listname() {
       return decodeURIComponent(this.$route.params.name)
     },
     isSmAndDown() {
       return this.$vuetify.breakpoint.smAndDown
-    },
-    thumbnail() {
-      let i = 0
-      if(!this.listContents.length) return ""
-      while(this.listContents[i].thumbnail == ""){
-        i++
-        if(this.listContents[i].thumbnail == "undefined") break
-      }
-      return this.listContents[i].thumbnail
     },
   },
   methods: {
@@ -88,6 +78,9 @@ export default {
     },
     playAll() {
       this.$store.dispatch('sendAsPlayWithPlaylist', this.listname)
+    },
+    fetchThumb(thumb) {
+      this.thumbnail = thumb
     }
   },
   beforeDestroy() {
