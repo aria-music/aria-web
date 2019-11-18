@@ -5,9 +5,9 @@ import { sendJson, stateContainer, playlistContainer } from './container'
 
 Vue.use(Vuex)
 
-const FRAME_SIZE = 960
-const FLUSH_SIZE = FRAME_SIZE * 10
-const FLUSH_PACKET_SIZE = FLUSH_SIZE * 2
+// const FRAME_SIZE = 960
+// const FLUSH_SIZE = FRAME_SIZE * 10
+// const FLUSH_PACKET_SIZE = FLUSH_SIZE * 2
 
 let context = new (window.AudioContext || window.webkitAudioContext)()
 let GainNode = context.createGain()
@@ -44,11 +44,11 @@ function connectWs() {
 
     ws = new WebSocket('wss://sarisia.cc/player/')
     ws.onmessage = (event) => WSonmessage(event, resolve)
-    ws.onerror = (e) => { console.log(`[WS] WS errored: ${e}`) }
+    // ws.onerror = (e) => { console.log(`[WS] WS errored: ${e}`) }
     ws.onopen = () => {
       clearTimeout(timeout)
       connecting = false
-      console.log("[WS] Connected!")
+      // console.log("[WS] Connected!")
     }
   })
 }
@@ -97,7 +97,7 @@ function queueAudio(msg) {
 
 function WSonmessage(event, resolve) {
   const container = JSON.parse(event.data)
-  console.log(`[fetch] ${container.type}`)
+  // console.log(`[fetch] ${container.type}`)
 
   switch (container.type) {
     case 'hello':
@@ -126,11 +126,11 @@ function WSonmessage(event, resolve) {
       break
 
     case 'event_player_state_change':
-      console.log(`[event_player_state_change] ${store.state.nowState} => ${container.data.state}`)
+      // console.log(`[event_player_state_change] ${store.state.nowState} => ${container.data.state}`)
       if (container.data.state === 'stopped') {
         audioWorker.postMessage({ op: 'flush' })
       }
-      console.log(container.data)
+      // console.log(container.data)
       store.commit('changeState', container.data)
       break
 
@@ -142,7 +142,7 @@ function WSonmessage(event, resolve) {
       break
 
     default:
-      console.log(`Unknown operation!: ${container.type}`)
+      // console.log(`Unknown operation!: ${container.type}`)
       break
   }
 }
@@ -157,16 +157,16 @@ async function sendToSocket(op, data) {
   if (data) Json.data = data
 
   if (ws.readyState === WebSocket.OPEN) {
-    console.log('$send op = ' + op)
+    // console.log('$send op = ' + op)
     ws.send(JSON.stringify(Json))
   } else if (!connecting) {
-    console.log('[WS] Reconnecting...')
+    // console.log('[WS] Reconnecting...')
 
     try {
       await connectWs()
       sendToSocket(op, data)
     } catch (er) {
-      console.log(`[WS] Failed to connect: ${er}`)
+      // console.log(`[WS] Failed to connect: ${er}`)
     }
   }
 }
@@ -183,7 +183,7 @@ const store = new Vuex.Store({
     subQueue: false,
     playlists: playlistContainer,
     focusedPlaylist: {},
-    // volume: 50,
+    volume: 50,
   },
   mutations: {
     changeState(state, result) {
@@ -322,7 +322,7 @@ const store = new Vuex.Store({
     },
     initAudio() {
       resetAudio()
-      console.log('audiocontext initialized')
+      // console.log('audiocontext initialized')
     }
   }
 })

@@ -43,8 +43,8 @@
                     :show="hover"
                     :white="isDark"
                     :theme="theme"
-                    playNext
-                    playNow
+                    like
+                    addList
                     removeQueue
                   />
                 </v-col>
@@ -69,7 +69,6 @@
   </v-card>
 </template>
 <script>
-import { mapState } from 'vuex'
 import draggable from 'vuedraggable'
 import funcbtn from '../btns/functional'
 
