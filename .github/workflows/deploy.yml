@@ -21,11 +21,11 @@ jobs:
         npm install
         npm run build --if-present
     - name: deploy to github pages
-      if: github.ref == 'master'
+      if: github.ref == 'refs/heads/master'
       uses: peaceiris/actions-gh-pages@v2.5.1
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_SECRET }}
         EXTERNAL_REPOSITORY: aria-music/aria-music.github.io
         PUBLISH_BRANCH: master
-        PUBLISH_DIR: ./public
+        PUBLISH_DIR: ./dist
  
