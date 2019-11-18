@@ -7,6 +7,15 @@
     <v-card>
       <v-card-title class="font-weight-bold">
         <span class="mr-2 font-weight-bold">Theme Color</span>
+        <v-spacer></v-spacer>
+        <v-switch
+          v-model="dark"
+          hide-details
+          color="grey darken-1"
+          label="dark n light"
+          class="my-auto"
+          @change="changeDarkNLight(dark)"
+        ></v-switch>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text style="height: 300px;">
@@ -30,8 +39,8 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text>Close</v-btn>
-        <v-btn color="blue darken-1" text>Save</v-btn>
+        <v-btn color="blue darken-1" text>:)</v-btn>
+        <v-btn color="blue darken-1" text>:)</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -86,13 +95,18 @@ export default {
   },
   data: () => ({
     dialog: false,
-    colors: colors,
-    chroma: chroma,
-    accents: accents,
+    dark: false,
+    colors,
+    chroma,
+    accents,
   }),
   methods: {
     changeTheme(newTheme){
       this.$store.commit('changeTheme', newTheme)
+    },
+    changeDarkNLight(dark) {
+      this.$vuetify.theme.dark = dark
+      localStorage.dark = dark
     }
   },
   watch: {
