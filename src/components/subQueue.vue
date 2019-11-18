@@ -33,11 +33,12 @@
             <funcbtn
               :show="hover || $vuetify.breakpoint.xs"
               :hover="$vuetify.breakpoint.smAndUp"
+              :songData="playingData"
+              :theme="theme"
               white
               addList
               skip
               like
-              :songData="playingData"
             />
           </v-col>
         </v-row>
@@ -70,6 +71,7 @@
         :maxHeight="maxHeight"
         :width="maxWidth"
         :imgWidth="imgWidth"
+        :theme="theme"
       />
     </div>
   </v-card>
@@ -91,7 +93,7 @@ export default {
     funcbtn,
   },
   computed: {
-    ...mapState(["playingData", "playingTitle"]),
+    ...mapState(["playingData", "playingTitle", "theme"]),
     maxHeight() {
       return this.height - 340
     },

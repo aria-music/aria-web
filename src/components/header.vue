@@ -30,7 +30,7 @@
 					dense
 					prepend-inner-icon="search"
 					:loading="isLoading"
-					:color="themeColor"
+					:color="theme"
 					@click:prepend-inner="focusAndSearch"
 					@keyup.enter="checkMac"
 					@keypress="canSearch = true"
@@ -66,7 +66,9 @@
 			</v-btn>
 
 			<!-- setting btn -->
-			<setting/>
+			<setting
+				:theme="theme"
+			/>
 
 		</div>
 	</v-app-bar>

@@ -80,7 +80,8 @@ export default {
         if(this.size.width >= 648) return 2
         return 1
       }else{
-        return 2
+        if(this.isXs) return 2
+        else return 3
       }
     },
     playlistsWithAdd() {
@@ -121,8 +122,8 @@ export default {
     goPlaylistContents(index) {
       if(this.nowLoading) this.nowLoading = false
       this.focusedIndex = index
-      this.focusedName = this.playlists[index].name
       this.nowLoading = true
+      this.focusedName = this.playlists[index].name
       this.$store.dispatch('sendAsPlaylist', this.focusedName)
     },
     // addToPlaylist(index){
@@ -149,8 +150,11 @@ export default {
   },
   watch: {
     focusedPlaylist: function(newPlaylist) {
-      if(newPlaylist.name == this.focusedName)
-        this.$router.push({ name: 'playlist-contents', params: { name: newPlaylist.name } })
+      setTimeout(()=>{
+        if(newPlaylist.name == this.focusedName){
+          this.$router.push({ name: 'playlist-contents', params: { name: newPlaylist.name } })
+        }
+      }, 1000)
     }
   },
   // mounted() {

@@ -83,7 +83,7 @@
 
                   <!-- info btn -->
                   <infobtn
-                    theme="pink lighten-2"
+                    :theme="theme"
                     :songData="item"
                   />
                 </div>
@@ -118,7 +118,8 @@ export default {
     imgWidth: {
       type: Number,
       default: 70
-    }
+    },
+    theme: String
   },
   components: {
     lovebtn,

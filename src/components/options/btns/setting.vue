@@ -19,7 +19,7 @@
 			class="mb-0 py-0 pr-0 pl-2"
 			border="left"
 			colored-border
-			:color="themeColor"
+			:color="theme"
 		>
 			<v-list subheader shaped dense>
 				<v-subheader class="font-italic font-weight-medium">{{ subheader }}</v-subheader>
@@ -31,7 +31,7 @@
 					@click="setting(item.content)"
 				>
 					<v-list-item-title class="mr-4">
-						<v-icon class="mb-1 mr-4">{{ item.icon }}</v-icon>
+						<v-icon class="mb-1 mr-3">{{ item.icon }}</v-icon>
 						<span>{{ item.text }}</span>
 					</v-list-item-title>
 				</v-list-item>
@@ -48,13 +48,15 @@ import themeSelector from '@/components/options/themeSelectDialog'
 
 const settingItems = [
 	{content: "theme", text: "Theme Color", icon: "palette"},
-	{content: "", text: "No Idea", icon: "mood_bad"}
+	{content: "no", text: "No Idea", icon: "mood_bad"}
 ]
 
 export default {
+	props: {
+		theme: String
+	},
 	data: () => ({
 		settingItems: settingItems,
-		themeColor: "pink lighten-3",
 		subheader: "KANARI VERY FAST",
 		selectTheme: false,
 	}),
@@ -69,7 +71,7 @@ export default {
 				case "theme":
 					this.changeThemeColor()
 					break
-				case "No Idea":
+				case "no":
 					break
 				default:
 					break

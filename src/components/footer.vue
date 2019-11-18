@@ -11,7 +11,7 @@
 			fixed
 			height="5"
 			class="d-flex align-self-start"
-			background-color="grey lighten-2"
+			background-color="grey lighten-1"
 			:color="theme"
 		></v-progress-linear>
 		<div
