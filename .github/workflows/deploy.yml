@@ -1,4 +1,4 @@
-name: deploy
+name: main
 
 on: [push, pull_request]
 
@@ -27,11 +27,11 @@ jobs:
 
     setps:
     - name: produce version info file
-      run: 'echo {"version": "${{ github.sha }}""} > dist/version.json'
+      run: 'echo {"version": "${{ github.sha }}"} > dist/version.json'
     - name: deploy to github pages
       uses: peaceiris/actions-gh-pages@v2.5.1
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_SECRET }}
-          EXTERNAL_REPOSITORY: aria-music/aria-music.github.io
-          PUBLISH_BRANCH: master
-          PUBLISH_DIR: ./dist
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_SECRET }}
+        EXTERNAL_REPOSITORY: aria-music/aria-music.github.io
+        PUBLISH_BRANCH: master
+        PUBLISH_DIR: ./dist
