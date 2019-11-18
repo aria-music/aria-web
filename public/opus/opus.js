@@ -1,6 +1,6 @@
 
 var Module = (function() {
-  var _scriptDir = "https://gaiji.pro/public/opus/opus.js";//import.meta.url; "https://gaiji.pro/static/opus/opus.js"
+  var _scriptDir = "https://gaiji.pro/opus/opus.js";//import.meta.url; "https://gaiji.pro/static/opus/opus.js"
   return (
 function(Module) {
   Module = Module || {};
