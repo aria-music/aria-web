@@ -55,7 +55,7 @@
                       target="_blank"
                       class="ml-1 font-weight-bold"
                     >{{ songData.uri }}</a>
-                    <span v-else class="ml-3 font-weight-bold">{{ songData.uri }}</span>
+                    <span v-else class="ml-1 font-weight-bold">{{ songData.uri }}</span>
                   </div>
                 </v-card-text>
               </v-card>

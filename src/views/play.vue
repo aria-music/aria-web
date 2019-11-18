@@ -42,6 +42,29 @@
         height="100%"
         class="pa-3"
       >
+        <v-card
+          height="100%"
+          class="pl-2"
+          :color="theme"
+        >
+          <v-card class="mb-2">
+            <v-card-title>
+              <span class="text-truncate font-weight-medium">NEXT UP</span>
+              <v-icon class="ml-3">fas fa-forward</v-icon>
+              <v-spacer></v-spacer>
+              <deletebtn
+                :theme="theme"
+                where="queue"
+                dialog
+                deleteAll
+              />
+            </v-card-title>
+          </v-card>
+          <queue
+            :theme="theme"
+            :size="size"
+          />
+        </v-card>
       </v-card>
     </v-col>
   </v-row>
@@ -50,6 +73,7 @@
 import titleView from '@/components/options/title'
 import funcbtn from '@/components/options/btns/functional'
 import infobtn from '@/components/options/btns/info'
+import deletebtn from '@/components/options/btns/delete'
 import { mapState } from 'vuex'
 
 export default {
@@ -57,9 +81,12 @@ export default {
     titleView,
     infobtn,
     funcbtn,
+    deletebtn,
+    queue: () => import('@/components/options/queue/draggableQueue')
   },
   props: {
-    theme: String
+    theme: String,
+    size: Object
   },
   data: () => ({
     play: false,

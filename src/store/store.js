@@ -207,7 +207,7 @@ const store = new Vuex.Store({
       state.nowState = result.state
     },
     openSubQueue(state) {
-      setTimeout(() => state.subQueue = true, 100)
+      setTimeout(() => state.subQueue = true, 0)
     },
     closeSubQueue(state) {
       state.subQueue = false

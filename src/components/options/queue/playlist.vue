@@ -4,9 +4,7 @@
     class="pl-2"
     :color="theme"
   >
-    <v-card
-      max-height="100%"
-    >
+    <v-card max-height="100%">
       <!-- -201... -->
       <v-list
         v-if="isContentsExist"
@@ -140,7 +138,7 @@ export default {
     lazyload() {
       const length = this.listContents.length
       const interval = setInterval(() => {
-        this.lazy = this.lazy + 20
+        this.lazy = this.lazy + 10
         if (this.lazy > length) clearInterval(interval)
       }, 20);
     }

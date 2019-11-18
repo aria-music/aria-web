@@ -26,7 +26,8 @@
                 large
                 color="error"
               >fas fa-exclamation-triangle</v-icon>
-              <span class="title">Are you sure to delete this playlist <strong>{{ listname }}</strong> ?</span>
+              <span v-if="where == 'queue'" class="title">Are you sure to delete this queue?</span>
+              <span v-if="where == 'playlist'" class="title">Are you sure to delete this playlist <strong>{{ listname }}</strong> ?</span>
             </div>
             <div class="d-flex justify-end mt-5">
               <v-btn
@@ -58,7 +59,8 @@ export default {
     index: Number,
     listname: String,
     dialog: Boolean,
-    theme: String
+    theme: String,
+    deleteAll: Boolean
   },
   methods: {
     checkDialog() {
@@ -82,7 +84,9 @@ export default {
       }
     },
     fromQueue() {
-      this.$store.dispatch('sendAsRemoveFromQueue', {uri: this.uri, index: this.index})
+      if(this.deleteAll) this.$store.dispatch('sendAsClearQueue')
+      else this.$store.dispatch('sendAsRemoveFromQueue', {uri: this.uri, index: this.index})
+      this.show = false
     },
     fromPlaylist() {
       this.$store.dispatch('sendAsRemoveFromPlaylist',  {playlistName: this.listname, removeUri: this.uri})
