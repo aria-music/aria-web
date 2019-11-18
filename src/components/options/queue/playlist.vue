@@ -140,9 +140,9 @@ export default {
     lazyload() {
       const length = this.listContents.length
       const interval = setInterval(() => {
-        this.lazy = this.lazy + 25
+        this.lazy = this.lazy + 20
         if (this.lazy > length) clearInterval(interval)
-      }, 10);
+      }, 20);
     }
   },
   mounted() {
