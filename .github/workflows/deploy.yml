@@ -25,7 +25,7 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/master'
 
-    setps:
+    steps:
     - name: produce version info file
       run: 'echo {"version": "${{ github.sha }}"} > dist/version.json'
     - name: deploy to github pages
