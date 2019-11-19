@@ -15,80 +15,84 @@
           :ripple="false"
           class="pa-0"
         >
-          <v-hover #default="{ hover }">
-            <v-row
-              dense
-              class="ma-0"
-              style="height: 40px"
-              :style="{width: `${width-1}px`}"
-            >
-
-              <!-- thumnail -->
-              <v-col
-                :cols="2"
-                class="py-0 d-flex align-center justify-start"
+          <v-hover
+            v-if="index < lazy"
+            #default="{ hover }"
+          >
+              <v-row
+                dense
+                class="ma-0"
+                style="height: 40px"
+                :style="{width: `${width-1}px`}"
               >
-                <v-img
-                  :src="item.thumbnail_small"
-                  eager
-                  :height="imgHeight"
-                  :max-width="imgWidth"
-                  contain
-                  @error.prevent
-                ></v-img>
-              </v-col>
 
-              <!-- title -->
-              <v-col
-                :cols="isSmAndUp ? 6 : 10"
-                class="py-0 my-auto"
-                :title="item.title"
-              >
-                <v-list-item-content class="py-0">
-                  <v-list-item-title
-                    v-text="item.entry ? item.entry.title : item.title"
-                    class="text-truncate"
-                  ></v-list-item-title>
-                  <v-list-item-subtitle
-                    v-text="item.entry ? item.entry.artist : ''"
-                    class="text-truncate"
-                  ></v-list-item-subtitle>
-                </v-list-item-content>
-              </v-col>
+                <!-- thumnail -->
+                <v-col
+                  :cols="2"
+                  class="py-0 d-flex align-center justify-start"
+                >
+                  <v-img
+                    :src="item.thumbnail_small"
+                    eager
+                    :height="imgHeight"
+                    :max-width="imgWidth"
+                    contain
+                    @error.prevent
+                  ></v-img>
+                </v-col>
 
-              <!-- btns -->
-              <v-col
-                :cols="4"
-                class="py-0 d-flex align-center"
-                v-if="isSmAndUp"
-              >
-                <!-- love btn -->
-                <lovebtn
-                  v-show="item.is_liked || hover"
-                  small
-                  :uri="item.uri"
-                  :isLoved="item.is_liked"
-                />
-                  <!-- v-show="item.is_liked || hover"
-                  :isLoved="item.is_liked" -->
+                <!-- title -->
+                <v-col
+                  :cols="isSmAndUp ? 6 : 10"
+                  class="py-0 my-auto"
+                  :title="item.title"
+                >
+                  <v-list-item-content class="py-0">
+                    <v-list-item-title
+                      v-text="item.entry ? item.entry.title : item.title"
+                      class="text-truncate"
+                    ></v-list-item-title>
+                    <v-list-item-subtitle
+                      v-text="item.entry ? item.entry.artist : ''"
+                      class="text-truncate"
+                    ></v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-col>
 
-                <div v-show="hover">
-                  <!-- delete btn -->
-                  <deletebtn
+                <!-- btns -->
+                <v-col
+                  :cols="4"
+                  class="py-0 d-flex align-center"
+                  v-if="isSmAndUp"
+                >
+                  <!-- love btn -->
+                  <lovebtn
+                    v-show="item.is_liked || hover"
                     small
-                    where="queue"
                     :uri="item.uri"
-                    :index="index"
+                    :isLoved="item.is_liked"
                   />
+                    <!-- v-show="item.is_liked || hover"
+                    :isLoved="item.is_liked" -->
 
-                  <!-- info btn -->
-                  <infobtn
-                    :theme="theme"
-                    :songData="item"
-                  />
-                </div>
-              </v-col>
-            </v-row>
+                  <div v-show="hover">
+                    <!-- delete btn -->
+                    <deletebtn
+                      class="mx-3"
+                      small
+                      where="queue"
+                      :uri="item.uri"
+                      :index="index"
+                    />
+
+                    <!-- info btn -->
+                    <infobtn
+                      :theme="theme"
+                      :songData="item"
+                    />
+                  </div>
+                </v-col>
+              </v-row>
           </v-hover>
         </v-list-item>
       </v-fade-transition>
@@ -100,8 +104,10 @@ import { mapState } from 'vuex'
 import lovebtn from '../btns/love'
 import deletebtn from '../btns/delete'
 import infobtn from '../btns/info'
+import lazy from '@/mixin/lazy'
 
 export default {
+  mixins: [ lazy ],
   props: {
     maxHeight: {
       type: Number,
@@ -132,6 +138,9 @@ export default {
       return this.$vuetify.breakpoint.smAndUp
     }
   },
+  mounted() {
+    this.lazyload(this.queue)
+  }
 }
 </script>
 <style lang="scss" src="@/components/options/scss/scroller.scss">

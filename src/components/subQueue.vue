@@ -61,8 +61,8 @@
       >
         <v-divider vertical></v-divider>
         <v-icon small class="ml-2">favorite_border</v-icon>
-        <v-icon small class="ml-5">delete_outline</v-icon>
-        <v-icon small class="ml-5">fas fa-info-circle</v-icon>
+        <v-icon small class="ml-5 pl-3">delete_outline</v-icon>
+        <v-icon small class="ml-5 pl-3">fas fa-info-circle</v-icon>
       </v-col>
     </v-row>
     <v-divider></v-divider>
