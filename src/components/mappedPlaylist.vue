@@ -17,7 +17,7 @@
           >
             <v-scroll-y-reverse-transition>
               <div
-                v-show="( isXs || on.hover ) && !nowLoading && view"
+                v-show="!on.hover && !(focusedIndex === index) && view"
                 class="font-weight-black headline text-truncate ml-5 black--text"
                 style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
               >{{ list.name }}</div>
@@ -34,7 +34,7 @@
             </v-fade-transition>
             <v-scroll-y-transition>
               <div
-                v-show="( isXs || on.hover ) && !nowLoading && view"
+                v-show="!on.hover && !(focusedIndex === index) && view"
                 class="text-end font-weight-medium title mr-5 black--text"
                 style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
               >{{ list.length == 0 ? "No" : list.length }} {{ list.length == 1 ? "track" : "tracks" }}</div>
@@ -97,9 +97,6 @@ export default {
       let _playlist = this.playlistsWithAdd.slice()
       for(let i = 0; i < this.decoyNum; i++) _playlist.push({ id: "decoy" })
       return _playlist
-    },
-    isXs() {
-      return this.$vuetify.breakpoint.xs
     },
     playlistSize() {
       return this.view ? 300 : 100

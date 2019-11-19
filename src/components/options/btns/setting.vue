@@ -35,6 +35,7 @@
 						<span>{{ item.text }}</span>
 					</v-list-item-title>
 				</v-list-item>
+				<version/>
 			</v-list>
 		</v-alert>
 		<themeSelector
@@ -43,8 +44,8 @@
 	</v-menu>
 </template>
 <script>
-import {version} from "@/assets/VERSION.json"
 import themeSelector from '@/components/options/themeSelectDialog'
+import version from '@/components/options/version'
 
 const settingItems = [
 	{content: "theme", text: "Theme Color", icon: "palette"},
@@ -60,11 +61,6 @@ export default {
 		subheader: "KANARI VERY FAST",
 		selectTheme: false,
 	}),
-	computed: {
-		ariaVersion() {
-      return `https://img.shields.io/badge/version-${version}-ff4081?link=https%3A%2F%2Fgithub.com%2Faria-music%2Faria-web&style=flat-square&logo=github`
-    }
-	},
 	methods: {
 		setting(contents){
 			switch(contents){
@@ -83,6 +79,7 @@ export default {
 	},
 	components: {
 		themeSelector,
+		version
 	}
 }
 </script>
