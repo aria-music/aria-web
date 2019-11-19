@@ -2,7 +2,7 @@
   <v-app v-resize="setSize">
     <v-scroll-y-reverse-transition>
       <subQueue
-        v-show="subQueue"
+        v-if="subQueue"
         v-click-outside="{
           callback: closeSubQueue,
           isOpen: subQueue

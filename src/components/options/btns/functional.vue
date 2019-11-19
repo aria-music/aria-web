@@ -1,8 +1,6 @@
 <template>
   <v-menu
     v-model="isOpen"
-    :open-on-hover="hover"
-    :open-delay="hover ? 250 : 0"
     transition="scale-transition"
     origin="top right"
     bottom
@@ -59,7 +57,6 @@ const SKIP = { content: 'skip', text: 'Skip', icon: 'fas fa-forward' }
 export default {
   props: {
     show: Boolean,
-    hover: Boolean,
     like: Boolean,
     addList: Boolean,
     removeQueue: Boolean,
@@ -75,6 +72,7 @@ export default {
     playlistName: String,
     defualt: Boolean,
     theme: String,
+    index: Number,
   },
   data: () => ({
     funcList: [],
@@ -108,7 +106,7 @@ export default {
           this._addList(this.songData.uri)
           break
         case 'removeQueue':
-          this._removeQueue(this.songData)
+          this._removeQueue(this.songData.uri, this.index)
           break
         case 'playNext':
           this._playnext(this.songData.uri)
@@ -130,8 +128,8 @@ export default {
     _addList() {
       this.dialog = !this.dialog
     },
-    _removeQueue(songData) {
-      this.$store.dispatch('sendAsRemoveFromQueue', songData)
+    _removeQueue(uri, index) {
+      this.$store.dispatch('sendAsRemoveFromQueue', {uri: uri, index: index})
     },
     _playnext(uri) {
       this.$store.dispatch('sendAsQueueToHead', uri)

@@ -9,7 +9,7 @@
       >
         <v-card class="pa-2">
           <v-img
-            :src="thumb"
+            :src="replaceSrc(thumbnail)"
             :aspect-ratio="1"
             max-height="500"
           >
@@ -33,29 +33,22 @@
   </v-card>
 </template>
 <script>
+import { isSmAndDown } from '@/mixin/breakpoint'
+import thumb from '@/mixin/thumbnail'
+
 export default {
+  mixins: [ isSmAndDown, thumb ],
   props: {
     theme: {
       type: String,
       required: true,
     },
-    thumbnail: {
-      type: String,
-      default: ""
-    },
     name: {
       type: String,
       default: ""
     },
+    thumbnail: String,
     play: Boolean
   },
-  computed: {
-    isSmAndDown() {
-      return this.$vuetify.breakpoint.smAndDown
-    },
-    thumb() {
-      return this.thumbnail ? this.thumbnail : require('@/assets/thinking-face.png')
-    }
-  }
 }
 </script>

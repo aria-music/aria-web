@@ -25,7 +25,7 @@
                 max-width="300"
               >
                 <v-img
-                  :src="thumb"
+                  :src="replaceSrc(songData.thumbnail)"
                   :aspect-ratio="1"
                 ></v-img>
               </v-card>
@@ -67,7 +67,11 @@
   </v-dialog>
 </template>
 <script>
+import thumb from '@/mixin/thumbnail'
+import { isXs } from '@/mixin/breakpoint'
+
 export default {
+  mixins: [ thumb, isXs ],
   props: {
     theme: {
       type: String,
@@ -79,9 +83,6 @@ export default {
     }
   },
   computed: {
-    thumb() {
-      return this.songData.thumbnail ? this.songData.thumbnail : require('@/assets/thinking-face.png')
-    },
     source() {
       return this.songData.source
     },
@@ -106,9 +107,6 @@ export default {
     httpUri() {
       return !this.songData.uri.indexOf('http')
     },
-    isXs() {
-      return this.$vuetify.breakpoint.xs
-    }
   }
 }
 </script>

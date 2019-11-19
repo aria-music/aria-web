@@ -86,9 +86,11 @@
 <script>
 import funcbtn from '../btns/functional'
 import lazy from '@/mixin/lazy'
+import thumb from '@/mixin/thumbnail'
+import { isXs } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ lazy ],
+  mixins: [ lazy, thumb, isXs ],
   props: {
     // contents: {
     //   type: Array,
@@ -108,9 +110,6 @@ export default {
       const entries = this.$store.state.focusedPlaylist.entries
       return entries ? entries.slice() : []
     },
-    isXs() {
-      return this.$vuetify.breakpoint.xs
-    },
     isContentsExist() {
       return this.listContents.length > 0
     },
@@ -128,11 +127,6 @@ export default {
         if(list[i].thumbnail == "undefined") break
       }
       return list[i].thumbnail
-    },
-  },
-  methods: {
-    replaceSrc (thumb) {
-      return thumb ? thumb : require('@/assets/thinking-face.png')
     },
   },
   mounted() {

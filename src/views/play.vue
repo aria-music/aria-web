@@ -75,8 +75,10 @@ import funcbtn from '@/components/options/btns/functional'
 import infobtn from '@/components/options/btns/info'
 import deletebtn from '@/components/options/btns/delete'
 import { mapState } from 'vuex'
+import { isSmAndDown } from '@/mixin/breakpoint'
 
 export default {
+  mixins: [ isSmAndDown ],
   components: {
     titleView,
     infobtn,
@@ -101,9 +103,6 @@ export default {
     },
     isDark() {
       return this.$vuetify.theme.dark
-    },
-    isSmAndDown() {
-      return this.$vuetify.breakpoint.smAndDown
     },
     httpUri() {
       return !this.playingData.uri.indexOf('http')
