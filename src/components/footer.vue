@@ -157,8 +157,8 @@ export default {
   },
 	methods: {
 		initVolume() {
-  		if (localStorage.volume !== undefined)
-    		this.volume.value = JSON.parse(localStorage.volume)
+			if (localStorage.volume !== undefined)
+				this.volume.value = JSON.parse(localStorage.volume)
 		},
 		playAndPause(nowState) {
 			if(nowState == "paused")
