@@ -129,12 +129,15 @@ export default {
     },
 	},
 	watch: {
-		'volume.value': function() {
-			if(this.volume.value >= 50) this.volume.icon = "volume_up"
-			else if(this.volume.value == 0) this.volume.icon = "volume_off"
-			else this.volume.icon = "volume_down"
-			// this.$store.commit('setVolume', this.volume.value)
-			// localStorage.setItem('volume', this.volume.value)
+		'volume.value': function(vol) {
+			if(vol >= 50)
+				this.volume.icon = "volume_up"
+			else if(vol == 0)
+				this.volume.icon = "volume_off"
+			else
+				this.volume.icon = "volume_down"
+
+			this.$store.commit('setVolume', vol)
 		},
     playingData: function() {
       this.nowTime = this.countTime * this.playingData.position * 10
@@ -142,14 +145,21 @@ export default {
 	},
 	mounted(){
 		this.setIntervalForSeekbar()
+		this.initVolume()
 	},
 	beforeDestroy() {
     clearInterval(this.interval)
   },
 	methods: {
+		initVolume() {
+  		if (localStorage.volume !== undefined)
+    		this.volume.value = JSON.parse(localStorage.volume)
+		},
 		playAndPause(nowState) {
-			if(nowState == "paused") this.$store.dispatch('sendAsResume')
-      else this.$store.dispatch('sendAsPause')
+			if(nowState == "paused")
+				this.$store.dispatch('sendAsResume')
+      else
+				this.$store.dispatch('sendAsPause')
 		},
 		controlFunc(content) {
 			switch(content) {
