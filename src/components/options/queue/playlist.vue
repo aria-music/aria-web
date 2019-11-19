@@ -48,7 +48,11 @@
                             class="ml-1"
                           ></v-img>
                         </v-col>
-                        <v-col :cols="isXs ? 9 : 10" class="px-3">
+                        <v-col
+                          :cols="isXs ? 9 : 10"
+                          class="px-3"
+                          @click="play(item.uri)"
+                        >
                           <div class="text-truncate font-weight-medium">
                             {{item.title}}
                           </div>
@@ -86,14 +90,12 @@
 <script>
 import funcbtn from '../btns/functional'
 import lazy from '@/mixin/lazy'
+import thumb from '@/mixin/thumbnail'
+import { isXs } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ lazy ],
+  mixins: [ lazy, thumb, isXs ],
   props: {
-    // contents: {
-    //   type: Array,
-    //   default: () => []
-    // },
     theme: String,
     size: Object,
     playlistName: String
@@ -107,9 +109,6 @@ export default {
     listContents() {
       const entries = this.$store.state.focusedPlaylist.entries
       return entries ? entries.slice() : []
-    },
-    isXs() {
-      return this.$vuetify.breakpoint.xs
     },
     isContentsExist() {
       return this.listContents.length > 0
@@ -131,9 +130,9 @@ export default {
     },
   },
   methods: {
-    replaceSrc (thumb) {
-      return thumb ? thumb : require('@/assets/thinking-face.png')
-    },
+    play(uri) {
+      this.$store.dispatch("sendAsQueue", uri)
+    }
   },
   mounted() {
     this.lazyload(this.listContents)

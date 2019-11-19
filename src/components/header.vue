@@ -76,8 +76,10 @@
 <script>
 import setting from './options/btns/setting'
 import { mapState } from 'vuex'
+import { isSmAndUp } from '@/mixin/breakpoint'
 
 export default {
+	mixins: [ isSmAndUp ],
 	props: {
 		width: {
 			type: Number,
@@ -93,9 +95,6 @@ export default {
 	}),
 	computed: {
 		...mapState(["theme"]),
-		isSmAndUp() {
-			return this.$vuetify.breakpoint.smAndUp
-		}
 	},
 	components: {
 		setting

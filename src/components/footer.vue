@@ -44,7 +44,7 @@
 				<div class="d-flex flex-row align-center">
 					<v-btn
 						icon
-						@click="mute"
+						@click="onClick(hover)"
 					>
 						<v-icon>{{ volume.icon }}</v-icon>
 					</v-btn>
@@ -62,7 +62,7 @@
 				</div>
 			</v-hover>
 
-			<v-spacer v-if="$vuetify.breakpoint.smAndUp"></v-spacer>
+			<v-spacer></v-spacer>
 
 			<!-- thumnail -->
 			<v-card
@@ -71,13 +71,16 @@
 				:img="playingData.thumbnail_small"
 				@click="goPlay"
 			>
-				<!-- <v-img aspect-ratio="1"></v-img> -->
 			</v-card>
 
 			<!-- TODO marquee -->
+			<div v-if="isSmAndUp">
+
+			</div>
 
 			<!-- love btn -->
 			<lovebtn
+				v-if="isSmAndUp"
 				:isLoved="playingData.is_liked"
 				:uri="playingData.uri"
 			/>
@@ -95,6 +98,7 @@
 <script>
 import { mapState } from 'vuex'
 import lovebtn from './options/btns/love'
+import { isSmAndUp } from '@/mixin/breakpoint'
 
 const LeftControlItems = [
 	{icon: "skip_next", content: "skip"},
@@ -103,6 +107,7 @@ const LeftControlItems = [
 ]
 
 export default {
+	mixins: [ isSmAndUp ],
 	props: {
 		size: {
 			type: Object,
@@ -129,12 +134,15 @@ export default {
     },
 	},
 	watch: {
-		'volume.value': function() {
-			if(this.volume.value >= 50) this.volume.icon = "volume_up"
-			else if(this.volume.value == 0) this.volume.icon = "volume_off"
-			else this.volume.icon = "volume_down"
-			// this.$store.commit('setVolume', this.volume.value)
-			// localStorage.setItem('volume', this.volume.value)
+		'volume.value': function(vol) {
+			if(vol >= 50)
+				this.volume.icon = "volume_up"
+			else if(vol == 0)
+				this.volume.icon = "volume_off"
+			else
+				this.volume.icon = "volume_down"
+
+			this.$store.commit('setVolume', vol)
 		},
     playingData: function() {
       this.nowTime = this.countTime * this.playingData.position * 10
@@ -142,14 +150,21 @@ export default {
 	},
 	mounted(){
 		this.setIntervalForSeekbar()
+		this.initVolume()
 	},
 	beforeDestroy() {
     clearInterval(this.interval)
   },
 	methods: {
+		initVolume() {
+  		if (localStorage.volume !== undefined)
+    		this.volume.value = JSON.parse(localStorage.volume)
+		},
 		playAndPause(nowState) {
-			if(nowState == "paused") this.$store.dispatch('sendAsResume')
-      else this.$store.dispatch('sendAsPause')
+			if(nowState == "paused")
+				this.$store.dispatch('sendAsResume')
+      else
+				this.$store.dispatch('sendAsPause')
 		},
 		controlFunc(content) {
 			switch(content) {
@@ -173,8 +188,11 @@ export default {
 		shuffle() {
       this.$store.dispatch('sendAsShuffle')
     },
+		onClick(hover) {
+			if(this.isSmAndUp || hover)
+				this.mute()
+		},
 		mute() {
-			// TODO: dispatch volume action
 			if(this.volume.value !== 0){
 				this.volume.buff = this.volume.value
 				this.volume.value = 0
@@ -185,7 +203,7 @@ export default {
 		setIntervalForSeekbar() {
       this.interval = setInterval(() => {
         this.progressSeekbar()
-      }, 0)
+      }, 100)
     },
     progressSeekbar() {
       if(this.nowTime < 100 && this.nowState == 'playing') this.nowTime += this.countTime

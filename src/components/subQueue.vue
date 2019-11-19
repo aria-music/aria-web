@@ -2,7 +2,7 @@
   <v-card elevation="8">
     <v-hover #default="{ hover }">
       <v-img
-        :src="thumb"
+        :src="replaceSrc(playingData.thumbnail)"
         :width="maxWidth"
         class="align-end"
         height="150px"
@@ -11,9 +11,9 @@
         <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
         <v-row class="title pl-4 pb-3 pt-1" no-gutters>
           <v-col
-            :cols="$vuetify.breakpoint.xs ? 10 : 11"
+            :cols="isXs ? 10 : 11"
             class="text-truncate font-weight-midium white--text align-self-center"
-            :class="{'subtitle-2': $vuetify.breakpoint.xs}"
+            :class="{'subtitle-2': isXs}"
           >
             <v-tooltip
               top
@@ -26,13 +26,12 @@
             </v-tooltip>
           </v-col>
           <v-col
-            :cols="$vuetify.breakpoint.xs ? 2 : 1"
+            :cols="isXs ? 2 : 1"
             class="align-self-end"
           >
             <!-- functional btn -->
             <funcbtn
-              :show="hover || $vuetify.breakpoint.xs"
-              :hover="$vuetify.breakpoint.smAndUp"
+              :show="hover || isXs"
               :songData="playingData"
               :theme="theme"
               white
@@ -48,7 +47,7 @@
     <v-row dense class="ma-0">
       <v-col
         offset="2"
-        :cols="$vuetify.breakpoint.xs ? 10 : 6"
+        :cols="isXs ? 10 : 6"
         class="d-flex align-center px-0"
       >
         <v-divider vertical></v-divider>
@@ -80,8 +79,11 @@
 import { mapState } from 'vuex'
 import ariaQueue from './options/queue/queue'
 import funcbtn from './options/btns/functional'
+import thumb from '@/mixin/thumbnail'
+import { isXs } from '@/mixin/breakpoint'
 
 export default {
+  mixins: [ thumb, isXs ],
   props: {
     height: {
       type: Number,
@@ -95,7 +97,7 @@ export default {
   computed: {
     ...mapState(["playingData", "playingTitle", "theme"]),
     maxHeight() {
-      return this.height - 340
+      return (this.height - 340) < 450 ? this.height - 340 : 450
     },
     maxWidth() {
       return this.$vuetify.breakpoint.xs ? 250 : 500
@@ -103,9 +105,6 @@ export default {
     imgWidth() {
       return this.$vuetify.breakpoint.xs ? 35 : 70
     },
-    thumb() {
-      return this.playingData.thumbnail ? this.playingData.thumbnail : require("@/assets/thinking-face.png")
-    }
   },
 }
 </script>

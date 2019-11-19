@@ -57,10 +57,16 @@ function resetAudio() {
   context.close()
   context = new (window.AudioContext || window.webkitAudioContext)()
   GainNode = context.createGain()
-  GainNode.gain.value = store.state.volume / 50
+  parseVolume()
+  GainNode.gain.value = store.state.volume / 100
   GainNode.connect(context.destination)
   playing = 0
   // refreshBuffer()
+}
+
+function parseVolume() {
+  if (localStorage.volume !== undefined)
+    store.commit('initVolume', JSON.parse(localStorage.volume))
 }
 
 function refreshBuffer(packet_length) {
@@ -103,7 +109,7 @@ function WSonmessage(event, resolve) {
     case 'hello':
       session_key = container.key
       sendJson.key = session_key
-      store.commit('setVolume', localStorage.getItem('volume'))
+      parseVolume()
       if (store.state.volume !== 0)
         audioWorker.postMessage({ op: 'connect', key: session_key })
       resolve()
@@ -183,9 +189,15 @@ const store = new Vuex.Store({
     subQueue: false,
     playlists: playlistContainer,
     focusedPlaylist: {},
-    volume: 50,
+    volume: 100,
   },
   mutations: {
+    initVolume(state, vol) {
+      state.volume = vol
+    },
+    initFocus(state) {
+      state.focusedPlaylist = {}
+    },
     changeState(state, result) {
       if (result.entry){
         state.playingData = Object.assign({}, result.entry)
@@ -234,23 +246,21 @@ const store = new Vuex.Store({
         return property
       })
     },
-    initFocus(state) {
-      state.focusedPlaylist = {}
-    },
     storePlaylistContents(state, contents) {
       state.focusedPlaylist = contents
     },
-    // setVolume(state, volume) {
-    //   const newVolume = Number(volume)
-    //   // console.log(`Volume: ${state.volume} -> ${newVolume}`)
-    //   if (newVolume === 0)
-    //     audioWorker.postMessage({ op: 'kill' })
-    //   else if (state.volume === 0)
-    //     audioWorker.postMessage({ op: 'connect', key: session_key })
+    setVolume(state, volume) {
+      const newVolume = volume
+      // console.log(`Volume: ${state.volume} -> ${newVolume}`)
+      if (newVolume === 0)
+        audioWorker.postMessage({ op: 'kill' })
+      else if (state.volume === 0)
+        audioWorker.postMessage({ op: 'connect', key: session_key })
 
-    //   state.volume = newVolume
-    //   GainNode.gain.value = newVolume / 50
-    // }
+      localStorage.volume = newVolume
+      state.volume = newVolume
+      GainNode.gain.value = newVolume / 100
+    }
   },
   actions: {
     sendAsSearch({ commit }, text) {

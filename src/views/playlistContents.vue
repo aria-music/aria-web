@@ -55,8 +55,10 @@
 import titleView from '@/components/options/title'
 import playlist from '@/components/options/queue/playlist'
 import deleteBtn from '@/components/options/btns/delete'
+import { isSmAndDown } from '@/mixin/breakpoint'
 
 export default {
+  mixins: [ isSmAndDown ],
   props: {
     size: Object,
     theme: String,
@@ -67,9 +69,6 @@ export default {
   computed: {
     listname() {
       return decodeURIComponent(this.$route.params.name)
-    },
-    isSmAndDown() {
-      return this.$vuetify.breakpoint.smAndDown
     },
   },
   methods: {
