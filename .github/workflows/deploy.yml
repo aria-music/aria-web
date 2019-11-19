@@ -17,7 +17,7 @@ jobs:
       with:
         node-version: 12.x
     - name: produce version info file
-      run: 'echo {"version": "${{ github.sha }}"} > src/assets/version.json'
+      run: 'echo {\"version\": \"${{ github.sha }}\"} > src/assets/version.json'
     - name: npm install, build, and test
       run: |
         npm install
