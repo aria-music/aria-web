@@ -10,7 +10,7 @@
   </v-card>
 </template>
 <script>
-import {version} from "@/../public/version.json"
+import {version} from "@/assets/version.json"
 
 export default {
   computed: {

@@ -16,13 +16,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
+    - name: produce version info file
+      run: 'echo {"version": "${{ github.sha }}"} > src/assets/version.json'
     - name: npm install, build, and test
       run: |
         npm install
         npm run build --if-present
-    - name: produce version info file
-      if: github.ref == 'refs/heads/master'
-      run: 'echo {"version": "${{ github.sha }}"} > dist/version.json'
     - name: deploy to github pages
       if: github.ref == 'refs/heads/master'
       uses: peaceiris/actions-gh-pages@v2.5.1
