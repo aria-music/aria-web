@@ -75,7 +75,6 @@
 
 			<!-- TODO marquee -->
 			<div v-if="isSmAndUp">
-
 			</div>
 
 			<!-- love btn -->
