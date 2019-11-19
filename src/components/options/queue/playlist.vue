@@ -57,7 +57,7 @@
                           <funcbtn
                             :songData="item"
                             :playlistName="playlistName"
-                            :show="hover"
+                            :show="hover || isXs"
                             playNext
                             playNow
                             removeList
@@ -85,8 +85,10 @@
 </template>
 <script>
 import funcbtn from '../btns/functional'
+import lazy from '@/mixin/lazy'
 
 export default {
+  mixins: [ lazy ],
   props: {
     // contents: {
     //   type: Array,
@@ -101,9 +103,6 @@ export default {
       this.$emit()
     }
   },
-  data: () => ({
-    lazy: 0,
-  }),
   computed: {
     listContents() {
       const entries = this.$store.state.focusedPlaylist.entries
@@ -135,16 +134,9 @@ export default {
     replaceSrc (thumb) {
       return thumb ? thumb : require('@/assets/thinking-face.png')
     },
-    lazyload() {
-      const length = this.listContents.length
-      const interval = setInterval(() => {
-        this.lazy = this.lazy + 10
-        if (this.lazy > length) clearInterval(interval)
-      }, 20);
-    }
   },
   mounted() {
-    this.lazyload()
+    this.lazyload(this.listContents)
     this.$emit('thumb', this.thumbnail)
   },
   components: {

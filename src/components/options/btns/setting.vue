@@ -35,6 +35,7 @@
 						<span>{{ item.text }}</span>
 					</v-list-item-title>
 				</v-list-item>
+				<v-divider></v-divider>
 				<version/>
 			</v-list>
 		</v-alert>

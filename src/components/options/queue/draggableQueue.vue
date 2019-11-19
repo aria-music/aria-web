@@ -7,7 +7,6 @@
       v-model="queue"
       handle=".handle"
       ghost-class="ghost"
-      scroll
     >
       <div
         v-for="(item, index) in queue"
@@ -16,7 +15,7 @@
       >
         <v-fade-transition mode="out-in">
           <v-hover v-slot="{ hover }">
-            <div>
+            <div v-if="index < lazy">
               <v-row
                 no-gutters
                 align="center"
@@ -40,7 +39,7 @@
                 <v-col cols="1">
                   <funcbtn
                     :songData="item"
-                    :show="hover"
+                    :show="hover || isXs"
                     :white="isDark"
                     :theme="theme"
                     like
@@ -52,7 +51,7 @@
                   <v-fade-transition>
                     <v-btn
                       icon
-                      v-show="hover"
+                      v-show="hover || isXs"
                       class="handle"
                     >
                       <v-icon small>fas fa-bars</v-icon>
@@ -71,8 +70,10 @@
 <script>
 import draggable from 'vuedraggable'
 import funcbtn from '../btns/functional'
+import lazy from '@/mixin/lazy'
 
 export default {
+  mixins: [ lazy ],
   props: {
     theme: String,
     size: Object
@@ -100,6 +101,9 @@ export default {
     replaceSrc (thumb) {
       return thumb ? thumb : require('@/assets/thinking-face.png')
     },
+  },
+  mounted() {
+    this.lazyload(this.queue)
   },
   components: {
     draggable,
