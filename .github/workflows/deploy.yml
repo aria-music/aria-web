@@ -30,3 +30,10 @@ jobs:
         EXTERNAL_REPOSITORY: aria-music/aria-music.github.io
         PUBLISH_BRANCH: master
         PUBLISH_DIR: ./dist
+    - name: notify to discord
+      uses: sarisia/actions-status-discord@v1
+      if: always()
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        job: build aria-web
