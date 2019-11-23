@@ -1,17 +1,17 @@
-name: main
+name: Test and deploy to Github pages
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: log
-      run: echo github.ref is ${{ github.ref }}
     - uses: actions/checkout@v1
       with:
-        fetch-deps: 1
+        fetch-depth: 1
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
@@ -30,3 +30,10 @@ jobs:
         EXTERNAL_REPOSITORY: aria-music/aria-music.github.io
         PUBLISH_BRANCH: master
         PUBLISH_DIR: ./dist
+    - name: notify to discord
+      uses: sarisia/actions-status-discord@v1
+      if: always()
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        job: build aria-web
