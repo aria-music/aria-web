@@ -108,7 +108,7 @@ export default {
   computed: {
     listContents() {
       const entries = this.$store.state.focusedPlaylist.entries
-      return entries ? entries.slice() : []
+      return entries ? [...entries] : []
     },
     isContentsExist() {
       return this.listContents.length > 0
@@ -117,16 +117,11 @@ export default {
       return this.$vuetify.theme.dark
     },
     thumbnail() {
-      if(!this.listContents.length) return ""
+      const list = [...this.listContents]
+      if(!list.length) return ""
 
-      let i = 0
-      const list = this.listContents.slice()
-
-      while(list[i].thumbnail == ""){
-        i++
-        if(list[i].thumbnail == "undefined") break
-      }
-      return list[i].thumbnail
+      const index = list.findIndex(entry => entry.thumbnail != "")
+      return list[index].thumbnail
     },
   },
   methods: {

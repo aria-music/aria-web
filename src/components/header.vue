@@ -116,6 +116,7 @@ export default {
 		search() {
 			this.canSearch = false
 			// this.$store.dispatch('sendAsSearch', this.text)
+			this.$store.dispatch('sendAsNewplaylist', this.text)
 			this.$router.push({name: 'search', params: {item: this.text}})
 			this.text = ""
     },

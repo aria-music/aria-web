@@ -134,13 +134,9 @@ export default {
 	},
 	watch: {
 		'volume.value': function(vol) {
-			if(vol >= 50)
-				this.volume.icon = "volume_up"
-			else if(vol == 0)
-				this.volume.icon = "volume_off"
-			else
-				this.volume.icon = "volume_down"
-
+			this.volume.icon = vol >= 50 ? "volume_up"
+                       : vol == 0  ? "volume_off"
+                       : "volume_down"
 			this.$store.commit('setVolume', vol)
 		},
     playingData: function() {
