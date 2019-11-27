@@ -26,7 +26,7 @@
       </v-card-text>
       <v-divider class="mx-3"></v-divider>
       <v-card-actions>
-        <v-spacer ></v-spacer>
+        <v-spacer></v-spacer>
         <v-btn text @click="close">Close</v-btn>
         <v-btn :color="theme" text @click="createPlaylist">Save</v-btn>
       </v-card-actions>
@@ -34,7 +34,10 @@
   </v-dialog>
 </template>
 <script>
+import toaster from '@/mixin/toast'
+
 export default {
+  mixins: [ toaster ],
   props: {
     show: Boolean,
     theme: String,
@@ -49,9 +52,9 @@ export default {
     show: function(){
       this.dialog = true
     },
-    // dialog: function(val){
-    //   if(!val) this.close()
-    // }
+    dialog: function(val){
+      if(!val) this.close()
+    }
   },
   methods: {
     input() {
@@ -70,6 +73,10 @@ export default {
         this.error = true
 			else {
 				this.$store.dispatch('sendAsNewplaylist', this.listname)
+        this.toast(this.listname, {
+          icon: "fas fa-plus-square",
+          color: "orange darken-2"
+        })
 				this.close()
 			}
     },

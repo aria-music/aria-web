@@ -43,6 +43,14 @@
         </playlistObject>
       </v-fade-transition>
       <v-card
+        v-if="!view"
+        elevation="1"
+        shaped
+        max-width="100"
+        class="mt-1 pl-2 text-truncate font-weight-medium"
+        style=""
+        >{{ list.name }}</v-card>
+      <v-card
         v-if="list.id == 'add'"
         class="mx-auto d-flex justify-center align-center"
         style="opacity: 0.6;"
@@ -116,7 +124,7 @@ export default {
   methods: {
     onClick(index){
       if(this.view) this.goPlaylistContents(index)
-      // else this.addToPlaylist(index)
+      else this.addToPlaylist(index)
     },
     goPlaylistContents(index) {
       if(this.nowLoading) this.nowLoading = false
@@ -125,9 +133,9 @@ export default {
       this.focusedName = this.playlists[index].name
       this.$store.dispatch('sendAsPlaylist', this.focusedName)
     },
-    // addToPlaylist(index){
-      
-    // },
+    addToPlaylist(index){
+      this.$emit('added', this.playlists[index].name)
+    },
   },
   watch: {
     focusedPlaylist: function(newPlaylist) {

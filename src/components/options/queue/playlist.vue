@@ -128,7 +128,7 @@ export default {
   methods: {
     play(item) {
       this.$store.dispatch("sendAsQueue", item.uri)
-      this.toast(item.title)
+      this.toast(item.title, { color: "pink derken-1" })
     }
   },
   mounted() {
