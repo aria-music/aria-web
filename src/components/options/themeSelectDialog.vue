@@ -116,5 +116,8 @@ export default {
       }, 0);
     }
   },
+  mounted() {
+    this.dark = this.$vuetify.theme.dark
+  }
 }
 </script>

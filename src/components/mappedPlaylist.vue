@@ -66,8 +66,10 @@
 <script>
 import { mapState } from 'vuex'
 import playlistObject from '@/components/options/playlistObject'
+import { isXs } from '@/mixin/breakpoint'
 
 export default {
+  mixins: [ isXs ],
   props: {
     size: Object,
     view: Boolean
@@ -75,28 +77,22 @@ export default {
   computed: {
     ...mapState(["playlists", "focusedPlaylist"]),
     maxRowSize() {
-      if(this.view){
-        if(this.size.width >= 972) return 3
-        if(this.size.width >= 648) return 2
-        return 1
-      }else{
-        if(this.isXs) return 2
-        else return 3
-      }
+      if(this.view)
+        return this.size.width >= 972 ? 3
+             : this.size.width >= 648 ? 2
+             : 1
+      else
+        return this.isXs ? 2 : 3
     },
     playlistsWithAdd() {
-      const _playlist = this.playlists.slice()
-      _playlist.push({ id: "add" })
-      return _playlist
+      return [...this.playlists, { id: "add" }]
     },
     decoyNum() {
       const diff = this.playlistsWithAdd.length % this.maxRowSize
       return diff ? this.maxRowSize - diff : diff
     },
     playlistCore() {
-      let _playlist = this.playlistsWithAdd.slice()
-      for(let i = 0; i < this.decoyNum; i++) _playlist.push({ id: "decoy" })
-      return _playlist
+      return [...this.playlistsWithAdd, ...(new Array(this.decoyNum).fill({ id: "decoy" }))]
     },
     playlistSize() {
       return this.view ? 300 : 100
