@@ -98,6 +98,7 @@
 import { mapState } from 'vuex'
 import lovebtn from './options/btns/love'
 import { isSmAndUp } from '@/mixin/breakpoint'
+import toaster from '@/mixin/toast'
 
 const LeftControlItems = [
 	{icon: "skip_next", content: "skip"},
@@ -106,7 +107,7 @@ const LeftControlItems = [
 ]
 
 export default {
-	mixins: [ isSmAndUp ],
+	mixins: [ isSmAndUp, toaster ],
 	props: {
 		size: {
 			type: Object,
@@ -139,8 +140,13 @@ export default {
                        : "volume_down"
 			this.$store.commit('setVolume', vol)
 		},
-    playingData: function() {
+    nowState: function(val) {
       this.nowTime = this.countTime * this.playingData.position * 10
+			if(val == 'playing')
+				this.toast(this.playingData.title, {
+					icon: "fas fa-play",
+					color: "pink darken-1",
+				})
     },
 	},
 	mounted(){

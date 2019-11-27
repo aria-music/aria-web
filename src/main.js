@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router/router'
 import store from './store/store'
 import vuetify from './plugins/vuetify'
+import Toasted from '@mnsinri/vue-toasted'
 
+Vue.use(Toasted)
 Vue.config.productionTip = false
 
 new Vue({
