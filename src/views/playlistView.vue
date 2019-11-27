@@ -2,6 +2,7 @@
   <playlists
     view
     :size="size"
+    :theme="theme"
   />
 </template>
 <script>
@@ -13,6 +14,7 @@ export default {
       type: Object,
       required: true
     },
+    theme: String
   },
   components: {
     playlists

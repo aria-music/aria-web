@@ -50,9 +50,13 @@
         :height="playlistSize"
         text
         :ripple="{ center: true }"
-        @click="makeList"
+        @click="show = !show"
       >
         <v-icon size="52">fas fa-plus</v-icon>
+        <newPlaylistDialog
+          :show="show"
+          :theme="theme"
+        />
       </v-card>
       <playlistObject
         v-if="list.id == 'decoy'"
@@ -66,13 +70,15 @@
 <script>
 import { mapState } from 'vuex'
 import playlistObject from '@/components/options/playlistObject'
+import newPlaylistDialog from '@/components/options/newPlaylistDialog'
 import { isXs } from '@/mixin/breakpoint'
 
 export default {
   mixins: [ isXs ],
   props: {
     size: Object,
-    view: Boolean
+    view: Boolean,
+    theme: String
   },
   computed: {
     ...mapState(["playlists", "focusedPlaylist"]),
@@ -101,11 +107,11 @@ export default {
   data: () => ({
     nowLoading: false,
     focusedIndex: -1,
-    // interval: 0,
-    // srcNo: 0,
+    show: false,
   }),
   components: {
-    playlistObject
+    playlistObject,
+    newPlaylistDialog
   },
   methods: {
     onClick(index){
@@ -122,24 +128,6 @@ export default {
     // addToPlaylist(index){
       
     // },
-    makeList() {
-      //
-    }
-    // changeThumbnails() {
-		// 	this.interval = setInterval(() => {
-    //     this.srcNo++
-    //     if(this.srcNo === 12) this.srcNo = 0
-		// 	}, 4000)
-		// },
-    // thumbnail(thumbnails) {
-    //   let thumb = ""
-    //   if(thumbnails.length){
-    //     thumb = thumbnails[this.srcNo % thumbnails.length]
-    //   }else{
-    //     thumb = require('@/assets/thinking-face.png')
-    //   }
-    //   return thumb
-    // }
   },
   watch: {
     focusedPlaylist: function(newPlaylist) {
@@ -150,11 +138,5 @@ export default {
       }, 1000)
     }
   },
-  // mounted() {
-  //   this.changeThumbnails()
-  // },
-  // beforeDestroy() {
-	// 	clearInterval(this.interval)
-	// },
 }
 </script>
