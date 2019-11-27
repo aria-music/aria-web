@@ -90,9 +90,7 @@ export default {
       },
       set(queue) {
         this.$store.commit('changeQueue', queue)
-        this.$store.dispatch('sendAsEditedQueue', queue.map(val => {
-          return val.uri
-        }))
+        this.$store.dispatch('sendAsEditedQueue', queue.map(val => val.uri))
       }
     },
     isDark() {
