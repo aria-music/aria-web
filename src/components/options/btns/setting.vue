@@ -85,7 +85,10 @@ export default {
 		},
 		initAudioContext() {
 			this.$store.dispatch('initAudio')
-      this.toast('Audio Reloaded!')
+      this.toast('Audio Reloaded!', {
+				icon: "fas fa-sync",
+				color: "light-green accent-4",
+			})
 		},
 	},
 	components: {
