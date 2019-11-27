@@ -143,10 +143,7 @@ export default {
     nowState: function(val) {
       this.nowTime = this.countTime * this.playingData.position * 10
 			if(val == 'playing')
-				this.toast(this.playingData.title, {
-					icon: "fas fa-play",
-					color: "pink darken-1",
-				})
+				this.toast(this.playingData.title, { icon: "fas fa-play" })
     },
 	},
 	mounted(){

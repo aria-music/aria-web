@@ -47,13 +47,16 @@
 <script>
 import themeSelector from '@/components/options/themeSelectDialog'
 import version from '@/components/options/version'
+import toaster from '@/mixin/toast'
 
 const settingItems = [
 	{content: "theme", text: "Theme Color", icon: "palette"},
+	{content: "init", text: "Init Audio", icon: "fas fa-sync"},
 	{content: "no", text: "No Idea", icon: "mood_bad"}
 ]
 
 export default {
+	mixins: [ toaster ],
 	props: {
 		theme: String
 	},
@@ -68,6 +71,9 @@ export default {
 				case "theme":
 					this.changeThemeColor()
 					break
+				case "init":
+					this.initAudioContext()
+					break
 				case "no":
 					break
 				default:
@@ -76,7 +82,14 @@ export default {
 		},
 		changeThemeColor(){
 			this.selectTheme = !this.selectTheme
-		}
+		},
+		initAudioContext() {
+			this.$store.dispatch('initAudio')
+      this.toast('Audio Reloaded!', {
+				icon: "fas fa-sync",
+				color: "light-green accent-4",
+			})
+		},
 	},
 	components: {
 		themeSelector,

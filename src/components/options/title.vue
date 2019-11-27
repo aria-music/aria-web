@@ -17,9 +17,11 @@
         </v-card>
         <v-card class="mt-2">
           <v-card-title
-            class="title font-weight-bold"
+            class="title font-weight-bold scroller"
+            style="overflow: auto"
+            :style="{'max-height': `${height}px`}"
           >
-            <span :class="{'text-truncate': !play && !hover}">{{ name }}</span>
+            <span :class="{'text-truncate': !isSmAndDown && !play && !hover}">{{ name }}</span>
           </v-card-title>
           <v-expand-transition>
             <div v-show="isSmAndDown || hover || play">
@@ -50,5 +52,11 @@ export default {
     thumbnail: String,
     play: Boolean
   },
+  computed: {
+    height() {
+      return this.isSmAndDown ? 300 : 150
+    }
+  }
 }
 </script>
+<style lang="scss" src="@/components/options/scss/scroller.scss">

@@ -51,7 +51,7 @@
                         <v-col
                           :cols="isXs ? 9 : 10"
                           class="px-3"
-                          @click="play(item.uri)"
+                          @click="play(item)"
                         >
                           <div class="text-truncate font-weight-medium">
                             {{item.title}}
@@ -91,10 +91,11 @@
 import funcbtn from '../btns/functional'
 import lazy from '@/mixin/lazy'
 import thumb from '@/mixin/thumbnail'
+import toaster from '@/mixin/toast'
 import { isXs } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ lazy, thumb, isXs ],
+  mixins: [ lazy, thumb, isXs, toaster ],
   props: {
     theme: String,
     size: Object,
@@ -125,8 +126,9 @@ export default {
     },
   },
   methods: {
-    play(uri) {
-      this.$store.dispatch("sendAsQueue", uri)
+    play(item) {
+      this.$store.dispatch("sendAsQueue", item.uri)
+      this.toast(item.title, { color: "pink derken-1" })
     }
   },
   mounted() {

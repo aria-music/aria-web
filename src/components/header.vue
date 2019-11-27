@@ -1,5 +1,6 @@
 <template>
 	<v-app-bar
+		style="z-index: 1001"
 		fixed
 		app
 	>
@@ -56,15 +57,6 @@
 				></v-text-field>
 			</div>
 
-			<!-- Audio reload btn -->
-			<v-btn
-				v-if="isSmAndUp"
-				icon
-				small
-				@click="initAudioContext"
-			><v-icon>refresh</v-icon>
-			</v-btn>
-
 			<!-- setting btn -->
 			<setting
 				:theme="theme"
@@ -109,23 +101,18 @@ export default {
 		}
 	},
 	methods: {
-		initAudioContext() {
-			// this.$store.dispatch('initAudio')
-      // toast('Audio Reloaded!')
-		},
 		search() {
 			this.canSearch = false
 			// this.$store.dispatch('sendAsSearch', this.text)
-			this.$store.dispatch('sendAsNewplaylist', this.text)
+			// this.$store.dispatch('sendAsNewplaylist', this.text)
 			this.$router.push({name: 'search', params: {item: this.text}})
 			this.text = ""
     },
 		checkMac() {
-			if(this.canSearch){
+			if(this.canSearch)
 				this.search()
-			}else{
+			else
 				return
-			}
 		},
 		focusAndSearch() {
 			if(this.isFocus){
