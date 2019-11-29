@@ -6,7 +6,7 @@
         v-click-outside="{
           callback: closeSubQueue,
           isOpen: subQueue
-          }"
+        }"
         style="position: fixed; z-index: 5; right: 1%; bottom: 75px;"
         :height="size.height"
       />

@@ -40,6 +40,7 @@
     <listSelector
       :show="dialog"
       :song="songData"
+      :theme="theme"
     />
   </v-menu>
 </template>
