@@ -18,6 +18,7 @@
             <v-tooltip
               top
               open-delay="1000"
+              :color="theme"
             >
               <template #activator="{ on }">
                 <span v-on="on">{{ playingTitle }}</span>

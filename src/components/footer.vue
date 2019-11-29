@@ -1,4 +1,4 @@
-<template>
+<template @keyup.space="playAndPause">
 	<v-footer
 		app
 		fixed
@@ -22,7 +22,7 @@
 			<v-btn
 				icon
 				large
-				@click="playAndPause(nowState)"
+				@click="playAndPause"
 				class="mr-2"
 			>
 				<v-icon large>{{ nowState == "paused" ? "play_arrow" : "pause" }}</v-icon>
@@ -140,6 +140,12 @@ export default {
                        : "volume_down"
 			this.$store.commit('setVolume', vol)
 		},
+		'$route.path': function(route) {
+			if(route === "/")
+				window.removeEventListener('keyup', this.keyEvents)
+			else
+				window.addEventListener('keyup', this.keyEvents)
+		},
     nowState: function(val) {
       this.nowTime = this.countTime * this.playingData.position * 10
 			if(val == 'playing')
@@ -149,17 +155,19 @@ export default {
 	mounted(){
 		this.setIntervalForSeekbar()
 		this.initVolume()
+		this.setKeyEvents()
 	},
 	beforeDestroy() {
     clearInterval(this.interval)
+		window.removeEventListener('keyup', this.keyEvents)
   },
 	methods: {
 		initVolume() {
 			if (localStorage.volume !== undefined)
 				this.volume.value = JSON.parse(localStorage.volume)
 		},
-		playAndPause(nowState) {
-			if(nowState == "paused")
+		playAndPause() {
+			if(this.nowState == "paused")
 				this.$store.dispatch('sendAsResume')
       else
 				this.$store.dispatch('sendAsPause')
@@ -204,14 +212,45 @@ export default {
       }, 100)
     },
     progressSeekbar() {
-      if(this.nowTime < 100 && this.nowState == 'playing') this.nowTime += this.countTime
+      if(this.nowTime < 100 && this.nowState == 'playing')
+				this.nowTime += this.countTime
     },
 		openSubQueue() {
 			this.$store.commit('openSubQueue')
 		},
 		goPlay() {
 			this.$router.push({name: 'play'})
-		}
+		},
+		volumeUp() {
+			this.volume.value += 10
+			if(this.volume.value > 100)
+				this.volume.value = 100
+		},
+		volumeDown() {
+			this.volume.value -= 10
+			if(this.volume.value < 0)
+				this.volume.value = 0
+		},
+		keyEvents(event) {
+			switch(event.keyCode) {
+				case 32: //space
+					this.playAndPause()
+					break
+				case 38: //up
+					this.volumeUp()
+					break
+				case 39: //right
+					this.skip()
+					break
+				case 40: //down
+					this.volumeDown()
+					break
+			}
+		},
+		setKeyEvents() {
+			if(this.$route.path !== "/")
+				window.addEventListener('keyup', this.keyEvents)
+		},
 	},
 }
 </script>
