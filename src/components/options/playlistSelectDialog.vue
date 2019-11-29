@@ -11,6 +11,7 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px;">
         <mappedList
+          :theme="theme"
           @added="addToPlaylist"
         />
       </v-card-text>
@@ -29,7 +30,8 @@ export default {
     song: {
       type: Object,
       required: true
-    }
+    },
+    theme: String
   },
   data: () => ({
     dialog: false
