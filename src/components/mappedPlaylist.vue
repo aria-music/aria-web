@@ -43,6 +43,14 @@
         </playlistObject>
       </v-fade-transition>
       <v-card
+        v-if="!view"
+        elevation="1"
+        shaped
+        max-width="100"
+        class="mt-1 pl-2 text-truncate font-weight-medium"
+        style=""
+        >{{ list.name }}</v-card>
+      <v-card
         v-if="list.id == 'add'"
         class="mx-auto d-flex justify-center align-center"
         style="opacity: 0.6;"
@@ -50,9 +58,13 @@
         :height="playlistSize"
         text
         :ripple="{ center: true }"
-        @click="makeList"
+        @click="show = !show"
       >
         <v-icon size="52">fas fa-plus</v-icon>
+        <newPlaylistDialog
+          :show="show"
+          :theme="theme"
+        />
       </v-card>
       <playlistObject
         v-if="list.id == 'decoy'"
@@ -66,13 +78,15 @@
 <script>
 import { mapState } from 'vuex'
 import playlistObject from '@/components/options/playlistObject'
+import newPlaylistDialog from '@/components/options/newPlaylistDialog'
 import { isXs } from '@/mixin/breakpoint'
 
 export default {
   mixins: [ isXs ],
   props: {
     size: Object,
-    view: Boolean
+    view: Boolean,
+    theme: String
   },
   computed: {
     ...mapState(["playlists", "focusedPlaylist"]),
@@ -101,16 +115,16 @@ export default {
   data: () => ({
     nowLoading: false,
     focusedIndex: -1,
-    // interval: 0,
-    // srcNo: 0,
+    show: false,
   }),
   components: {
-    playlistObject
+    playlistObject,
+    newPlaylistDialog
   },
   methods: {
     onClick(index){
       if(this.view) this.goPlaylistContents(index)
-      // else this.addToPlaylist(index)
+      else this.addToPlaylist(index)
     },
     goPlaylistContents(index) {
       if(this.nowLoading) this.nowLoading = false
@@ -119,27 +133,9 @@ export default {
       this.focusedName = this.playlists[index].name
       this.$store.dispatch('sendAsPlaylist', this.focusedName)
     },
-    // addToPlaylist(index){
-      
-    // },
-    makeList() {
-      //
-    }
-    // changeThumbnails() {
-		// 	this.interval = setInterval(() => {
-    //     this.srcNo++
-    //     if(this.srcNo === 12) this.srcNo = 0
-		// 	}, 4000)
-		// },
-    // thumbnail(thumbnails) {
-    //   let thumb = ""
-    //   if(thumbnails.length){
-    //     thumb = thumbnails[this.srcNo % thumbnails.length]
-    //   }else{
-    //     thumb = require('@/assets/thinking-face.png')
-    //   }
-    //   return thumb
-    // }
+    addToPlaylist(index){
+      this.$emit('added', this.playlists[index].name)
+    },
   },
   watch: {
     focusedPlaylist: function(newPlaylist) {
@@ -150,11 +146,5 @@ export default {
       }, 1000)
     }
   },
-  // mounted() {
-  //   this.changeThumbnails()
-  // },
-  // beforeDestroy() {
-	// 	clearInterval(this.interval)
-	// },
 }
 </script>

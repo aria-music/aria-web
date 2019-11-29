@@ -11,24 +11,25 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px;">
         <mappedList
-         
+          @added="addToPlaylist"
         />
       </v-card-text>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text>Close</v-btn>
-        <v-btn color="blue darken-1" text>Save</v-btn>
-      </v-card-actions>
+      <v-divider class="mb-5"></v-divider>
     </v-card>
   </v-dialog>
 </template>
 <script>
 import mappedList from '@/components/mappedPlaylist'
+import toaster from '@/mixin/toast'
 
 export default {
+  mixins: [ toaster ],
   props: {
-    show: Boolean
+    show: Boolean,
+    song: {
+      type: Object,
+      required: true
+    }
   },
   data: () => ({
     dialog: false
@@ -38,6 +39,29 @@ export default {
       setTimeout(() => {
         this.dialog = true
       }, 0);
+    }
+  },
+  methods: {
+    addToPlaylist(name){
+      this.$store.dispatch('sendAsAddToPlaylist', {
+        listname: name,
+        addedUri: this.song.uri
+      })
+
+      this.toast(name, {
+        icon: "fas fa-arrow-alt-circle-up",
+        color: "orange darken-2"
+      })
+      setTimeout(() => {
+        this.toast(this.song.title, {
+          color: "orange darken-2"
+        })
+      }, 300);
+
+      this.close()
+    },
+    close() {
+      this.dialog = false
     }
   },
   components: {

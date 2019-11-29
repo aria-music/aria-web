@@ -38,7 +38,8 @@
 			</v-list>
 		</v-alert>
     <listSelector
-     :show="dialog"
+      :show="dialog"
+      :song="songData"
     />
   </v-menu>
 </template>
