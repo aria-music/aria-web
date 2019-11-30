@@ -23,7 +23,6 @@
                   style="height: 40px"
                   :style="{width: `${width-1}px`}"
                 >
-
                   <!-- thumnail -->
                   <v-col
                     :cols="2"
@@ -38,7 +37,6 @@
                       @error.prevent
                     ></v-img>
                   </v-col>
-
                   <!-- title -->
                   <v-col
                     :cols="isSmAndUp ? 6 : 10"
@@ -56,7 +54,6 @@
                       ></v-list-item-subtitle>
                     </v-list-item-content>
                   </v-col>
-
                   <!-- btns -->
                   <v-col
                     :cols="4"
@@ -70,9 +67,6 @@
                       :uri="item.uri"
                       :isLoved="item.is_liked"
                     />
-                      <!-- v-show="item.is_liked || hover"
-                      :isLoved="item.is_liked" -->
-
                     <div v-show="hover">
                       <!-- delete btn -->
                       <deletebtn
@@ -82,7 +76,6 @@
                         :uri="item.uri"
                         :index="index"
                       />
-
                       <!-- info btn -->
                       <infobtn
                         :theme="theme"

@@ -22,28 +22,8 @@
 			<v-spacer></v-spacer>
 
 			<!-- searchbox -->
-			<!-- for dt -->
 			<div
-				v-if="isSmAndUp"
-				style="width: 300px;"
-				class="mt-5"
-			>
-				<v-text-field
-					ref="searchbox"
-					v-model="text"
-					dense
-					prepend-inner-icon="search"
-					:loading="isLoading"
-					:color="theme"
-					@click:prepend-inner="search"
-					@keyup.enter="checkMac"
-					@keypress="canSearch = true"
-				></v-text-field>
-			</div>
-			<!-- for sp -->
-			<div
-				v-else
-				:style="{width: `${spWidth}px`}"
+				:style="{width: `${isSmAndUp ? 300 : Width}px`}"
 				style="transition-duration: .3s"
 				class="mt-5"
 			>
@@ -87,7 +67,7 @@ export default {
 		text: "",
 		canSearch: false,
 		isLoading: false,
-		spWidth: "25",
+		Width: "25",
 		isFocus: false,
 	}),
 	computed: {
@@ -98,11 +78,11 @@ export default {
 	},
 	watch: {
 		isFocus: function(focused) {
-			if(focused){
-				this.spWidth = "200"
-			}else{
-				this.spWidth = "25"
-			}
+			if(focused)
+				this.Width = "200"
+			else
+				this.Width = "25"
+			this.$emit('focused', focused)
 		}
 	},
 	mounted() {
@@ -114,8 +94,7 @@ export default {
 	methods: {
 		search() {
 			this.canSearch = false
-			// this.$store.dispatch('sendAsSearch', this.text)
-			// this.$store.dispatch('sendAsNewplaylist', this.text)
+			this.$store.dispatch('sendAsSearch', {text: this.text, provider: 'gpm'})
 			this.$router.push({name: 'search', params: {item: this.text}})
 			this.text = ""
     },
@@ -141,6 +120,7 @@ export default {
 					this.pushToHome()
 					break
 				case 83: //'s' key
+					if(this.isFocus) return false
 					event.preventDefault()
 					this.$refs.searchbox.focus()
 					break

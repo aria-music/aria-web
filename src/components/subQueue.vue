@@ -5,7 +5,7 @@
         :src="replaceSrc(playingData.thumbnail)"
         :width="maxWidth"
         class="align-end"
-        height="150px"
+        :height="isXs ? 150 : 200"
         gradient="rgba(100,115,201,.33), rgba(25,25,25,.7)"
       >
         <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
@@ -57,7 +57,7 @@
       <v-col
         cols="4"
         class="d-flex align-center"
-        v-if="$vuetify.breakpoint.smAndUp"
+        v-if="isSmAndUp"
       >
         <v-divider vertical></v-divider>
         <v-icon small class="ml-2">favorite_border</v-icon>
@@ -81,10 +81,10 @@ import { mapState } from 'vuex'
 import ariaQueue from './options/queue/queue'
 import funcbtn from './options/btns/functional'
 import thumb from '@/mixin/thumbnail'
-import { isXs } from '@/mixin/breakpoint'
+import { isXs, isSmAndUp } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ thumb, isXs ],
+  mixins: [ thumb, isXs, isSmAndUp ],
   props: {
     height: {
       type: Number,
@@ -98,13 +98,14 @@ export default {
   computed: {
     ...mapState(["playingData", "playingTitle", "theme"]),
     maxHeight() {
-      return (this.height - 340) < 450 ? this.height - 340 : 450
+      const height = this.height
+      return (height - 500) < 450 ? height - 500 : 450
     },
     maxWidth() {
-      return this.$vuetify.breakpoint.xs ? 250 : 500
+      return this.isXs ? 250 : 500
     },
     imgWidth() {
-      return this.$vuetify.breakpoint.xs ? 35 : 70
+      return this.isXs ? 35 : 70
     },
   },
 }

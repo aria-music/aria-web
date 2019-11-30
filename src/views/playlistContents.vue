@@ -55,10 +55,11 @@
 import titleView from '@/components/options/title'
 import playlist from '@/components/options/queue/playlist'
 import deleteBtn from '@/components/options/btns/delete'
+import toaster from '@/mixin/toast'
 import { isSmAndDown } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ isSmAndDown ],
+  mixins: [ isSmAndDown, toaster ],
   props: {
     size: Object,
     theme: String,
@@ -74,9 +75,17 @@ export default {
   methods: {
     queueAll() {
       this.$store.dispatch('sendAsQueueWithPlaylist', this.listname)
+      this.toast(this.listname, {
+        color: "pink lighten-1",
+        icon: "fas fa-plus-square"
+      })
     },
     playAll() {
       this.$store.dispatch('sendAsPlayWithPlaylist', this.listname)
+      this.toast(this.listname, {
+        color: "pink lighten-1",
+        icon: "far fa-plus-square"
+      })
     },
     fetchThumb(thumb) {
       this.thumbnail = thumb
