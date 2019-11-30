@@ -27,5 +27,14 @@ export default new Router({
       name: 'play',
       component: () => import('@/views/play')
     },
+    {
+      path: '/piano',
+      name: 'piano',
+      component: () => import('@/views/piano')
+    },
+    {
+      path: '*',
+      redirect: '/'
+    }
   ]
 })
