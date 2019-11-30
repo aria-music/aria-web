@@ -39,7 +39,7 @@ jobs:
         PUBLISH_BRANCH: master
         PUBLISH_DIR: ./dist
     - name: notify to discord
-      uses: sarisia/actions-status-discord
+      uses: sarisia/actions-status-discord@v1.1
       if: always()
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
