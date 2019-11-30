@@ -140,12 +140,6 @@ export default {
                        : "volume_down"
 			this.$store.commit('setVolume', vol)
 		},
-		'$route.path': function(route) {
-			if(route === "/")
-				window.removeEventListener('keyup', this.keyEvents)
-			else
-				window.addEventListener('keyup', this.keyEvents)
-		},
     nowState: function(val) {
       this.nowTime = this.countTime * this.playingData.position * 10
 			if(val == 'playing')
@@ -155,11 +149,11 @@ export default {
 	mounted(){
 		this.setIntervalForSeekbar()
 		this.initVolume()
-		this.setKeyEvents()
+		window.addEventListener('keydown', this.keyEvents)
 	},
 	beforeDestroy() {
     clearInterval(this.interval)
-		window.removeEventListener('keyup', this.keyEvents)
+		window.removeEventListener('keydown', this.keyEvents)
   },
 	methods: {
 		initVolume() {
@@ -234,22 +228,26 @@ export default {
 		keyEvents(event) {
 			switch(event.keyCode) {
 				case 32: //space
+					event.preventDefault()
 					this.playAndPause()
 					break
 				case 38: //up
+					event.preventDefault()
 					this.volumeUp()
 					break
 				case 39: //right
+					event.preventDefault()
 					this.skip()
 					break
 				case 40: //down
+					event.preventDefault()
 					this.volumeDown()
 					break
+				case 77: //'m' key
+					event.preventDefault()
+					this.mute()
+					break
 			}
-		},
-		setKeyEvents() {
-			if(this.$route.path !== "/")
-				window.addEventListener('keyup', this.keyEvents)
 		},
 	},
 }
