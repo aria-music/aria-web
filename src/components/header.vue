@@ -12,15 +12,37 @@
 			<!-- product name -->
 			<v-toolbar-title
 				style="cursor: pointer"
+				class="font-weight-medium"
 				@click="pushToHome"
-			>Aria_music</v-toolbar-title>
+			>
+				<span>Aria&ensp;</span>
+				<span>Music</span>
+			</v-toolbar-title>
 
 			<v-spacer></v-spacer>
 
 			<!-- searchbox -->
+			<!-- for dt -->
+			<div
+				v-if="isSmAndUp"
+				style="width: 300px;"
+				class="mt-5"
+			>
+				<v-text-field
+					ref="searchbox"
+					v-model="text"
+					dense
+					prepend-inner-icon="search"
+					:loading="isLoading"
+					:color="theme"
+					@click:prepend-inner="search"
+					@keyup.enter="checkMac"
+					@keypress="canSearch = true"
+				></v-text-field>
+			</div>
 			<!-- for sp -->
 			<div
-				v-if="$vuetify.breakpoint.xs"
+				v-else
 				:style="{width: `${spWidth}px`}"
 				style="transition-duration: .3s"
 				class="mt-5"
@@ -37,23 +59,6 @@
 					@keypress="canSearch = true"
 					@focus="isFocus = true"
 					@blur="isFocus = false"
-				></v-text-field>
-			</div>
-			<!-- for dt -->
-			<div
-				v-if="isSmAndUp"
-				style="width: 300px;"
-				class="mt-5"
-			>
-				<v-text-field
-					v-model="text"
-					dense
-					prepend-inner-icon="search"
-					:loading="isLoading"
-					:color="theme"
-					@click:prepend-inner="search"
-					@keyup.enter="checkMac"
-					@keypress="canSearch = true"
 				></v-text-field>
 			</div>
 
@@ -100,6 +105,12 @@ export default {
 			}
 		}
 	},
+	mounted() {
+		window.addEventListener('keydown', this.keyEvents)
+	},
+	beforeDestroy() {
+		window.addEventListener('keydown', this.keyEvents)
+	},
 	methods: {
 		search() {
 			this.canSearch = false
@@ -115,15 +126,25 @@ export default {
 				return
 		},
 		focusAndSearch() {
-			if(this.isFocus){
+			if(this.isFocus)
 				this.search()
-			}else{
+			else
 				this.$refs.searchbox.focus()
-				this.isFocus = true
-			}
 		},
 		pushToHome() {
 			this.$router.push({name: 'playlist-view'})
+		},
+		keyEvents(event) {
+			switch(event.keyCode) {
+				case 27: //'esc' key
+					event.preventDefault()
+					this.pushToHome()
+					break
+				case 83: //'s' key
+					event.preventDefault()
+					this.$refs.searchbox.focus()
+					break
+			}
 		}
 	}
 }
