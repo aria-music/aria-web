@@ -1,0 +1,9 @@
+pull_request_rules:
+  - name: merge when build passes
+    conditions:
+      - author=@web
+      - status-success=build
+    actions:
+      merge:
+        method: squash
+        strict: true
