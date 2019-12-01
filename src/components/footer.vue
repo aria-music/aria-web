@@ -113,6 +113,7 @@ export default {
 			type: Object,
 			required: true
 		},
+		isFocus: Boolean
 	},
 	components: {
 		lovebtn,
@@ -226,6 +227,7 @@ export default {
 				this.volume.value = 0
 		},
 		keyEvents(event) {
+			if(this.isFocus) return true
 			switch(event.keyCode) {
 				case 32: //space
 					event.preventDefault()

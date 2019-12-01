@@ -180,7 +180,7 @@ async function sendToSocket(op, data) {
 const store = new Vuex.Store({
   state: {
     theme: localStorage.color ? localStorage.color : "pink lighten-2",
-    searchData: null,
+    searchData: {},
     // searchContents: localStorage.searchContents ? '' : localStorage.searchContents,
     playingData: stateContainer,
     playingTitle: "",
@@ -239,11 +239,12 @@ const store = new Vuex.Store({
       localStorage.searchContents = text
     },
     storePlaylists(state, result) {
-      state.playlists = result.map(property => {
-        property.id = 'playlist'
-        if (property.thumbnails.length) property.thumbnails = property.thumbnails.filter(nail => nail != '')
-        property.thumbnail = property.thumbnails.length ? property.thumbnails[0] : ''
-        return property
+      state.playlists = result.map(i => {
+        i.id = 'playlist'
+        if (i.thumbnails.length)
+          i.thumbnails = i.thumbnails.filter(nail => nail != '')
+        i.thumbnail = i.thumbnails.length ? i.thumbnails[0] : ''
+        return i
       })
     },
     storePlaylistContents(state, contents) {
@@ -251,7 +252,6 @@ const store = new Vuex.Store({
     },
     setVolume(state, volume) {
       const newVolume = volume
-      // console.log(`Volume: ${state.volume} -> ${newVolume}`)
       if (newVolume === 0)
         audioWorker.postMessage({ op: 'kill' })
       else if (state.volume === 0)
@@ -263,9 +263,11 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    sendAsSearch({ commit }, text) {
+    sendAsSearch({ commit }, {text, provider}) {
       commit('setSearchContents', text)
-      sendToSocket('search', { query: text })
+      const serchObj = { query: text }
+      if(provider) serchObj.provider = provider
+      sendToSocket('search', serchObj)
     },
     sendAsNewplaylist(context, newName) {
       sendToSocket('create_playlist', { name: newName })
@@ -332,7 +334,6 @@ const store = new Vuex.Store({
     },
     initAudio() {
       resetAudio()
-      // console.log('audiocontext initialized')
     }
   }
 })
