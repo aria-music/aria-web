@@ -1,9 +1,15 @@
 export default {
+  data: () => ({
+    pure_thumbnail: "",
+    thinking: require('@/assets/thinking-face.png'),
+    noImage: require('@/assets/no-image.png'),
+  }),
   methods: {
-    replaceSrc(thumb) {
-      return thumb ? thumb : require('@/assets/thinking-face.png')
+    checkSrc(src) {
+      this.pure_thumbnail = src ? src : require('@/assets/no-image.png')
     },
-  },
+    error() {
+      this.pure_thumbnail = require('@/assets/thinking-face.png')
+    }
+  }
 }
-
-//TODO nannka
