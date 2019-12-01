@@ -2,11 +2,12 @@
   <v-card elevation="8">
     <v-hover #default="{ hover }">
       <v-img
-        :src="replaceSrc(playingData.thumbnail)"
+        :src="pure_thumbnail"
+        @error="error"
         :width="maxWidth"
         class="align-end"
         :height="isXs ? 150 : 200"
-        gradient="rgba(100,115,201,.33), rgba(25,25,25,.7)"
+        gradient="rgba(200,200,200,.1), rgba(200,200,200,.1), rgba(25,25,25,.5)"
       >
         <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
         <v-row class="title pl-4 pb-3 pt-1" no-gutters>
@@ -94,6 +95,14 @@ export default {
   components: {
     ariaQueue,
     funcbtn,
+  },
+  watch: {
+    'playingData.thumbnail': function(src) {
+      this.checkSrc(src);
+    }
+  },
+  mounted() {
+    this.checkSrc(this.playingData.thumbnail)
   },
   computed: {
     ...mapState(["playingData", "playingTitle", "theme"]),

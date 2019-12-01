@@ -44,13 +44,12 @@
                           v-on="on"
                         >
                           <v-col :cols="isXs ? 2 : 1">
-                            <v-img
-                              :src="replaceSrc(item.thumbnail_small)"
-                              :aspect-ratio="1"
-                              height="45"
+                            <imgObj
+                              :src="item.thumbnail_small"
+                              :height="45"
                               contain
                               class="ml-1"
-                            ></v-img>
+                            />
                           </v-col>
                           <v-col
                             :cols="isXs ? 9 : 10"
@@ -94,12 +93,12 @@
 </template>
 <script>
 import funcbtn from '../btns/functional'
-import thumb from '@/mixin/thumbnail'
+import imgObj from '../imgObject'
 import toaster from '@/mixin/toast'
 import { isXs } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ thumb, isXs, toaster ],
+  mixins: [ isXs, toaster ],
   props: {
     theme: String,
     size: Object,
@@ -139,7 +138,8 @@ export default {
     this.$emit('thumb', this.thumbnail)
   },
   components: {
-    funcbtn
+    funcbtn,
+    imgObj
   }
 }
 </script>

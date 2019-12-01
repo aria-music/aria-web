@@ -16,6 +16,7 @@
           class="pa-0"
         >
           <v-lazy
+            style="width: 100%"
             min-height="40"
             :options="{threshold: .3}"
           >
@@ -31,14 +32,13 @@
                     :cols="2"
                     class="py-0 d-flex align-center justify-start"
                   >
-                    <v-img
-                      :src="replaceSrc(item.thumbnail_small)"
-                      eager
+                    <imgObj
+                      :src="item.thumbnail_small"
                       :height="imgHeight"
-                      :max-width="imgWidth"
+                      :maxWidth="imgWidth"
                       contain
-                      @error.prevent
-                    ></v-img>
+                      eager
+                    />
                   </v-col>
                   <!-- title -->
                   <v-col
@@ -99,11 +99,11 @@ import { mapState } from 'vuex'
 import lovebtn from '../btns/love'
 import deletebtn from '../btns/delete'
 import infobtn from '../btns/info'
-import thumb from '@/mixin/thumbnail'
+import imgObj from '../imgObject'
 import { isSmAndUp } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ thumb, isSmAndUp ],
+  mixins: [ isSmAndUp ],
   props: {
     maxHeight: {
       type: Number,
@@ -130,6 +130,7 @@ export default {
     lovebtn,
     deletebtn,
     infobtn,
+    imgObj
   }
 }
 </script>

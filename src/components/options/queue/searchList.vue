@@ -26,14 +26,13 @@
                       :cols="2"
                       class="py-0 d-flex align-center"
                     >
-                      <v-img
-                        :src="replaceSrc(item.thumbnail_small)"
+                      <imgObj
+                        :src="item.thumbnail_small"
                         :height="45"
-                        :max-width="70"
+                        :maxWidth="70"
                         eager
                         contain
-                        @error.prevent
-                      ></v-img>
+                      />
                     </v-col>
                     <!-- title -->
                     <v-col
@@ -63,10 +62,9 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import thumb from '@/mixin/thumbnail'
+import imgObj from '../imgObject'
 
 export default {
-  mixins: [ thumb ],
   props: {
     theme: String,
     maxHeight: Number,
@@ -78,6 +76,9 @@ export default {
   computed: {
     ...mapState(["searchData"]),
   },
+  components: {
+    imgObj
+  }
 }
 </script>
 <style lang="scss" src="@/components/options/scss/scroller.scss">

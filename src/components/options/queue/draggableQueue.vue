@@ -28,13 +28,12 @@
                   style="height: 50px"
                 >
                   <v-col :cols="isXs ? 2 : 1">
-                    <v-img
-                      :src="replaceSrc(item.thumbnail_small)"
-                      :aspect-ratio="1"
-                      height="45"
+                    <imgObj
+                      :src="item.thumbnail_small"
+                      :height="45"
                       contain
                       class="ml-1"
-                    ></v-img>
+                    />
                   </v-col>
                   <v-col :cols="isXs ? 8 : 9" class="px-3">
                     <div class="text-truncate font-weight-medium">
@@ -77,11 +76,11 @@
 <script>
 import draggable from 'vuedraggable'
 import funcbtn from '../btns/functional'
-import thumb from '@/mixin/thumbnail'
+import imgObj from '../imgObject'
 import { isXs } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ thumb, isXs ],
+  mixins: [ isXs ],
   props: {
     theme: String,
     size: Object
@@ -102,7 +101,8 @@ export default {
   },
   components: {
     draggable,
-    funcbtn
+    funcbtn,
+    imgObj
   }
 }
 </script>

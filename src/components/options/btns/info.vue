@@ -25,8 +25,9 @@
                 max-width="300"
               >
                 <v-img
-                  :src="replaceSrc(songData.thumbnail)"
+                  :src="pure_thumbnail"
                   :aspect-ratio="1"
+                  @error="error"
                 ></v-img>
               </v-card>
             </v-col>
@@ -67,11 +68,11 @@
   </v-dialog>
 </template>
 <script>
-import thumb from '@/mixin/thumbnail'
 import { isXs } from '@/mixin/breakpoint'
+import thumb from '@/mixin/thumbnail'
 
 export default {
-  mixins: [ thumb, isXs ],
+  mixins: [ isXs, thumb ],
   props: {
     theme: {
       type: String,
@@ -107,6 +108,14 @@ export default {
     httpUri() {
       return !this.songData.uri.indexOf('http')
     },
+  },
+  mounted() {
+    this.checkSrc(this.songData.thumbnail)
+  },
+  watch: {
+    'songData.thumbnail': function(src){
+      this.checkSrc(src)
+    }
   }
 }
 </script>
