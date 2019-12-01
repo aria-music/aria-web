@@ -1,4 +1,4 @@
-# ariamuisic
+# [ariamuisic](https://gaiji.pro)
 
 ![actions](https://github.com/aria-music/aria-web/workflows/.github/workflows/deploy.yml/badge.svg?branch=master)
 ![mergify](https://img.shields.io/endpoint.svg?url=https://gh.mergify.io/badges/aria-music/aria-web&style=flat-square)
