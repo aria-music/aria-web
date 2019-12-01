@@ -9,7 +9,7 @@
       >
         <v-card class="pa-2">
           <v-img
-            :src="replaceSrc(thumbnail)"
+            :src="pure_thumbnail"
             :aspect-ratio="1"
             max-height="500"
           >
@@ -51,6 +51,14 @@ export default {
     },
     thumbnail: String,
     play: Boolean
+  },
+  mounted() {
+    this.checkSrc(this.thumbnail)
+  },
+  watch: {
+    thumbnail: function(src) {
+      this.checkSrc(src);
+    }
   },
   computed: {
     height() {

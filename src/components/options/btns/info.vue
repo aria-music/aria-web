@@ -17,20 +17,23 @@
       <v-card class="ml-2">
         <v-container grid-list-xs>
           <v-row>
-            <v-col :cols="isXs ? 12 : 6">
+            <v-col cols="12">
               <v-card
                 class="pa-2 mx-auto"
                 elevation="6"
-                max-height="300"
-                max-width="300"
+                max-height="400"
+                max-width="400"
               >
                 <v-img
-                  :src="replaceSrc(songData.thumbnail)"
-                  :aspect-ratio="1"
+                  :src="pure_thumbnail"
+                  @error="error"
+                  contain
+                  max-height="350"
+                  max-width="400"
                 ></v-img>
               </v-card>
             </v-col>
-            <v-col :cols="isXs ? 12 : 6">
+            <v-col cols="10" offset="1">
               <v-card elevation="6" class="mx-auto">
                 <v-card-text>
                   <div class="mb-1">
@@ -67,11 +70,11 @@
   </v-dialog>
 </template>
 <script>
-import thumb from '@/mixin/thumbnail'
 import { isXs } from '@/mixin/breakpoint'
+import thumb from '@/mixin/thumbnail'
 
 export default {
-  mixins: [ thumb, isXs ],
+  mixins: [ isXs, thumb ],
   props: {
     theme: {
       type: String,
@@ -107,6 +110,14 @@ export default {
     httpUri() {
       return !this.songData.uri.indexOf('http')
     },
+  },
+  mounted() {
+    this.checkSrc(this.songData.thumbnail)
+  },
+  watch: {
+    'songData.thumbnail': function(src){
+      this.checkSrc(src)
+    }
   }
 }
 </script>

@@ -12,7 +12,11 @@
             :key="index"
             :ripple="false"
           >
-            <div v-if="index">
+            <v-lazy
+              style="width: 100%"
+              min-height="50"
+              :options="{threshold: .3}"
+            >
               <v-hover #default="{ hover }">
                   <v-row
                     dense
@@ -22,14 +26,13 @@
                       :cols="2"
                       class="py-0 d-flex align-center"
                     >
-                      <v-img
-                        :src="replaceSrc(item.thumbnail_small)"
+                      <imgObj
+                        :src="item.thumbnail_small"
                         :height="45"
-                        :max-width="70"
+                        :maxWidth="70"
                         eager
                         contain
-                        @error.prevent
-                      ></v-img>
+                      />
                     </v-col>
                     <!-- title -->
                     <v-col
@@ -51,7 +54,7 @@
                     </v-col> -->
                   </v-row>
               </v-hover>
-            </div>
+            </v-lazy>
           </v-list-item>
         </v-fade-transition>
       </v-list-item-group>
@@ -59,10 +62,9 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import thumb from '@/mixin/thumbnail'
+import imgObj from '../imgObject'
 
 export default {
-  mixins: [ thumb ],
   props: {
     theme: String,
     maxHeight: Number,
@@ -74,6 +76,9 @@ export default {
   computed: {
     ...mapState(["searchData"]),
   },
+  components: {
+    imgObj
+  }
 }
 </script>
 <style lang="scss" src="@/components/options/scss/scroller.scss">
