@@ -12,7 +12,11 @@
             :key="index"
             :ripple="false"
           >
-            <div v-if="index">
+            <v-lazy
+              style="width: 100%"
+              min-height="50"
+              :options="{threshold: .3}"
+            >
               <v-hover #default="{ hover }">
                   <v-row
                     dense
@@ -51,7 +55,7 @@
                     </v-col> -->
                   </v-row>
               </v-hover>
-            </div>
+            </v-lazy>
           </v-list-item>
         </v-fade-transition>
       </v-list-item-group>

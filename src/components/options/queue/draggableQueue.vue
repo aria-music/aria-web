@@ -13,7 +13,11 @@
         :key="index"
         class="ma-0 pa-0"
       >
-        <div v-if="index < lazy">
+        <v-lazy
+          style="width: 100%"
+          min-height="50"
+          :options="{threshold: .3}"
+        >
           <v-fade-transition mode="out-in">
             <v-hover v-slot="{ hover }">
               <div>
@@ -65,7 +69,7 @@
               </div>
             </v-hover>
           </v-fade-transition>
-        </div>
+        </v-lazy>
       </div>
     </draggable>
   </v-card>
@@ -73,12 +77,11 @@
 <script>
 import draggable from 'vuedraggable'
 import funcbtn from '../btns/functional'
-import lazy from '@/mixin/lazy'
 import thumb from '@/mixin/thumbnail'
 import { isXs } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ lazy, thumb, isXs ],
+  mixins: [ thumb, isXs ],
   props: {
     theme: String,
     size: Object
@@ -96,9 +99,6 @@ export default {
     isDark() {
       return this.$vuetify.theme.dark
     },
-  },
-  mounted() {
-    this.lazyload(this.queue)
   },
   components: {
     draggable,

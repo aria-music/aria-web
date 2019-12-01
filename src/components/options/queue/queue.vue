@@ -15,7 +15,10 @@
           :ripple="false"
           class="pa-0"
         >
-          <div v-if="index < lazy">
+          <v-lazy
+            min-height="40"
+            :options="{threshold: .3}"
+          >
             <v-hover #default="{ hover }">
                 <v-row
                   dense
@@ -85,7 +88,7 @@
                   </v-col>
                 </v-row>
             </v-hover>
-          </div>
+          </v-lazy>
         </v-list-item>
       </v-fade-transition>
     </v-list-item-group>
@@ -96,12 +99,11 @@ import { mapState } from 'vuex'
 import lovebtn from '../btns/love'
 import deletebtn from '../btns/delete'
 import infobtn from '../btns/info'
-import lazy from '@/mixin/lazy'
 import thumb from '@/mixin/thumbnail'
 import { isSmAndUp } from '@/mixin/breakpoint'
 
 export default {
-  mixins: [ lazy, thumb, isSmAndUp ],
+  mixins: [ thumb, isSmAndUp ],
   props: {
     maxHeight: {
       type: Number,
@@ -123,9 +125,6 @@ export default {
   },
   computed: {
     ...mapState(["queue"]),
-  },
-  mounted() {
-    this.lazyload(this.queue)
   },
   components: {
     lovebtn,
