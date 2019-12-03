@@ -69,7 +69,7 @@
     <v-divider></v-divider>
     <div style="height: 100%">
       <ariaQueue
-        :maxHeight="maxHeight"
+        :height="height"
         :width="maxWidth"
         :imgWidth="imgWidth"
         :theme="theme"
@@ -106,10 +106,6 @@ export default {
   },
   computed: {
     ...mapState(["playingData", "playingTitle", "theme"]),
-    maxHeight() {
-      const height = this.height
-      return (height - 500) < 450 ? height - 500 : 450
-    },
     maxWidth() {
       return this.isXs ? 250 : 500
     },
