@@ -1,31 +1,31 @@
 <template>
   <v-list
-    :max-height="maxHeight"
-    :min-height="200"
+    :height="queueHeight"
     :max-width="width"
     style="overflow: auto"
-    class="py-0 scroller"
+    class="py-0"
     dense
   >
-    <v-list-item-group>
-      <v-fade-transition group>
+    <perfect-scrollbar>
+      <v-list-item-group>
         <v-list-item
           v-for="(item, index) in queue"
           :key="index"
           :ripple="false"
           class="pa-0"
+          style="width: 99%"
         >
-          <v-lazy
-            style="width: 100%"
-            min-height="40"
-            :options="{threshold: .3}"
-          >
-            <v-hover #default="{ hover }">
+          <v-fade-transition>
+            <v-lazy
+              style="width: 100%"
+              min-height="40"
+              :options="{threshold: .3}"
+            >
+              <v-hover #default="{ hover }">
                 <v-row
                   dense
                   class="ma-0"
                   style="height: 40px"
-                  :style="{width: `${width-1}px`}"
                 >
                   <!-- thumnail -->
                   <v-col
@@ -87,11 +87,12 @@
                     </div>
                   </v-col>
                 </v-row>
-            </v-hover>
-          </v-lazy>
+              </v-hover>
+            </v-lazy>
+          </v-fade-transition>
         </v-list-item>
-      </v-fade-transition>
-    </v-list-item-group>
+      </v-list-item-group>
+    </perfect-scrollbar>
   </v-list>
 </template>
 <script>
@@ -105,7 +106,7 @@ import { isSmAndUp } from '@/mixin/breakpoint'
 export default {
   mixins: [ isSmAndUp ],
   props: {
-    maxHeight: {
+    height: {
       type: Number,
       required: true,
     },
@@ -125,6 +126,9 @@ export default {
   },
   computed: {
     ...mapState(["queue"]),
+    queueHeight() {
+      return (this.height - 340) / 2
+    }
   },
   components: {
     lovebtn,
@@ -134,4 +138,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" src="@/components/options/scss/scroller.scss">

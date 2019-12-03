@@ -9,15 +9,16 @@
       <v-list
         v-if="isContentsExist"
         :height="size.height - 201"
-        class="scroller"
         style="overflow: auto"
       >
+      <perfect-scrollbar>
         <v-list-item-group>
           <v-fade-transition group>
             <v-list-item
               v-for="(item, index) in listContents"
               :key="index"
               :ripple="false"
+              style="width: 99%"
               class="pa-0"
             >
               <v-lazy
@@ -34,12 +35,11 @@
                     <v-hover #default="{ hover }">
                       <div
                         class="ma-0 pa-0"
-                        style="width: 100%"
                       >
                         <v-row
                           no-gutters
                           class="ma-0"
-                          style="height: 50px; width: 100%;"
+                          style="height: 50px"
                           align="center"
                           v-on="on"
                         >
@@ -83,6 +83,7 @@
             </v-list-item>
           </v-fade-transition>
         </v-list-item-group>
+        </perfect-scrollbar>
       </v-list>
       <div
         v-else
@@ -143,4 +144,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" src="@/components/options/scss/scroller.scss">
