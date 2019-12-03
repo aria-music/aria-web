@@ -3,6 +3,7 @@ pull_request_rules:
     conditions:
       - author=@web
       - status-success=build
+      - label!=do not merge
     actions:
       merge:
         method: squash
