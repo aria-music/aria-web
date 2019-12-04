@@ -2,10 +2,14 @@ pull_request_rules:
   - name: merge when build passes
     conditions:
       - author=@web
+      - "#review-requested=0"
       - status-success=build
       - label!=do not merge
     actions:
       merge:
         method: squash
         strict: true
-      delete_head_branch:
+  - name: delete branch when pr is merged
+    conditions: []
+    actions:
+      delete_head_branch: {}
