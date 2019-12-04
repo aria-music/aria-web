@@ -3,16 +3,15 @@ import AudioWorker from 'worker-loader!@/../public/opus/audio.worker.js'
 /**
  * core instance of aria audio
  *
- * @param volume
  * @returns {audioCore}
  * @constructor
  */
-export const audioCore = function(volume){
+export const audioCore = function(){
 
   this.context
   this.GainNode
   this.playing = 0
-  this.volume = volume || 100
+  this.volume = 100
   this.buf
   this.leftchannel
   this.rightchannel
