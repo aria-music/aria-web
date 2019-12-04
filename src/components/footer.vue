@@ -158,8 +158,7 @@ export default {
   },
 	methods: {
 		initVolume() {
-			if (localStorage.volume !== undefined)
-				this.volume.value = JSON.parse(localStorage.volume)
+			this.volume.value = this.$store.state.volume
 		},
 		playAndPause() {
 			if(this.nowState == "paused")
