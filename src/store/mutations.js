@@ -56,8 +56,10 @@ export default {
   },
   setVolume(state, volume) {
     localStorage.volume = volume
-    state.volume = volume
     state.aria.changeVolume(volume)
+  },
+  _setVolume(state, volume) {
+    state.volume = volume
   },
   storeWebSoketObj(state, wsObj) {
     state.ws = wsObj
