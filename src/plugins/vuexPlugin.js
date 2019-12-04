@@ -16,6 +16,8 @@ export const webSocketPlugin = function () {
 
     socket.connectWs(store)
     store.subscribe((mutation, state) => {
+      let volumeChach = 0
+
       switch (mutation.type) {
         case 'changeAddr':
           if (!mutation.payload.indexOf('wss://') || !mutation.payload.indexOf('ws://'))
@@ -24,11 +26,12 @@ export const webSocketPlugin = function () {
         case 'setVolume':
           if (mutation.payload === 0)
             aria.awPost({ op: 'kill' })
-          else if (state.volume === 0)
+          else if (volumeChach === 0)
             aria.awPost({ op: 'connect', key: socket.session_key })
+
+          volumeChach = state.volume
           break
         default:
-
       }
     })
   }
