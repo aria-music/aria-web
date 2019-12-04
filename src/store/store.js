@@ -5,9 +5,6 @@ import { sendJson, stateContainer, playlistContainer } from './container'
 
 Vue.use(Vuex)
 const aria = new audioCore()
-// const FRAME_SIZE = 960
-// const FLUSH_SIZE = FRAME_SIZE * 10
-// const FLUSH_PACKET_SIZE = FLUSH_SIZE * 2
 
 let session_key
 
