@@ -40,7 +40,7 @@ export const audioCore = function(volume){
   }
 }
 
-export const refreshBuffer = function (core, packet_length) {
+const refreshBuffer = function (core, packet_length) {
   // console.log(`packet length ${packet_length}`)
   core.buf = core.context.createBuffer(2, packet_length / 2, 48000)
   core.leftchannel = core.buf.getChannelData(0)
@@ -51,7 +51,7 @@ export const refreshBuffer = function (core, packet_length) {
   core.offset = 0
 }
 
-export const queueAudio = function(core, msg) {
+const queueAudio = function(core, msg) {
   if (msg.len === 0)
     return
 
@@ -71,19 +71,19 @@ export const queueAudio = function(core, msg) {
   // refreshBuffer()
 }
 
-export const _resetAudio = function(core) {
+const _resetAudio = function(core) {
   // console.log("resetAudio")
   core.context.close()
   initiateAudioContext(core)
 }
 
-export const _changeVolume = function(core, newValue) {
+const _changeVolume = function(core, newValue) {
   // console.log("changeVolume")
   core.volume = newValue
   core.GainNode.gain.value = newValue / 100
 }
 
-export const initiateAudioContext = function(core) {
+const initiateAudioContext = function(core) {
   core.context = new (window.AudioContext || window.webkitAudioContext)()
   core.GainNode = core.context.createGain()
   core.GainNode.gain.value = core.volume / 100
