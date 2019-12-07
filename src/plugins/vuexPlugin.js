@@ -27,7 +27,7 @@ export const webSocketPlugin = function () {
           else if (state.volume === 0)
             aria.awPost({ op: 'connect', key: socket.session_key })
 
-          store.commit('_setVolume', mutation.payload)
+          state.volume = mutation.payload
           break
         default:
       }
