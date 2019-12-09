@@ -18,7 +18,7 @@
                 :options="{threshold: .3}"
               >
                 <v-hover #default="{ hover }">
-                    <v-row dense>
+                    <v-row dense @click="play(item)">
                       <!-- thumnail -->
                       <v-col
                         :cols="2"
@@ -62,8 +62,10 @@
 <script>
 import { mapState } from 'vuex'
 import imgObj from '../imgObject'
+import toaster from '@/mixin/toast'
 
 export default {
+  mixins: [ toaster ],
   props: {
     theme: String,
     maxHeight: Number,
@@ -74,6 +76,12 @@ export default {
   }),
   computed: {
     ...mapState(["searchData"]),
+  },
+  methods: {
+    play(item) {
+      this.$store.dispatch("sendAsQueue", item.uri)
+      this.toast(item.title, { color: "teal derken-1" })
+    }
   },
   components: {
     imgObj
