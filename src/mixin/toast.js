@@ -3,7 +3,7 @@ export default {
     toast(message, options = {}) {
       if(!message) return
 
-      let defualt = {}
+      let defualt = Object.assign({}, options)
 
       if(options){
         defualt.icon = options.icon || "fas fa-plus"
