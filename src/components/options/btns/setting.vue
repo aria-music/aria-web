@@ -1,5 +1,6 @@
 <template>
 	<v-menu
+		v-model="active"
 		transition="slide-y-transition"
 		bottom
 		left
@@ -66,6 +67,7 @@ export default {
 		subheader: "KANARI VERY FAST",
 		selectTheme: false,
 		shouldClose: true,
+		active: false,
 		pianoTimer: null,
 		pianoCount: 0
 	}),
@@ -81,11 +83,27 @@ export default {
 					break
 				case "no":
 					this.shouldClose = false
+					--this.pianoCount
 					if (this.pianoTimer) {
-						++this.pianoCount
-						if (this.pianoCount > 3) {
+						if (!this.pianoCount) {
 							this.resetPianoCount()
+							this.active = false
+							this.toast(
+								"これでピアノになりました！",
+								{
+									position: "top-center",
+									icon: "fab fa-github"
+								}
+							)
 							this.$router.push({ name: "piano" })
+						} else if(this.pianoCount < 3) {
+							this.toast(
+								`ピアノまであと ${this.pianoCount} ステップです`,
+								{
+									position: "top-center",
+									icon: "plus_one"
+								}
+							)
 						}
 					} else {
 						this.pianoTimer = setTimeout(() => {
@@ -98,7 +116,7 @@ export default {
 			}
 		},
 		resetPianoCount() {
-			this.pianoCount = 0
+			this.pianoCount = 5
 			clearTimeout(this.pianoTimer)
 			this.pianoTimer = null
 		},
@@ -107,12 +125,16 @@ export default {
 		},
 		initAudioContext() {
 			this.$store.dispatch('initAudio')
-      this.toast('Audio Reloaded!', {
-				icon: "fas fa-sync",
-				color: "light-green accent-4",
-			})
+            this.toast(
+                'Audio Reloaded!',
+                {
+                    icon: "fas fa-sync",
+                    color: "light-green accent-4",
+                }
+            )
 		},
 	},
+	created: function() { this.resetPianoCount() },
 	components: {
 		themeSelector,
 		version
