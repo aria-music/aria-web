@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "npm run build"
+    "test": "npm run build",
+    "netlify": "npm install && npm run build"
   },
   "dependencies": {
     "@mnsinri/vue-toasted": "^1.1.35",
