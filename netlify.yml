@@ -1,0 +1,10 @@
+build:
+  publish: dist
+  command: npm run build
+  environment:
+    NODE_VERSION: "12.8.0"
+
+redirects:
+- from: /*
+  to: /
+  status: 200
