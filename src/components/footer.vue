@@ -178,7 +178,7 @@ export default {
 			}
 		},
 		setHanderForMediaSession() {
-			navigator.mediaSession.setActionHandler('play', function () { this.$store.dispatch('sendAsPause') });
+			navigator.mediaSession.setActionHandler('play', function () { this.$store.dispatch('sendAsResume') });
 			navigator.mediaSession.setActionHandler('pause', function () { this.$store.dispatch('sendAsPause') });
 			navigator.mediaSession.setActionHandler('seekforward', function () { this.skip() });
 		},
@@ -202,7 +202,7 @@ export default {
 		},
 		playAndPause() {
 			if(this.nowState == "paused")
-				this.$store.dispatch('sendAsPause')
+				this.$store.dispatch('sendAsResume')
       else
 				this.$store.dispatch('sendAsPause')
 		},
