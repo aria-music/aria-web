@@ -1,8 +1,9 @@
 <template>
-  <v-list
-    :max-height="maxHeight"
-    :max-width="maxWidth"
-    style="overflow: auto"
+  <div>
+    <v-list
+      :max-height="maxHeight"
+      :max-width="maxWidth"
+      style="overflow: auto"
     >
       <perfect-scrollbar>
         <v-list-item-group>
@@ -18,7 +19,7 @@
                 :options="{threshold: .3}"
               >
                 <v-hover #default="{ hover }">
-                    <v-row dense @click="play(item)">
+                    <v-row dense>
                       <!-- thumnail -->
                       <v-col
                         :cols="2"
@@ -58,6 +59,13 @@
         </v-list-item-group>
       </perfect-scrollbar>
     </v-list>
+    <v-pagination
+      v-model="page"
+      :length="10"
+      :color="theme"
+      total-visible="7"
+    ></v-pagination>
+  </div>
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -72,7 +80,7 @@ export default {
     maxWidth: Number
   },
   data: () => ({
-    //
+    page: 1,
   }),
   computed: {
     ...mapState(["searchData"]),
