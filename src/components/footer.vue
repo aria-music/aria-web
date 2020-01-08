@@ -171,16 +171,16 @@ export default {
 					title: metadataObj.title,
 					artist: metadataObj.artist,
 					album: metadataObj.album,
-					artwork: [
-						{ src: metadataObj.thumbnail },
-					]
+					artwork: metadataObj.thumbnail
 				});
 			}
 		},
 		setHanderForMediaSession() {
-			navigator.mediaSession.setActionHandler('play', function () { this.$store.dispatch('sendAsResume') });
-			navigator.mediaSession.setActionHandler('pause', function () { this.$store.dispatch('sendAsPause') });
-			navigator.mediaSession.setActionHandler('seekforward', function () { this.skip() });
+			if ('mediaSession' in navigator) {
+				navigator.mediaSession.setActionHandler('play', function () { this.$store.dispatch('sendAsResume') });
+				navigator.mediaSession.setActionHandler('pause', function () { this.$store.dispatch('sendAsPause') });
+				navigator.mediaSession.setActionHandler('seekforward', function () { this.skip() });
+			}
 		},
 		createMediaSessionObj() {
 			let obj = Object.assign({}, this.mediaMetadataObj)
