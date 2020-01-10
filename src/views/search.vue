@@ -26,7 +26,6 @@
               ></v-list-item-title>
               <v-list-item-subtitle>
                 <v-chip-group
-                  multiple
                   :active-class="theme"
                 >
                   <v-chip
@@ -52,12 +51,12 @@
       :color="theme"
     >
       <v-card
+        class="pt-2"
         :height="size.height - 280"
       >
         <searchList
           :theme="theme"
-          :maxHeight="maxHeight"
-          :maxWidth="700"
+          :height="height"
         />
       </v-card>
     </v-card>
@@ -71,6 +70,7 @@ const tags = [
   {tag: "GPM", icon: "fab fa-google-play"},
   {tag: "Playlist", icon: "fas fa-list"},
 ]
+
 export default {
   components: {
     searchList
@@ -86,9 +86,12 @@ export default {
     searchItem() {
       return decodeURIComponent(this.$route.params.item)
     },
-    maxHeight() {
-      return this.size.height - 300
+    height() {
+      return this.size.height - 350
     },
   },
+  mounted() {
+    //
+  }
 }
 </script>

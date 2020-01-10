@@ -20,6 +20,7 @@
               :ripple="false"
               style="width: 99%"
               class="pa-0"
+              inactive
             >
               <v-lazy
                 style="width: 100%"
