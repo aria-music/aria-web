@@ -127,6 +127,12 @@ export default {
 			icon: "volume_up"
 		},
 		interval: null,
+		mediaMetadataObj: {
+			title: "",
+			artist: "",
+			album: "",
+			thumbnail: ""
+		}
 	}),
 	computed: {
 		...mapState(["nowState", "playingData", "playingTitle", "theme"]),
@@ -145,11 +151,13 @@ export default {
       this.nowTime = this.countTime * this.playingData.position * 10
 			if(val == 'playing')
 				this.toast(this.playingData.title, { icon: "fas fa-play" })
+			this.updateMediaSession(this.createMediaSessionObj())
     },
 	},
 	mounted(){
 		this.setIntervalForSeekbar()
 		this.initVolume()
+		this.setHanderForMediaSession()
 		window.addEventListener('keydown', this.keyEvents)
 	},
 	beforeDestroy() {
@@ -157,6 +165,38 @@ export default {
 		window.removeEventListener('keydown', this.keyEvents)
   },
 	methods: {
+		updateMediaSession(metadataObj) {
+			if ('mediaSession' in navigator) {
+				navigator.mediaSession.metadata = new MediaMetadata({
+					title: metadataObj.title,
+					artist: metadataObj.artist,
+					album: metadataObj.album,
+					artwork: metadataObj.thumbnail
+				});
+			}
+		},
+		setHanderForMediaSession() {
+			if ('mediaSession' in navigator) {
+				navigator.mediaSession.setActionHandler('play', function () { this.$store.dispatch('sendAsResume') });
+				navigator.mediaSession.setActionHandler('pause', function () { this.$store.dispatch('sendAsPause') });
+				navigator.mediaSession.setActionHandler('seekforward', function () { this.skip() });
+			}
+		},
+		createMediaSessionObj() {
+			let obj = Object.assign({}, this.mediaMetadataObj)
+			const playingData = Object.assign({}, this.playingData)
+
+			if(playingData.entry){
+				obj.title = playingData.entry.title
+				obj.artist = playingData.entry.artist
+				obj.album = playingData.entry.album
+			}else{
+				obj.title = playingData.title
+			}
+			obj.thumbnail = playingData.thumbnail
+
+			return obj
+		},
 		initVolume() {
 			this.volume.value = this.$store.state.volume
 		},
