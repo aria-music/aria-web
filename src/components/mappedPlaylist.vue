@@ -45,7 +45,6 @@
       <v-card
         v-if="!view"
         elevation="1"
-        shaped
         max-width="100"
         class="mt-1 pl-2 text-truncate font-weight-medium"
         style=""

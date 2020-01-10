@@ -20,6 +20,7 @@
               :ripple="false"
               style="width: 99%"
               class="pa-0"
+              inactive
             >
               <v-lazy
                 style="width: 100%"
@@ -65,11 +66,12 @@
                               :songData="item"
                               :playlistName="playlistName"
                               :show="hover || isXs"
+                              :white="isDark"
+                              :theme="theme"
                               playNext
                               playNow
                               removeList
-                              :white="isDark"
-                              :theme="theme"
+                              addList
                             />
                           </v-col>
                         </v-row>

@@ -46,6 +46,7 @@
 </template>
 <script>
 import listSelector from '@/components/options/playlistSelectDialog'
+import toaster from '@/mixin/toast'
 
 const LIKE = { content: 'like', text: 'Like',  icon: 'fas fa-heart' }
 const ADDLIST = { content: 'addList', text: 'Add to Playlist', icon: 'fas fa-plus' }
@@ -57,6 +58,7 @@ const SKIP = { content: 'skip', text: 'Skip', icon: 'fas fa-forward' }
 // const INFO = { content: 'info', text: 'Info', icon: 'fas fa-info-circle' }
 
 export default {
+  mixins: [ toaster ],
   props: {
     show: Boolean,
     like: Boolean,
@@ -111,10 +113,10 @@ export default {
           this._removeQueue(this.songData.uri, this.index)
           break
         case 'playNext':
-          this._playnext(this.songData.uri)
+          this._playnext(this.songData)
           break
         case 'playNow':
-          this._playnow(this.songData.uri)
+          this._playnow(this.songData)
           break
         case 'removeList':
           if(this.playlistName) this._removeList(this.playlistName, this.songData.uri)
@@ -133,13 +135,13 @@ export default {
     _removeQueue(uri, index) {
       this.$store.dispatch('sendAsRemoveFromQueue', {uri: uri, index: index})
     },
-    _playnext(uri) {
-      this.$store.dispatch('sendAsQueueToHead', uri)
-      // this.toaster(songData.title)
+    _playnext(data) {
+      this.$store.dispatch('sendAsQueueToHead', data.uri)
+      this.toast(data.title, { color: 'indigo darken-1' })
     },
-    _playnow(uri) {
-      this.$store.dispatch('sendAsPlay', uri)
-      // this.toaster(songData.title)
+    _playnow(data) {
+      this.$store.dispatch('sendAsPlay', data.uri)
+      this.toast(data.title, { color: 'blue darken-1' })
     },
     _removeList(name, uri) {
       this.$store.dispatch('sendAsRemoveFromPlaylist', { playlistName: name, removeUri: uri })
