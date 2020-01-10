@@ -25,9 +25,7 @@
                 v-text="searchItem"
               ></v-list-item-title>
               <v-list-item-subtitle>
-                <v-chip-group
-                  :active-class="theme"
-                >
+                <v-chip-group :active-class="theme">
                   <v-chip
                     v-for="(chip, index) in tags"
                     :key="index"

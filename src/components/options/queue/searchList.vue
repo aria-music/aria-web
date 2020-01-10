@@ -24,6 +24,7 @@
                       <v-row dense>
                         <!-- thumnail -->
                         <v-col
+                          @click="play(item)"
                           :cols="11"
                           class="py-0 d-flex align-center"
                         >

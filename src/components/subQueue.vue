@@ -31,18 +31,25 @@
             :cols="isXs ? 2 : 1"
             class="align-self-end"
           >
-            <!-- functional btn -->
-            <funcbtn
-              :show="hover || isXs"
-              :songData="playingData"
-              :theme="theme"
-              white
-              addList
-              skip
-              like
-            />
+            <v-fade-transition>
+              <v-btn
+                dark
+                icon
+                small
+                class="ma-0"
+                @click="dialog = !dialog"
+                v-show="hover || isXs"
+              >
+                <v-icon small>fas fa-plus</v-icon>
+              </v-btn>
+            </v-fade-transition>
           </v-col>
         </v-row>
+        <listSelector
+          :show="dialog"
+          :song="playingData"
+          :theme="theme"
+        />
       </v-img>
     </v-hover>
 
@@ -80,7 +87,7 @@
 <script>
 import { mapState } from 'vuex'
 import ariaQueue from './options/queue/queue'
-import funcbtn from './options/btns/functional'
+import listSelector from '@/components/options/playlistSelectDialog'
 import thumb from '@/mixin/thumbnail'
 import { isXs, isSmAndUp } from '@/mixin/breakpoint'
 
@@ -94,13 +101,16 @@ export default {
   },
   components: {
     ariaQueue,
-    funcbtn,
+    listSelector
   },
   watch: {
     'playingData.thumbnail': function(src) {
       this.checkSrc(src);
     }
   },
+  data:() => ({
+    dialog: false,
+  }),
   mounted() {
     this.checkSrc(this.playingData.thumbnail)
   },
