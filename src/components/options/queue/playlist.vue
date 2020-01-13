@@ -108,7 +108,6 @@ export default {
     playlistName: String,
     listContents: Array,
     isContentsExist: Boolean,
-    searchValue: String
   },
   data: () => ({
     contents: [],
@@ -118,14 +117,6 @@ export default {
       return this.$vuetify.theme.dark
     },
   },
-  // watch: {
-  //   searchValue: function(searchValue){
-  //     const list = this.listContents.slice()
-  //     this.contents = list.filter(value => {
-  //       return value.title.toLowerCase().indexOf(searchValue) !== -1
-  //     })
-  //   }
-  // },
   methods: {
     play(item) {
       this.$store.dispatch("sendAsQueue", item.uri)

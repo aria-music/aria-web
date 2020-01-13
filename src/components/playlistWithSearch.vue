@@ -46,7 +46,7 @@ export default {
   methods: {
     sortPlaylist(searchValue) {
       this.playlistContents = this.cacheList.filter(value => {
-        return value.title.toLowerCase().indexOf(searchValue) !== -1
+        return value.title.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
       })
     },
     setListContents() {
