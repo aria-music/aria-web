@@ -20,8 +20,8 @@
           maxlength="30"
           ref="field"
           :color="theme"
-          @focus="isFocus = true"
-          @blur="isFocus = false"
+          @focus="focused"
+          @blur="blured"
         ></v-text-field>
       </v-card-text>
       <v-divider class="mx-3"></v-divider>
@@ -80,6 +80,14 @@ export default {
 				this.close()
 			}
     },
+    focused() {
+      this.isFocus = true
+      this.$store.commit('removeEvents')
+    },
+    blured() {
+      this.isFocus = false
+      this.$store.commit('addEvents')
+    }
   }
 }
 </script>
