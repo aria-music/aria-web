@@ -113,7 +113,6 @@ export default {
 			type: Object,
 			required: true
 		},
-		isFocus: Boolean
 	},
 	components: {
 		lovebtn,
@@ -135,7 +134,7 @@ export default {
 		}
 	}),
 	computed: {
-		...mapState(["nowState", "playingData", "playingTitle", "theme"]),
+		...mapState(["nowState", "playingData", "playingTitle", "theme", "stopEvents"]),
     countTime() {
       return 10 / this.playingData.duration
     },
@@ -153,6 +152,12 @@ export default {
 				this.toast(this.playingData.title, { icon: "fas fa-play" })
 			// this.updateMediaSession(this.createMediaSessionObj())
     },
+		stopEvents: function(stopEvents) {
+			if(stopEvents)
+				window.removeEventListener('keydown', this.keyEvents)
+			else
+				window.addEventListener('keydown', this.keyEvents)
+		}
 	},
 	mounted(){
 		this.setIntervalForSeekbar()
@@ -266,7 +271,6 @@ export default {
 				this.volume.value = 0
 		},
 		keyEvents(event) {
-			if(this.isFocus) return true
 			switch(event.keyCode) {
 				case 32: //space
 					event.preventDefault()

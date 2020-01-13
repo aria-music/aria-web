@@ -5,10 +5,10 @@
     :color="theme"
   >
     <v-card max-height="100%">
-      <!-- -201... -->
+      <!-- -255... -->
       <v-list
         v-if="isContentsExist"
-        :height="size.height - 201"
+        :height="size.height - 295"
         style="overflow: auto"
       >
       <perfect-scrollbar>
@@ -46,7 +46,7 @@
                         >
                           <v-col :cols="isXs ? 2 : 1">
                             <imgObj
-                              :src="item.thumbnail_small"
+                              :src="isXs ? item.thumbnail_small : item.thumbnail"
                               :height="45"
                               contain
                               class="ml-1"
@@ -105,40 +105,32 @@ export default {
   props: {
     theme: String,
     size: Object,
-    playlistName: String
+    playlistName: String,
+    listContents: Array,
+    isContentsExist: Boolean,
+    searchValue: String
   },
-  watch: {
-    hover: function(){
-      this.$emit()
-    }
-  },
+  data: () => ({
+    contents: [],
+  }),
   computed: {
-    listContents() {
-      const entries = this.$store.state.focusedPlaylist.entries
-      return entries ? [...entries] : []
-    },
-    isContentsExist() {
-      return this.listContents.length > 0
-    },
     isDark() {
       return this.$vuetify.theme.dark
     },
-    thumbnail() {
-      const list = [...this.listContents]
-      if(!list.length) return ""
-
-      const index = list.findIndex(entry => entry.thumbnail != "")
-      return list[index].thumbnail
-    },
   },
+  // watch: {
+  //   searchValue: function(searchValue){
+  //     const list = this.listContents.slice()
+  //     this.contents = list.filter(value => {
+  //       return value.title.toLowerCase().indexOf(searchValue) !== -1
+  //     })
+  //   }
+  // },
   methods: {
     play(item) {
       this.$store.dispatch("sendAsQueue", item.uri)
       this.toast(item.title, { color: "pink derken-1" })
-    }
-  },
-  mounted() {
-    this.$emit('thumb', this.thumbnail)
+    },
   },
   components: {
     funcbtn,
