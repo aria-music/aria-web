@@ -53,10 +53,10 @@
 </template>
 <script>
 import titleView from '@/components/options/title'
-import playlist from '@/components/options/queue/playlist'
 import deleteBtn from '@/components/options/btns/delete'
 import toaster from '@/mixin/toast'
 import { isSmAndDown } from '@/mixin/breakpoint'
+import playlist from '@/components/playlistWithSearch'
 
 export default {
   mixins: [ isSmAndDown, toaster ],
@@ -89,15 +89,15 @@ export default {
     },
     fetchThumb(thumb) {
       this.thumbnail = thumb
-    }
+    },
   },
   beforeDestroy() {
     this.$store.commit('initFocus')
   },
   components: {
     titleView,
-    playlist,
-    deleteBtn
+    deleteBtn,
+    playlist
   }
 }
 </script>

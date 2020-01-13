@@ -19,6 +19,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+
 export default {
   props: {
 		size: {
@@ -28,6 +29,6 @@ export default {
   },
   computed: {
     ...mapState(["theme"])
-  }
+  },
 }
 </script>

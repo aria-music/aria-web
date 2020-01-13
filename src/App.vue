@@ -13,7 +13,6 @@
     </v-scroll-y-reverse-transition>
     <AriaHeader
       :width="size.width"
-      @focused="focus"
     />
     <v-content>
       <mainContainer
@@ -23,7 +22,6 @@
     </v-content>
     <AriaFooter
       :size="size"
-      :isFocus="isFocus"
     />
   </v-app>
 </template>
@@ -54,7 +52,6 @@ export default {
       width: 0,
       height: 0,
     },
-    isFocus: false
   }),
   methods: {
     setSize() {
@@ -64,9 +61,6 @@ export default {
     closeSubQueue() {
       this.$store.commit('closeSubQueue')
     },
-    focus(isFocus) {
-      this.isFocus = isFocus
-    }
   },
   directives: {
     clickOutside

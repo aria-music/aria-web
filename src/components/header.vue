@@ -71,25 +71,33 @@ export default {
 		isFocus: false,
 	}),
 	computed: {
-		...mapState(["theme"]),
+		...mapState(["theme", "stopEvents"]),
 	},
 	components: {
 		setting
 	},
 	watch: {
 		isFocus: function(focused) {
-			if(focused)
+			if(focused){
 				this.Width = "200"
-			else
+				this.$store.commit('removeEvents')
+			}else{
 				this.Width = "25"
-			this.$emit('focused', focused)
+				this.$store.commit('addEvents')
+			}
+		},
+		stopEvents: function(stopEvents) {
+			if(stopEvents)
+				window.removeEventListener('keydown', this.keyEvents)
+			else
+				window.addEventListener('keydown', this.keyEvents)
 		}
 	},
 	mounted() {
 		window.addEventListener('keydown', this.keyEvents)
 	},
 	beforeDestroy() {
-		window.addEventListener('keydown', this.keyEvents)
+		window.removeEventListener('keydown', this.keyEvents)
 	},
 	methods: {
 		search() {
@@ -119,11 +127,11 @@ export default {
 					event.preventDefault()
 					this.pushToHome()
 					break
-				case 83: //'s' key
-					if(this.isFocus) return false
-					event.preventDefault()
-					this.$refs.searchbox.focus()
-					break
+				// case 83: //'s' key
+				// 	if(this.isFocus) return false
+				// 	event.preventDefault()
+				// 	this.$refs.searchbox.focus()
+				// 	break
 			}
 		}
 	}

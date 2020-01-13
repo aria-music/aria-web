@@ -142,7 +142,7 @@ export default {
         if(newPlaylist.name == this.focusedName){
           this.$router.push({ name: 'playlist-contents', params: { name: newPlaylist.name } })
         }
-      }, 1000)
+      }, 0)
     }
   },
 }

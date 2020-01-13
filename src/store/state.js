@@ -8,6 +8,7 @@ export default {
   playingTitle: "",
   nowState: "paused",
   queue: [],
+  stopEvents: false,
   subQueue: false,
   playlists: playlistContainer,
   focusedPlaylist: {},
