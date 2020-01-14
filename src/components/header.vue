@@ -102,7 +102,6 @@ export default {
 	methods: {
 		search() {
 			this.canSearch = false
-			this.$store.dispatch('sendAsSearch', {text: this.text, provider: 'gpm'})
 			this.$router.push({name: 'search', params: {item: this.text}})
 			this.text = ""
     },
@@ -127,11 +126,11 @@ export default {
 					event.preventDefault()
 					this.pushToHome()
 					break
-				// case 83: //'s' key
-				// 	if(this.isFocus) return false
-				// 	event.preventDefault()
-				// 	this.$refs.searchbox.focus()
-				// 	break
+				case 83: //'s' key
+					if(this.isFocus) return false
+					event.preventDefault()
+					this.$refs.searchbox.focus()
+					break
 			}
 		}
 	}

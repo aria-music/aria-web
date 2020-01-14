@@ -9,11 +9,11 @@
         :height="isXs ? 150 : 200"
         gradient="rgba(200,200,200,.1), rgba(200,200,200,.1), rgba(25,25,25,.5)"
       >
-        <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
+        <v-card-text class="py-0 font-weight-midium white--text text-left">Playing:</v-card-text>
         <v-row class="title pl-4 pb-3 pt-1" no-gutters>
           <v-col
-            :cols="isXs ? 10 : 11"
-            class="text-truncate font-weight-midium white--text align-self-center"
+            cols="10"
+            class="text-truncate font-weight-midium white--text text-left"
             :class="{'subtitle-2': isXs}"
           >
             <v-tooltip
@@ -28,7 +28,7 @@
             </v-tooltip>
           </v-col>
           <v-col
-            :cols="isXs ? 2 : 1"
+            cols="2"
             class="align-self-end"
           >
             <v-fade-transition>

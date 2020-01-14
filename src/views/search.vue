@@ -22,13 +22,17 @@
             <v-list-item-content class="pt-3 pb-0">
               <v-list-item-title
                 class="headline font-weight-bold text-truncate"
-                v-text="searchItem"
+                v-text="searchQuery"
               ></v-list-item-title>
               <v-list-item-subtitle>
-                <v-chip-group :active-class="theme">
+                <v-chip-group
+                  :active-class="theme"
+                  v-model="focusedChip"
+                >
                   <v-chip
                     v-for="(chip, index) in tags"
                     :key="index"
+                    :value="chip.tag"
                     small
                   >
                     <v-icon
@@ -50,11 +54,12 @@
     >
       <v-card
         class="pt-2"
-        :height="size.height - 280"
+        :height="height"
       >
         <searchList
           :theme="theme"
-          :height="height"
+          :provider="focusedChip"
+          :height="height - 70"
         />
       </v-card>
     </v-card>
@@ -79,17 +84,28 @@ export default {
   },
   data: () => ({
     tags,
+    focusedChip: ""
   }),
+  watch: {
+    searchQuery: function(query){
+      this.search(query)
+    }
+  },
   computed: {
-    searchItem() {
+    searchQuery() {
       return decodeURIComponent(this.$route.params.item)
     },
     height() {
-      return this.size.height - 350
+      return this.size.height - 120
+    },
+  },
+  methods: {
+    search(query) {
+      this.$store.dispatch('sendAsSearch', {text: query, provider: 'gpm'})
     },
   },
   mounted() {
-    //
+    this.search(this.searchQuery)
   }
 }
 </script>

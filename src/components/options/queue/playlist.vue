@@ -1,14 +1,12 @@
 <template>
   <v-card
-    max-height="100%"
     class="pl-2"
     :color="theme"
   >
-    <v-card max-height="100%">
-      <!-- -255... -->
+    <v-card>
       <v-list
         v-if="isContentsExist"
-        :height="size.height - 295"
+        :height="height"
         style="overflow: auto"
       >
       <perfect-scrollbar>
@@ -116,6 +114,9 @@ export default {
     isDark() {
       return this.$vuetify.theme.dark
     },
+    height() {
+      return this.size.height - 145
+    }
   },
   methods: {
     play(item) {
