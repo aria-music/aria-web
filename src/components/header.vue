@@ -102,7 +102,7 @@ export default {
 	methods: {
 		search() {
 			this.canSearch = false
-			this.$router.push({name: 'search', params: {item: this.text}})
+			this.$router.push({name: 'search', query: {contents: this.text}})
 			this.text = ""
     },
 		checkMac() {

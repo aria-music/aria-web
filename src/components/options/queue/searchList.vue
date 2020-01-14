@@ -6,7 +6,7 @@
         style="overflow: auto"
         flat
       >
-        <perfect-scrollbar>
+        <perfect-scrollbar id="search-result">
           <v-list-item-group>
             <v-fade-transition group>
               <v-list-item
@@ -134,6 +134,7 @@ export default {
       this.searchResult = this.sortBy(provider)
     },
     sortBy(provider) {
+      document.querySelector('#search-result').scrollTop = 0
       if(provider){
         return this.searchData.filter(value => {
           return value.source == provider.toLowerCase()

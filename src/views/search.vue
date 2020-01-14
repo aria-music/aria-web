@@ -22,7 +22,7 @@
             <v-list-item-content class="pt-3 pb-0">
               <v-list-item-title
                 class="headline font-weight-bold text-truncate"
-                v-text="searchQuery"
+                v-text="searchContents"
               ></v-list-item-title>
               <v-list-item-subtitle>
                 <v-chip-group
@@ -84,28 +84,37 @@ export default {
   },
   data: () => ({
     tags,
-    focusedChip: ""
+    focusedChip: "",
+    searchContents: "",
   }),
   watch: {
-    searchQuery: function(query){
+    searchContents: function(query){
       this.search(query)
     }
   },
   computed: {
-    searchQuery() {
-      return decodeURIComponent(this.$route.params.item)
-    },
     height() {
       return this.size.height - 120
     },
   },
   methods: {
     search(query) {
-      this.$store.dispatch('sendAsSearch', {text: query, provider: 'gpm'})
+      this.$store.dispatch('sendAsSearch', {text: query})
     },
   },
   mounted() {
-    this.search(this.searchQuery)
+    this.search(this.searchContents)
+  },
+  beforeRouteEnter(to, from, next) {
+    if (Object.keys(to.query).length !== 0) {
+      next(vm => {
+        // if(to.query.name)
+        //   vm.playlistName = to.query.name
+        if(to.query.contents)
+          vm.searchContents = to.query.contents
+      })
+    }
+    next()
   }
 }
 </script>
