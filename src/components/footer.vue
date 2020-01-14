@@ -2,7 +2,7 @@
 	<v-footer
 		app
 		fixed
-		class="pa-0 d-flex"
+		class="pa-0"
 		height="65"
 	>
 		<!-- progress bar -->
@@ -90,6 +90,17 @@
 				@click="openSubQueue"
       >
         <v-icon>playlist_play</v-icon>
+				<v-scroll-y-reverse-transition>
+					<subQueue
+						v-if="subQueue"
+						v-click-outside="{
+							callback: closeSubQueue,
+							isOpen: subQueue
+						}"
+						style="position: fixed; z-index: 5; right: 1%; bottom: 75px;"
+						:height="size.height"
+					/>
+				</v-scroll-y-reverse-transition>
       </v-btn>
 		</div>
 	</v-footer>
@@ -99,6 +110,8 @@ import { mapState } from 'vuex'
 import lovebtn from './options/btns/love'
 import { isSmAndUp } from '@/mixin/breakpoint'
 import toaster from '@/mixin/toast'
+import subQueue from '@/components/subQueue'
+import clickOutside from '@/directives/click-outside'
 
 const LeftControlItems = [
 	{icon: "skip_next", content: "skip"},
@@ -108,6 +121,7 @@ const LeftControlItems = [
 
 export default {
 	mixins: [ isSmAndUp, toaster ],
+	directives: { clickOutside },
 	props: {
 		size: {
 			type: Object,
@@ -116,6 +130,7 @@ export default {
 	},
 	components: {
 		lovebtn,
+		subQueue
 	},
   data: () => ({
 		leftControlItems: LeftControlItems,
@@ -134,7 +149,7 @@ export default {
 		}
 	}),
 	computed: {
-		...mapState(["nowState", "playingData", "playingTitle", "theme", "stopEvents"]),
+		...mapState(["nowState", "playingData", "playingTitle", "theme", "stopEvents", "subQueue"]),
     countTime() {
       return 10 / this.playingData.duration
     },
@@ -211,6 +226,9 @@ export default {
       else
 				this.$store.dispatch('sendAsPause')
 		},
+		closeSubQueue() {
+      this.$store.commit('closeSubQueue')
+    },
 		controlFunc(content) {
 			switch(content) {
 				case "skip":

@@ -53,7 +53,12 @@ export default {
       this.dialog = true
     },
     dialog: function(val){
-      if(!val) this.close()
+      if(!val){
+        this.$store.commit('addEvents')
+        this.close()
+      }else{
+        this.$store.commit('removeEvents')
+      }
     }
   },
   methods: {
@@ -82,11 +87,9 @@ export default {
     },
     focused() {
       this.isFocus = true
-      this.$store.commit('removeEvents')
     },
     blured() {
       this.isFocus = false
-      this.$store.commit('addEvents')
     }
   }
 }

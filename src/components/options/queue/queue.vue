@@ -127,7 +127,7 @@ export default {
   computed: {
     ...mapState(["queue"]),
     queueHeight() {
-      return (this.height - 340) / 2
+      return (this.height - 150) / 2
     }
   },
   components: {

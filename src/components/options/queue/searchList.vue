@@ -6,11 +6,11 @@
         style="overflow: auto"
         flat
       >
-        <perfect-scrollbar>
+        <perfect-scrollbar id="search-result">
           <v-list-item-group>
             <v-fade-transition group>
               <v-list-item
-                v-for="(item, index) in searchData"
+                v-for="(item, index) in searchResult"
                 :key="index"
                 :ripple="false"
                 class="mr-3 px-0"
@@ -28,7 +28,10 @@
                           :cols="11"
                           class="py-0 d-flex align-center"
                         >
-                          <div style="width: 70px">
+                          <div
+                            class="mr-2"
+                            style="width: 70px"
+                          >
                             <imgObj
                               :src="item.thumbnail_small"
                               :height="45"
@@ -96,10 +99,20 @@ export default {
   props: {
     theme: String,
     height: Number,
+    provider: String,
   },
   data: () => ({
     page: 1,
+    searchResult: []
   }),
+  watch: {
+    provider: function(newProvider) {
+      this.sort(newProvider)
+    },
+    searchData: function() {
+      this.review()
+    }
+  },
   computed: {
     ...mapState(["searchData"]),
     isDark() {
@@ -111,6 +124,28 @@ export default {
       this.$store.dispatch("sendAsQueue", item.uri)
       this.toast(item.title, { color: "teal derken-1" })
     },
+    review() {
+      this.searchResult = []
+      setTimeout(() => {
+        this.sort("")
+      }, 100)
+    },
+    sort(provider){
+      this.searchResult = this.sortBy(provider)
+    },
+    sortBy(provider) {
+      document.querySelector('#search-result').scrollTop = 0
+      if(provider){
+        return this.searchData.filter(value => {
+          return value.source == provider.toLowerCase()
+        })
+      }else{
+        return this.searchData.slice()
+      }
+    }
+  },
+  mounted() {
+    this.review()
   },
   components: {
     imgObj,

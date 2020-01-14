@@ -28,6 +28,9 @@ export default {
     playlistName: String
   },
   computed: {
+    entries() {
+      return this.$store.state.focusedPlaylist.entries
+    },
     isContentsExist() {
       return this.playlistContents.length > 0
     },
@@ -37,7 +40,13 @@ export default {
 
       const index = list.findIndex(entry => entry.thumbnail != "")
       return list[index].thumbnail
-    },
+    }
+  },
+  watch: {
+    entries: function() {
+      this.setListContents()
+      this.$emit('thumb', this.thumbnail)
+    }
   },
   data: () => ({
     playlistContents: [],
@@ -50,8 +59,7 @@ export default {
       })
     },
     setListContents() {
-      const entries = this.$store.state.focusedPlaylist.entries
-      this.playlistContents = this.cacheList = entries ? entries.slice() : []
+      this.playlistContents = this.cacheList = this.entries ? this.entries.slice() : []
     },
   },
   mounted() {
