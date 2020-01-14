@@ -49,11 +49,11 @@
                     <v-list-item-content class="py-0">
                       <v-list-item-title
                         v-text="item.entry ? item.entry.title : item.title"
-                        class="text-truncate"
+                        class="text-truncate text-left"
                       ></v-list-item-title>
                       <v-list-item-subtitle
                         v-text="item.entry ? item.entry.artist : ''"
-                        class="text-truncate"
+                        class="text-truncate text-left"
                       ></v-list-item-subtitle>
                     </v-list-item-content>
                   </v-col>
