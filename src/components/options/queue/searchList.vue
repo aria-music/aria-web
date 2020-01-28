@@ -110,7 +110,7 @@ export default {
       this.sort(newProvider)
     },
     searchData: function() {
-      this.review()
+      this.sort()
     }
   },
   computed: {
@@ -124,12 +124,6 @@ export default {
       this.$store.dispatch("sendAsQueue", item.uri)
       this.toast(item.title, { color: "teal derken-1" })
     },
-    review() {
-      this.searchResult = []
-      setTimeout(() => {
-        this.sort()
-      }, 0)
-    },
     sort(provider = ""){
       this.searchResult = JSON.parse(JSON.stringify(this.sortBy(provider)))
     },
@@ -142,7 +136,7 @@ export default {
       }else{
         return this.searchData
       }
-    }
+    },
   },
   components: {
     imgObj,

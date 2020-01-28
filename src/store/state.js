@@ -12,6 +12,7 @@ export default {
   subQueue: false,
   playlists: playlistContainer,
   focusedPlaylist: {},
+  focusedPlaylistName: "",
   volume: localStorage.volume ? Number(JSON.parse(localStorage.volume)) : 100,
   aria: undefined,
   ws: undefined,

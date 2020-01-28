@@ -1,4 +1,5 @@
 import { sendJson } from '@/store/container'
+import router from '@/router/router'
 
 /**
  * plugin of aria websocket
@@ -88,6 +89,8 @@ const WSonmessage = function(event, resolve, core, store) {
       break
 
     case 'event_playlist_entry_change':
+      if (router.currentRoute.path.indexOf("playlist") !== -1)
+        store.dispatch('sendAsPlaylist', store.state.focusedPlaylistName)
       break
 
     default:

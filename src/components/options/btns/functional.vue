@@ -146,6 +146,7 @@ export default {
     _removeList(name, uri) {
       this.$store.dispatch('sendAsRemoveFromPlaylist', { playlistName: name, removeUri: uri })
       this.$store.dispatch('sendAsPlaylist', name)
+      this.$emit('afterRemoveList')
     },
     _skip() {
       this.$store.dispatch('sendAsSkip')
