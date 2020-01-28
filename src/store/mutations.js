@@ -1,6 +1,7 @@
 export default {
   initFocus(state) {
     state.focusedPlaylist = {}
+    state.focusedPlaylistName = ""
   },
   changeState(state, result) {
     if (result.entry) {
@@ -40,6 +41,9 @@ export default {
   changeTheme(state, nowTheme) {
     state.theme = nowTheme
     localStorage.color = nowTheme
+  },
+  changeFocusedPlaylistName(state, newFocusedPlaylistName) {
+    state.focusedPlaylistName = newFocusedPlaylistName
   },
   storeSearchResult(state, result) {
     state.searchData = result

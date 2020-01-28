@@ -70,6 +70,7 @@
                               playNow
                               removeList
                               addList
+                              @afterRemoveList="afterRemoveList"
                             />
                           </v-col>
                         </v-row>
@@ -123,6 +124,12 @@ export default {
       this.$store.dispatch("sendAsQueue", item.uri)
       this.toast(item.title, { color: "pink derken-1" })
     },
+    fetchContents() {
+      this.$store.dispatch('sendAsPlaylist', this.playlistName)
+    },
+    afterRemoveList() {
+      this.fetchContents()
+    }
   },
   components: {
     funcbtn,
