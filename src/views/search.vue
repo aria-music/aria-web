@@ -85,7 +85,6 @@ export default {
   data: () => ({
     tags,
     focusedChip: "",
-    searchContents: "",
   }),
   watch: {
     searchContents: function(query){
@@ -96,6 +95,9 @@ export default {
     height() {
       return this.size.height - 120
     },
+    searchContents() {
+      return this.$route.query.q
+    }
   },
   methods: {
     search(query) {
@@ -105,16 +107,17 @@ export default {
   mounted() {
     this.search(this.searchContents)
   },
-  beforeRouteEnter(to, from, next) {
-    if (Object.keys(to.query).length !== 0) {
-      next(vm => {
-        // if(to.query.name)
-        //   vm.playlistName = to.query.name
-        if(to.query.contents)
-          vm.searchContents = to.query.contents
-      })
-    }
-    next()
-  }
+  // beforeRouteEnter(to, from, next) {
+  //   if (Object.keys(to.query).length !== 0) {
+  //     next(vm => {
+  //       // if(to.query.name)
+  //       //   vm.playlistName = to.query.name
+  //       console.log("[debug]"+to.query.contents)
+  //       if(to.query.contents)
+  //         vm.searchContents = to.query.contents
+  //     })
+  //   }
+  //   next()
+  // }
 }
 </script>

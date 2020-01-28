@@ -6,8 +6,8 @@
     :flat="false"
   >
     <router-link :to="{ name: 'playlist-view' }"></router-link>
-    <router-link :to="{ name: 'playlist-contents', query: { name: 'focused-playlist-name' }}"></router-link>
-    <router-link :to="{ name: 'search', query: { contents: 'searched-item' }}"></router-link>
+    <router-link :to="{ name: 'playlist-contents', query: { q: 'focused-playlist-name' }}"></router-link>
+    <router-link :to="{ name: 'search', query: { q: 'searched-item' }}"></router-link>
     <router-link :to="{ name: 'play' }"></router-link>
     <v-fade-transition mode="out-in">
       <router-view

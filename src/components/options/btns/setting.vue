@@ -96,6 +96,7 @@ export default {
 								}
 							)
 							this.$router.push({ name: "piano" })
+								.catch(err => err)
 						} else if(this.pianoCount < 3) {
 							this.toast(
 								`ピアノまであと ${this.pianoCount} ステップです`,

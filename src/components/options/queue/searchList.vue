@@ -127,11 +127,11 @@ export default {
     review() {
       this.searchResult = []
       setTimeout(() => {
-        this.sort("")
-      }, 100)
+        this.sort()
+      }, 0)
     },
-    sort(provider){
-      this.searchResult = this.sortBy(provider)
+    sort(provider = ""){
+      this.searchResult = JSON.parse(JSON.stringify(this.sortBy(provider)))
     },
     sortBy(provider) {
       document.querySelector('#search-result').scrollTop = 0
@@ -140,12 +140,9 @@ export default {
           return value.source == provider.toLowerCase()
         })
       }else{
-        return this.searchData.slice()
+        return this.searchData
       }
     }
-  },
-  mounted() {
-    this.review()
   },
   components: {
     imgObj,

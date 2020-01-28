@@ -6,10 +6,10 @@ export default {
   }),
   methods: {
     checkSrc(src) {
-      this.pure_thumbnail = src ? src : require('@/assets/no-image.png')
+      this.pure_thumbnail = src ? src : this.noImage
     },
     error() {
-      this.pure_thumbnail = require('@/assets/thinking-face.png')
+      this.pure_thumbnail = this.thinking
     }
   }
 }
