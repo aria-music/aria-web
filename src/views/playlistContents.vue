@@ -67,14 +67,16 @@ export default {
   },
   data: () => ({
     thumbnail: "",
-    playlistName: ""
   }),
   computed: {
     ...mapState(["playlists"]),
-    playlistNames() {
-      return this.playlists.map(list => {
-        return list.name
-      })
+    playlistName() {
+      return this.$route.query.q
+    }
+  },
+  watch: {
+    playlistName: function(name) {
+      this.fetchContents(name)
     }
   },
   methods: {
@@ -95,24 +97,30 @@ export default {
     fetchThumb(thumb) {
       this.thumbnail = thumb
     },
+    fetchContents(name) {
+      this.$store.dispatch('sendAsPlaylist', name)
+    }
+  },
+  mounted() {
+    this.fetchContents(this.playlistName)
   },
   beforeDestroy() {
     this.$store.commit('initFocus')
   },
-  beforeRouteEnter(to, from, next) {
-    if (Object.keys(to.query).length !== 0) {
-      next(vm => {
-        const listIndex = vm.playlistNames.indexOf(to.query.name)
-        if(listIndex !== -1){
-          vm.playlistName = vm.playlistNames[listIndex]
-          vm.$store.dispatch('sendAsPlaylist', vm.playlistName)
-          next()
-        }else{
-          next('/')
-        }
-      })
-    }
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   if (Object.keys(to.query).length !== 0) {
+  //     next(vm => {
+  //       const listIndex = vm.playlistNames.indexOf(to.query.name)
+  //       if(listIndex !== -1){
+  //         vm.playlistName = vm.playlistNames[listIndex]
+  //         vm.$store.dispatch('sendAsPlaylist', vm.playlistName)
+  //         next()
+  //       }else{
+  //         next('/')
+  //       }
+  //     })
+  //   }
+  // },
   components: {
     titleView,
     deleteBtn,

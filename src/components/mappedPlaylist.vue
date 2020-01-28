@@ -117,7 +117,8 @@ export default {
     goPlaylistContents(index) {
       this.focusedIndex = index
       this.focusedName = this.playlists[index].name
-      this.$router.push({ name: 'playlist-contents', query: { name: this.focusedName } })
+      this.$router.push({ name: 'playlist-contents', query: { q: this.focusedName } })
+        .catch(err => err)
     },
     addToPlaylist(index){
       this.$emit('added', this.playlists[index].name)

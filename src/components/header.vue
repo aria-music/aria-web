@@ -102,7 +102,8 @@ export default {
 	methods: {
 		search() {
 			this.canSearch = false
-			this.$router.push({name: 'search', query: {contents: this.text}})
+			this.$router.push({name: 'search', query: {q: this.text}})
+				.catch(err => err)
 			this.text = ""
     },
 		checkMac() {
@@ -119,6 +120,7 @@ export default {
 		},
 		pushToHome() {
 			this.$router.push({name: 'playlist-view'})
+				.catch(err => err)
 		},
 		keyEvents(event) {
 			switch(event.keyCode) {

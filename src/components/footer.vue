@@ -277,6 +277,7 @@ export default {
 		},
 		goPlay() {
 			this.$router.push({name: 'play'})
+				.catch(err => err)
 		},
 		volumeUp() {
 			this.volume.value += 10

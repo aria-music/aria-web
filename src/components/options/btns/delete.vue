@@ -94,6 +94,7 @@ export default {
     playlist() {
       this.$store.dispatch('sendAsDeletePlaylist', this.listname)
       this.$router.push({name: 'playlist-view'})
+        .catch(err => err)
     }
   },
   data: () => ({
