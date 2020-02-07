@@ -99,6 +99,9 @@
 						}"
 						style="position: fixed; z-index: 5; right: 1%; bottom: 75px;"
 						:height="size.height"
+						:playingData="playingData"
+						:playingTitle="playingTitle"
+						:theme="theme"
 					/>
 				</v-scroll-y-reverse-transition>
       </v-btn>

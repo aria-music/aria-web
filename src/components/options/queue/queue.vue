@@ -65,7 +65,7 @@
                   >
                     <!-- love btn -->
                     <lovebtn
-                      class="pl-3"
+                      class="ml-2"
                       v-show="item.is_liked || hover"
                       small
                       :uri="item.uri"
@@ -74,7 +74,7 @@
                     <div v-show="hover">
                       <!-- delete btn -->
                       <deletebtn
-                        class="mx-2 pl-5 pr-2"
+                        class="mx-3"
                         small
                         where="queue"
                         :uri="item.uri"
