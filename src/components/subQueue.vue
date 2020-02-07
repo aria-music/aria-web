@@ -9,8 +9,16 @@
         :height="isXs ? 150 : 200"
         gradient="rgba(200,200,200,.1), rgba(200,200,200,.1), rgba(25,25,25,.5)"
       >
-        <v-card-text class="py-0 font-weight-midium white--text text-left">Playing:</v-card-text>
-        <v-row class="title pl-4 pb-3 pt-1" no-gutters>
+        <v-card-text class="py-0 font-weight-midium white--text text-left">
+          <v-icon
+            v-show="playingData.is_liked"
+            small
+            class="pb-1"
+            color="pink darken-1"
+          >favorite</v-icon>
+          <span>Playing:</span>
+        </v-card-text>
+        <v-row class="title pl-4 pb-3" no-gutters>
           <v-col
             cols="10"
             class="text-truncate font-weight-midium white--text text-left"
@@ -64,13 +72,13 @@
       </v-col>
       <v-col
         cols="4"
-        class="d-flex align-center"
+        class="d-flex align-center pa-0"
         v-if="isSmAndUp"
       >
         <v-divider vertical></v-divider>
-        <v-icon small class="ml-2">favorite_border</v-icon>
-        <v-icon small class="ml-5 pl-3">delete_outline</v-icon>
-        <v-icon small class="ml-5 pl-3">fas fa-info-circle</v-icon>
+        <v-icon small class="mx-auto">favorite_border</v-icon>
+        <v-icon small class="ml-2 mr-3">delete_outline</v-icon>
+        <v-icon small class="mx-auto pr-5">fas fa-info-circle</v-icon>
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -85,11 +93,11 @@
   </v-card>
 </template>
 <script>
-import { mapState } from 'vuex'
 import ariaQueue from './options/queue/queue'
 import listSelector from '@/components/options/playlistSelectDialog'
 import thumb from '@/mixin/thumbnail'
 import { isXs, isSmAndUp } from '@/mixin/breakpoint'
+// import scrollable from '@/mixin/scrollable'
 
 export default {
   mixins: [ thumb, isXs, isSmAndUp ],
@@ -98,6 +106,9 @@ export default {
       type: Number,
       required: true
     },
+    playingData: Object,
+    playingTitle: String,
+    theme: String
   },
   components: {
     ariaQueue,
@@ -106,6 +117,9 @@ export default {
   watch: {
     'playingData.thumbnail': function(src) {
       this.checkSrc(src);
+    },
+    'playingData.isLiked': function(i) {
+      console.log(i)
     }
   },
   data:() => ({
@@ -113,9 +127,12 @@ export default {
   }),
   mounted() {
     this.checkSrc(this.playingData.thumbnail)
+    window.addEventListener('wheel', this.scrollListener, { passive: false })
+  },
+  beforeDestroy() {
+    window.removeEventListener('wheel', this.scrollListener)
   },
   computed: {
-    ...mapState(["playingData", "playingTitle", "theme"]),
     maxWidth() {
       return this.isXs ? 250 : 500
     },
@@ -123,5 +140,12 @@ export default {
       return this.isXs ? 35 : 70
     },
   },
+  methods: {
+    scrollListener(event) {
+      if(event.target === this.$el || this.$el.contains(event.target)){
+        event.preventDefault()
+      }
+    }
+  }
 }
 </script>
