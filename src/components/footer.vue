@@ -40,7 +40,10 @@
 			</v-btn>
 
 			<!-- volume btn -->
-			<v-hover #default="{ hover }">
+			<v-hover
+				#default="{ hover }"
+				close-delay="500"
+			>
 				<div class="d-flex flex-row align-center">
 					<v-btn
 						icon

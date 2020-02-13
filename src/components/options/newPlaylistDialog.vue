@@ -58,6 +58,9 @@ export default {
         this.close()
       }else{
         this.$store.commit('removeEvents')
+        setTimeout(() => {
+          this.$refs.field.focus()
+        },250)
       }
     }
   },
@@ -65,8 +68,10 @@ export default {
     input() {
       if(this.isFocus)
         this.createPlaylist()
-			else
+			else{
+        console.log(this.$refs.field)
         this.$refs.field.focus()
+      }
     },
     close() {
       this.listname = ""
