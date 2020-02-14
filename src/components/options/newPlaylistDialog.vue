@@ -68,10 +68,8 @@ export default {
     input() {
       if(this.isFocus)
         this.createPlaylist()
-			else{
-        console.log(this.$refs.field)
+			else
         this.$refs.field.focus()
-      }
     },
     close() {
       this.listname = ""

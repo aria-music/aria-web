@@ -55,6 +55,7 @@ const REMOVELIST = { content: 'removeList', text: 'Remove', icon: 'far fa-trash-
 const PLAYNEXT = { content: 'playNext', text: 'Play Next', icon: 'fas fa-play-circle' }
 const PLAYNOW = { content: 'playNow', text: 'Play Now', icon: 'far fa-play-circle' }
 const SKIP = { content: 'skip', text: 'Skip', icon: 'fas fa-forward' }
+const MOVETOTOP = { content: 'moveToTop', text: 'Move To Top', icon:'fas fa-arrow-up'}
 // const INFO = { content: 'info', text: 'Info', icon: 'fas fa-info-circle' }
 
 export default {
@@ -68,15 +69,16 @@ export default {
     playNext: Boolean,
     playNow: Boolean,
     skip: Boolean,
+    moveToTop:Boolean,
+    white: Boolean,
+    defualt: Boolean,
+    theme: String,
+    index: Number,
     songData: {
       type: Object,
       required: true
     },
-    white: Boolean,
     playlistName: String,
-    defualt: Boolean,
-    theme: String,
-    index: Number,
   },
   data: () => ({
     funcList: [],
@@ -100,6 +102,7 @@ export default {
       if(this.skip) this.funcList.push(SKIP)
       if(this.removeQueue) this.funcList.push(REMOVEQUEUE)
       if(this.removeList) this.funcList.push(REMOVELIST)
+      if(this.moveToTop) this.funcList.push(MOVETOTOP)
     },
     settingFunc(content) {
       switch(content){
@@ -123,6 +126,9 @@ export default {
           break
         case 'skip':
           this._skip()
+          break
+        case 'moveToTop':
+          this._moveToTop(this.songData, this.index)
           break
       }
     },
@@ -150,6 +156,10 @@ export default {
     },
     _skip() {
       this.$store.dispatch('sendAsSkip')
+    },
+    _moveToTop(data, index) {
+      this.$store.dispatch('sendAsRemoveFromQueue', {uri: data.uri, index: index})
+      this.$store.dispatch('sendAsQueueToHead', data.uri)
     }
   },
   components: {

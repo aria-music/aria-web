@@ -97,7 +97,6 @@ import ariaQueue from './options/queue/queue'
 import listSelector from '@/components/options/playlistSelectDialog'
 import thumb from '@/mixin/thumbnail'
 import { isXs, isSmAndUp } from '@/mixin/breakpoint'
-// import scrollable from '@/mixin/scrollable'
 
 export default {
   mixins: [ thumb, isXs, isSmAndUp ],
@@ -118,9 +117,6 @@ export default {
     'playingData.thumbnail': function(src) {
       this.checkSrc(src);
     },
-    'playingData.isLiked': function(i) {
-      console.log(i)
-    }
   },
   data:() => ({
     dialog: false,

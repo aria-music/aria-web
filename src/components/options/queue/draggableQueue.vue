@@ -52,6 +52,7 @@
                         like
                         addList
                         removeQueue
+                        moveToTop
                       />
                     </v-col>
                     <v-col cols="1">
