@@ -40,7 +40,10 @@
 			</v-btn>
 
 			<!-- volume btn -->
-			<v-hover #default="{ hover }">
+			<v-hover
+				#default="{ hover }"
+				close-delay="500"
+			>
 				<div class="d-flex flex-row align-center">
 					<v-btn
 						icon
@@ -99,6 +102,9 @@
 						}"
 						style="position: fixed; z-index: 5; right: 1%; bottom: 75px;"
 						:height="size.height"
+						:playingData="playingData"
+						:playingTitle="playingTitle"
+						:theme="theme"
 					/>
 				</v-scroll-y-reverse-transition>
       </v-btn>

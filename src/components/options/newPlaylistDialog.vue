@@ -58,6 +58,9 @@ export default {
         this.close()
       }else{
         this.$store.commit('removeEvents')
+        setTimeout(() => {
+          this.$refs.field.focus()
+        },250)
       }
     }
   },
