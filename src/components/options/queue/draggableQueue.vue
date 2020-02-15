@@ -1,13 +1,14 @@
 <template>
   <v-card
     style="overflow: auto"
-    :height="size.height - 277"
+    :height="height"
   >
     <perfect-scrollbar>
       <draggable
         v-model="queue"
         handle=".handle"
         ghost-class="ghost"
+        scroll
       >
         <div
           v-for="(item, index) in queue"
@@ -51,6 +52,7 @@
                         like
                         addList
                         removeQueue
+                        moveToTop
                       />
                     </v-col>
                     <v-col cols="1">
@@ -100,6 +102,9 @@ export default {
     isDark() {
       return this.$vuetify.theme.dark
     },
+    height() {
+      return this.size.height - 127
+    }
   },
   components: {
     draggable,

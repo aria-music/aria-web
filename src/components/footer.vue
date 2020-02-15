@@ -2,7 +2,7 @@
 	<v-footer
 		app
 		fixed
-		class="pa-0 d-flex"
+		class="pa-0"
 		height="65"
 	>
 		<!-- progress bar -->
@@ -40,7 +40,10 @@
 			</v-btn>
 
 			<!-- volume btn -->
-			<v-hover #default="{ hover }">
+			<v-hover
+				#default="{ hover }"
+				close-delay="500"
+			>
 				<div class="d-flex flex-row align-center">
 					<v-btn
 						icon
@@ -90,6 +93,20 @@
 				@click="openSubQueue"
       >
         <v-icon>playlist_play</v-icon>
+				<v-scroll-y-reverse-transition>
+					<subQueue
+						v-if="subQueue"
+						v-click-outside="{
+							callback: closeSubQueue,
+							isOpen: subQueue
+						}"
+						style="position: fixed; z-index: 5; right: 1%; bottom: 75px;"
+						:height="size.height"
+						:playingData="playingData"
+						:playingTitle="playingTitle"
+						:theme="theme"
+					/>
+				</v-scroll-y-reverse-transition>
       </v-btn>
 		</div>
 	</v-footer>
@@ -99,6 +116,8 @@ import { mapState } from 'vuex'
 import lovebtn from './options/btns/love'
 import { isSmAndUp } from '@/mixin/breakpoint'
 import toaster from '@/mixin/toast'
+import subQueue from '@/components/subQueue'
+import clickOutside from '@/directives/click-outside'
 
 const LeftControlItems = [
 	{icon: "skip_next", content: "skip"},
@@ -108,15 +127,16 @@ const LeftControlItems = [
 
 export default {
 	mixins: [ isSmAndUp, toaster ],
+	directives: { clickOutside },
 	props: {
 		size: {
 			type: Object,
 			required: true
 		},
-		isFocus: Boolean
 	},
 	components: {
 		lovebtn,
+		subQueue
 	},
   data: () => ({
 		leftControlItems: LeftControlItems,
@@ -127,9 +147,15 @@ export default {
 			icon: "volume_up"
 		},
 		interval: null,
+		mediaMetadataObj: {
+			title: "",
+			artist: "",
+			album: "",
+			thumbnail: ""
+		}
 	}),
 	computed: {
-		...mapState(["nowState", "playingData", "playingTitle", "theme"]),
+		...mapState(["nowState", "playingData", "playingTitle", "theme", "stopEvents", "subQueue"]),
     countTime() {
       return 10 / this.playingData.duration
     },
@@ -145,11 +171,19 @@ export default {
       this.nowTime = this.countTime * this.playingData.position * 10
 			if(val == 'playing')
 				this.toast(this.playingData.title, { icon: "fas fa-play" })
+			// this.updateMediaSession(this.createMediaSessionObj())
     },
+		stopEvents: function(stopEvents) {
+			if(stopEvents)
+				window.removeEventListener('keydown', this.keyEvents)
+			else
+				window.addEventListener('keydown', this.keyEvents)
+		}
 	},
 	mounted(){
 		this.setIntervalForSeekbar()
 		this.initVolume()
+		// this.setHanderForMediaSession()
 		window.addEventListener('keydown', this.keyEvents)
 	},
 	beforeDestroy() {
@@ -157,6 +191,38 @@ export default {
 		window.removeEventListener('keydown', this.keyEvents)
   },
 	methods: {
+		// updateMediaSession(metadataObj) {
+		// 	if ('mediaSession' in navigator) {
+		// 		navigator.mediaSession.metadata = new MediaMetadata({
+		// 			title: metadataObj.title,
+		// 			artist: metadataObj.artist,
+		// 			album: metadataObj.album,
+		// 			artwork: metadataObj.thumbnail
+		// 		});
+		// 	}
+		// },
+		// setHanderForMediaSession() {
+		// 	if ('mediaSession' in navigator) {
+		// 		navigator.mediaSession.setActionHandler('play', function () { this.$store.dispatch('sendAsResume') });
+		// 		navigator.mediaSession.setActionHandler('pause', function () { this.$store.dispatch('sendAsPause') });
+		// 		navigator.mediaSession.setActionHandler('seekforward', function () { this.skip() });
+		// 	}
+		// },
+		// createMediaSessionObj() {
+		// 	let obj = Object.assign({}, this.mediaMetadataObj)
+		// 	const playingData = Object.assign({}, this.playingData)
+
+		// 	if(playingData.entry){
+		// 		obj.title = playingData.entry.title
+		// 		obj.artist = playingData.entry.artist
+		// 		obj.album = playingData.entry.album
+		// 	}else{
+		// 		obj.title = playingData.title
+		// 	}
+		// 	obj.thumbnail = playingData.thumbnail
+
+		// 	return obj
+		// },
 		initVolume() {
 			this.volume.value = this.$store.state.volume
 		},
@@ -166,6 +232,9 @@ export default {
       else
 				this.$store.dispatch('sendAsPause')
 		},
+		closeSubQueue() {
+      this.$store.commit('closeSubQueue')
+    },
 		controlFunc(content) {
 			switch(content) {
 				case "skip":
@@ -214,6 +283,7 @@ export default {
 		},
 		goPlay() {
 			this.$router.push({name: 'play'})
+				.catch(err => err)
 		},
 		volumeUp() {
 			this.volume.value += 10
@@ -226,7 +296,6 @@ export default {
 				this.volume.value = 0
 		},
 		keyEvents(event) {
-			if(this.isFocus) return true
 			switch(event.keyCode) {
 				case 32: //space
 					event.preventDefault()

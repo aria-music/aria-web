@@ -1,13 +1,27 @@
 <template>
-  <v-img
-    :src="pure_thumbnail"
-    @error="error"
-    :height="height"
-    :max-width="maxWidth"
-    eager
-    contain
-  >
-  </v-img>
+  <div>
+    <v-img
+      :src="pure_thumbnail"
+      @error="error"
+      :height="height"
+      :max-width="maxWidth"
+      eager
+      contain
+    >
+      <template #placeholder>
+        <v-row
+          class="fill-height ma-0"
+          align="center"
+          justify="center"
+        >
+          <v-progress-circular
+            indeterminate
+            color="grey lighten-1"
+          ></v-progress-circular>
+        </v-row>
+      </template>
+    </v-img>
+  </div>
 </template>
 <script>
 import thumb from '@/mixin/thumbnail'

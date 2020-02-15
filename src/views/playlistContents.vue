@@ -4,7 +4,7 @@
       <titleView
         :theme="theme"
         :thumbnail="thumbnail"
-        :name="listname"
+        :name="playlistName"
       >
         <v-toolbar flat>
           <v-spacer></v-spacer>
@@ -27,7 +27,7 @@
             </v-btn>
             <deleteBtn
               where="playlist"
-              :listname="listname"
+              :listname="playlistName"
               dialog
             />
           </v-toolbar-items>
@@ -44,7 +44,7 @@
         <playlist
           :theme="theme"
           :size="size"
-          :playlistName="listname"
+          :playlistName="playlistName"
           @thumb="fetchThumb"
         />
       </v-card>
@@ -53,10 +53,11 @@
 </template>
 <script>
 import titleView from '@/components/options/title'
-import playlist from '@/components/options/queue/playlist'
 import deleteBtn from '@/components/options/btns/delete'
 import toaster from '@/mixin/toast'
+import playlist from '@/components/playlistWithSearch'
 import { isSmAndDown } from '@/mixin/breakpoint'
+import { mapState } from 'vuex'
 
 export default {
   mixins: [ isSmAndDown, toaster ],
@@ -68,36 +69,62 @@ export default {
     thumbnail: "",
   }),
   computed: {
-    listname() {
-      return decodeURIComponent(this.$route.params.name)
-    },
+    ...mapState(["playlists"]),
+    playlistName() {
+      return this.$route.query.q
+    }
+  },
+  watch: {
+    playlistName: function(name) {
+      this.fetchContents(name)
+    }
   },
   methods: {
     queueAll() {
-      this.$store.dispatch('sendAsQueueWithPlaylist', this.listname)
-      this.toast(this.listname, {
+      this.$store.dispatch('sendAsQueueWithPlaylist', this.playlistName)
+      this.toast(this.playlistName, {
         color: "pink lighten-1",
         icon: "fas fa-plus-square"
       })
     },
     playAll() {
-      this.$store.dispatch('sendAsPlayWithPlaylist', this.listname)
-      this.toast(this.listname, {
+      this.$store.dispatch('sendAsPlayWithPlaylist', this.playlistName)
+      this.toast(this.playlistName, {
         color: "pink lighten-1",
         icon: "far fa-plus-square"
       })
     },
     fetchThumb(thumb) {
       this.thumbnail = thumb
+    },
+    fetchContents(name) {
+      this.$store.dispatch('sendAsPlaylist', name)
     }
+  },
+  mounted() {
+    this.fetchContents(this.playlistName)
   },
   beforeDestroy() {
     this.$store.commit('initFocus')
   },
+  // beforeRouteEnter(to, from, next) {
+  //   if (Object.keys(to.query).length !== 0) {
+  //     next(vm => {
+  //       const listIndex = vm.playlistNames.indexOf(to.query.name)
+  //       if(listIndex !== -1){
+  //         vm.playlistName = vm.playlistNames[listIndex]
+  //         vm.$store.dispatch('sendAsPlaylist', vm.playlistName)
+  //         next()
+  //       }else{
+  //         next('/')
+  //       }
+  //     })
+  //   }
+  // },
   components: {
     titleView,
-    playlist,
-    deleteBtn
+    deleteBtn,
+    playlist
   }
 }
 </script>

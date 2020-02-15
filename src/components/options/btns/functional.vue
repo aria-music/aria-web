@@ -46,6 +46,7 @@
 </template>
 <script>
 import listSelector from '@/components/options/playlistSelectDialog'
+import toaster from '@/mixin/toast'
 
 const LIKE = { content: 'like', text: 'Like',  icon: 'fas fa-heart' }
 const ADDLIST = { content: 'addList', text: 'Add to Playlist', icon: 'fas fa-plus' }
@@ -54,9 +55,11 @@ const REMOVELIST = { content: 'removeList', text: 'Remove', icon: 'far fa-trash-
 const PLAYNEXT = { content: 'playNext', text: 'Play Next', icon: 'fas fa-play-circle' }
 const PLAYNOW = { content: 'playNow', text: 'Play Now', icon: 'far fa-play-circle' }
 const SKIP = { content: 'skip', text: 'Skip', icon: 'fas fa-forward' }
+const MOVETOTOP = { content: 'moveToTop', text: 'Move To Top', icon:'fas fa-arrow-up'}
 // const INFO = { content: 'info', text: 'Info', icon: 'fas fa-info-circle' }
 
 export default {
+  mixins: [ toaster ],
   props: {
     show: Boolean,
     like: Boolean,
@@ -66,15 +69,16 @@ export default {
     playNext: Boolean,
     playNow: Boolean,
     skip: Boolean,
+    moveToTop:Boolean,
+    white: Boolean,
+    defualt: Boolean,
+    theme: String,
+    index: Number,
     songData: {
       type: Object,
       required: true
     },
-    white: Boolean,
     playlistName: String,
-    defualt: Boolean,
-    theme: String,
-    index: Number,
   },
   data: () => ({
     funcList: [],
@@ -98,6 +102,7 @@ export default {
       if(this.skip) this.funcList.push(SKIP)
       if(this.removeQueue) this.funcList.push(REMOVEQUEUE)
       if(this.removeList) this.funcList.push(REMOVELIST)
+      if(this.moveToTop) this.funcList.push(MOVETOTOP)
     },
     settingFunc(content) {
       switch(content){
@@ -111,16 +116,19 @@ export default {
           this._removeQueue(this.songData.uri, this.index)
           break
         case 'playNext':
-          this._playnext(this.songData.uri)
+          this._playnext(this.songData)
           break
         case 'playNow':
-          this._playnow(this.songData.uri)
+          this._playnow(this.songData)
           break
         case 'removeList':
           if(this.playlistName) this._removeList(this.playlistName, this.songData.uri)
           break
         case 'skip':
           this._skip()
+          break
+        case 'moveToTop':
+          this._moveToTop(this.songData, this.index)
           break
       }
     },
@@ -133,20 +141,25 @@ export default {
     _removeQueue(uri, index) {
       this.$store.dispatch('sendAsRemoveFromQueue', {uri: uri, index: index})
     },
-    _playnext(uri) {
-      this.$store.dispatch('sendAsQueueToHead', uri)
-      // this.toaster(songData.title)
+    _playnext(data) {
+      this.$store.dispatch('sendAsQueueToHead', data.uri)
+      this.toast(data.title, { color: 'indigo darken-1' })
     },
-    _playnow(uri) {
-      this.$store.dispatch('sendAsPlay', uri)
-      // this.toaster(songData.title)
+    _playnow(data) {
+      this.$store.dispatch('sendAsPlay', data.uri)
+      this.toast(data.title, { color: 'blue darken-1' })
     },
     _removeList(name, uri) {
       this.$store.dispatch('sendAsRemoveFromPlaylist', { playlistName: name, removeUri: uri })
       this.$store.dispatch('sendAsPlaylist', name)
+      this.$emit('afterRemoveList')
     },
     _skip() {
       this.$store.dispatch('sendAsSkip')
+    },
+    _moveToTop(data, index) {
+      this.$store.dispatch('sendAsRemoveFromQueue', {uri: data.uri, index: index})
+      this.$store.dispatch('sendAsQueueToHead', data.uri)
     }
   },
   components: {

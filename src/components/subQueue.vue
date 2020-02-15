@@ -9,11 +9,19 @@
         :height="isXs ? 150 : 200"
         gradient="rgba(200,200,200,.1), rgba(200,200,200,.1), rgba(25,25,25,.5)"
       >
-        <v-card-text class="py-0 font-weight-midium white--text">Playing:</v-card-text>
-        <v-row class="title pl-4 pb-3 pt-1" no-gutters>
+        <v-card-text class="py-0 font-weight-midium white--text text-left">
+          <v-icon
+            v-show="playingData.is_liked"
+            small
+            class="pb-1"
+            color="pink darken-1"
+          >favorite</v-icon>
+          <span>Playing:</span>
+        </v-card-text>
+        <v-row class="title pl-4 pb-3" no-gutters>
           <v-col
-            :cols="isXs ? 10 : 11"
-            class="text-truncate font-weight-midium white--text align-self-center"
+            cols="10"
+            class="text-truncate font-weight-midium white--text text-left"
             :class="{'subtitle-2': isXs}"
           >
             <v-tooltip
@@ -28,21 +36,28 @@
             </v-tooltip>
           </v-col>
           <v-col
-            :cols="isXs ? 2 : 1"
+            cols="2"
             class="align-self-end"
           >
-            <!-- functional btn -->
-            <funcbtn
-              :show="hover || isXs"
-              :songData="playingData"
-              :theme="theme"
-              white
-              addList
-              skip
-              like
-            />
+            <v-fade-transition>
+              <v-btn
+                dark
+                icon
+                small
+                class="ma-0"
+                @click="dialog = !dialog"
+                v-show="hover || isXs"
+              >
+                <v-icon small>fas fa-plus</v-icon>
+              </v-btn>
+            </v-fade-transition>
           </v-col>
         </v-row>
+        <listSelector
+          :show="dialog"
+          :song="playingData"
+          :theme="theme"
+        />
       </v-img>
     </v-hover>
 
@@ -57,13 +72,13 @@
       </v-col>
       <v-col
         cols="4"
-        class="d-flex align-center"
+        class="d-flex align-center pa-0"
         v-if="isSmAndUp"
       >
         <v-divider vertical></v-divider>
-        <v-icon small class="ml-2">favorite_border</v-icon>
-        <v-icon small class="ml-5 pl-3">delete_outline</v-icon>
-        <v-icon small class="ml-5 pl-3">fas fa-info-circle</v-icon>
+        <v-icon small class="mx-auto">favorite_border</v-icon>
+        <v-icon small class="ml-2 mr-3">delete_outline</v-icon>
+        <v-icon small class="mx-auto pr-5">fas fa-info-circle</v-icon>
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -78,9 +93,8 @@
   </v-card>
 </template>
 <script>
-import { mapState } from 'vuex'
 import ariaQueue from './options/queue/queue'
-import funcbtn from './options/btns/functional'
+import listSelector from '@/components/options/playlistSelectDialog'
 import thumb from '@/mixin/thumbnail'
 import { isXs, isSmAndUp } from '@/mixin/breakpoint'
 
@@ -91,21 +105,30 @@ export default {
       type: Number,
       required: true
     },
+    playingData: Object,
+    playingTitle: String,
+    theme: String
   },
   components: {
     ariaQueue,
-    funcbtn,
+    listSelector
   },
   watch: {
     'playingData.thumbnail': function(src) {
       this.checkSrc(src);
-    }
+    },
   },
+  data:() => ({
+    dialog: false,
+  }),
   mounted() {
     this.checkSrc(this.playingData.thumbnail)
+    window.addEventListener('wheel', this.scrollListener, { passive: false })
+  },
+  beforeDestroy() {
+    window.removeEventListener('wheel', this.scrollListener)
   },
   computed: {
-    ...mapState(["playingData", "playingTitle", "theme"]),
     maxWidth() {
       return this.isXs ? 250 : 500
     },
@@ -113,5 +136,12 @@ export default {
       return this.isXs ? 35 : 70
     },
   },
+  methods: {
+    scrollListener(event) {
+      if(event.target === this.$el || this.$el.contains(event.target)){
+        event.preventDefault()
+      }
+    }
+  }
 }
 </script>

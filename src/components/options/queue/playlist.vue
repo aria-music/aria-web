@@ -1,14 +1,12 @@
 <template>
   <v-card
-    max-height="100%"
     class="pl-2"
     :color="theme"
   >
-    <v-card max-height="100%">
-      <!-- -201... -->
+    <v-card>
       <v-list
         v-if="isContentsExist"
-        :height="size.height - 201"
+        :height="height"
         style="overflow: auto"
       >
       <perfect-scrollbar>
@@ -20,9 +18,10 @@
               :ripple="false"
               style="width: 99%"
               class="pa-0"
+              inactive
             >
               <v-lazy
-                style="width: 100%"
+                style="width: 100%; cursor: pointer"
                 min-height="50"
                 :options="{threshold: .3}"
               >
@@ -45,7 +44,7 @@
                         >
                           <v-col :cols="isXs ? 2 : 1">
                             <imgObj
-                              :src="item.thumbnail_small"
+                              :src="isXs ? item.thumbnail_small : item.thumbnail"
                               :height="45"
                               contain
                               class="ml-1"
@@ -65,11 +64,13 @@
                               :songData="item"
                               :playlistName="playlistName"
                               :show="hover || isXs"
+                              :white="isDark"
+                              :theme="theme"
                               playNext
                               playNow
                               removeList
-                              :white="isDark"
-                              :theme="theme"
+                              addList
+                              @afterRemoveList="afterRemoveList"
                             />
                           </v-col>
                         </v-row>
@@ -103,40 +104,32 @@ export default {
   props: {
     theme: String,
     size: Object,
-    playlistName: String
+    playlistName: String,
+    listContents: Array,
+    isContentsExist: Boolean,
   },
-  watch: {
-    hover: function(){
-      this.$emit()
-    }
-  },
+  data: () => ({
+    contents: [],
+  }),
   computed: {
-    listContents() {
-      const entries = this.$store.state.focusedPlaylist.entries
-      return entries ? [...entries] : []
-    },
-    isContentsExist() {
-      return this.listContents.length > 0
-    },
     isDark() {
       return this.$vuetify.theme.dark
     },
-    thumbnail() {
-      const list = [...this.listContents]
-      if(!list.length) return ""
-
-      const index = list.findIndex(entry => entry.thumbnail != "")
-      return list[index].thumbnail
-    },
+    height() {
+      return this.size.height - 145
+    }
   },
   methods: {
     play(item) {
       this.$store.dispatch("sendAsQueue", item.uri)
       this.toast(item.title, { color: "pink derken-1" })
+    },
+    fetchContents() {
+      this.$store.dispatch('sendAsPlaylist', this.playlistName)
+    },
+    afterRemoveList() {
+      this.fetchContents()
     }
-  },
-  mounted() {
-    this.$emit('thumb', this.thumbnail)
   },
   components: {
     funcbtn,

@@ -71,31 +71,39 @@ export default {
 		isFocus: false,
 	}),
 	computed: {
-		...mapState(["theme"]),
+		...mapState(["theme", "stopEvents"]),
 	},
 	components: {
 		setting
 	},
 	watch: {
 		isFocus: function(focused) {
-			if(focused)
+			if(focused){
 				this.Width = "200"
-			else
+				this.$store.commit('removeEvents')
+			}else{
 				this.Width = "25"
-			this.$emit('focused', focused)
+				this.$store.commit('addEvents')
+			}
+		},
+		stopEvents: function(stopEvents) {
+			if(stopEvents)
+				window.removeEventListener('keydown', this.keyEvents)
+			else
+				window.addEventListener('keydown', this.keyEvents)
 		}
 	},
 	mounted() {
 		window.addEventListener('keydown', this.keyEvents)
 	},
 	beforeDestroy() {
-		window.addEventListener('keydown', this.keyEvents)
+		window.removeEventListener('keydown', this.keyEvents)
 	},
 	methods: {
 		search() {
 			this.canSearch = false
-			this.$store.dispatch('sendAsSearch', {text: this.text, provider: 'gpm'})
-			this.$router.push({name: 'search', params: {item: this.text}})
+			this.$router.push({name: 'search', query: {q: this.text}})
+				.catch(err => err)
 			this.text = ""
     },
 		checkMac() {
@@ -112,6 +120,7 @@ export default {
 		},
 		pushToHome() {
 			this.$router.push({name: 'playlist-view'})
+				.catch(err => err)
 		},
 		keyEvents(event) {
 			switch(event.keyCode) {

@@ -50,7 +50,8 @@ export default {
   sendAsLike({ state }, likeUri) {
     state.ws.sendToSocket('like', { uri: likeUri })
   },
-  sendAsPlaylist({ state }, playlistName) {
+  sendAsPlaylist({ state, commit }, playlistName) {
+    commit('changeFocusedPlaylistName', playlistName)
     state.ws.sendToSocket('playlist', { name: playlistName })
   },
   sendAsRemoveFromPlaylist({ state }, { playlistName, removeUri }) {

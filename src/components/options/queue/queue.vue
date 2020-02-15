@@ -49,11 +49,11 @@
                     <v-list-item-content class="py-0">
                       <v-list-item-title
                         v-text="item.entry ? item.entry.title : item.title"
-                        class="text-truncate"
+                        class="text-truncate text-left"
                       ></v-list-item-title>
                       <v-list-item-subtitle
                         v-text="item.entry ? item.entry.artist : ''"
-                        class="text-truncate"
+                        class="text-truncate text-left"
                       ></v-list-item-subtitle>
                     </v-list-item-content>
                   </v-col>
@@ -65,6 +65,7 @@
                   >
                     <!-- love btn -->
                     <lovebtn
+                      class="ml-2"
                       v-show="item.is_liked || hover"
                       small
                       :uri="item.uri"
@@ -127,7 +128,7 @@ export default {
   computed: {
     ...mapState(["queue"]),
     queueHeight() {
-      return (this.height - 340) / 2
+      return (this.height - 150) / 2
     }
   },
   components: {

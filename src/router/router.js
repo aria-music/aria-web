@@ -13,12 +13,12 @@ export default new Router({
       component: () => import('@/views/playlistView')
     },
     {
-      path: '/playlist?:name',
+      path: '/playlist',
       name: 'playlist-contents',
       component: () => import('@/views/playlistContents')
     },
     {
-      path: '/search?:item',
+      path: '/search',
       name: 'search',
       component: () => import('@/views/search')
     },
@@ -31,10 +31,6 @@ export default new Router({
       path: '/piano',
       name: 'piano',
       component: () => import('@/views/piano')
-    },
-    {
-      path: '*',
-      redirect: '/'
     }
-  ]
+  ],
 })

@@ -1,19 +1,7 @@
 <template>
   <v-app v-resize="setSize">
-    <v-scroll-y-reverse-transition>
-      <subQueue
-        v-if="subQueue"
-        v-click-outside="{
-          callback: closeSubQueue,
-          isOpen: subQueue
-        }"
-        style="position: fixed; z-index: 5; right: 1%; bottom: 75px;"
-        :height="size.height"
-      />
-    </v-scroll-y-reverse-transition>
     <AriaHeader
       :width="size.width"
-      @focused="focus"
     />
     <v-content>
       <mainContainer
@@ -23,17 +11,13 @@
     </v-content>
     <AriaFooter
       :size="size"
-      :isFocus="isFocus"
     />
   </v-app>
 </template>
 <script>
-import { mapState } from 'vuex'
 import AriaHeader from './components/header'
 import mainContainer from './components/mainContainer'
 import AriaFooter from './components/footer'
-import subQueue from './components/subQueue'
-import clickOutside from './directives/click-outside'
 
 export default {
   name: 'App',
@@ -41,35 +25,24 @@ export default {
     AriaHeader,
     mainContainer,
     AriaFooter,
-    subQueue,
-  },
-  computed: {
-    ...mapState(["subQueue"]),
   },
   mounted(){
-    this.$vuetify.theme.dark = JSON.parse(localStorage.dark)
+    this.parseDark()
   },
   data: () => ({
     size: {
       width: 0,
       height: 0,
     },
-    isFocus: false
   }),
   methods: {
+    parseDark() {
+      this.$vuetify.theme.dark = JSON.parse(localStorage.dark)
+    },
     setSize() {
       this.size.width = window.innerWidth > 1200 ? 1200 : window.innerWidth
-      this.size.height = window.innerHeight
-    },
-    closeSubQueue() {
-      this.$store.commit('closeSubQueue')
-    },
-    focus(isFocus) {
-      this.isFocus = isFocus
+      this.size.height = window.innerHeight - 150
     }
-  },
-  directives: {
-    clickOutside
   }
 }
 </script>

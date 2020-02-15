@@ -22,16 +22,6 @@
                 style="text-shadow: 0px 0px 4px rgb(255, 255, 255);"
               >{{ list.name }}</div>
             </v-scroll-y-reverse-transition>
-            <v-fade-transition>
-              <v-progress-circular
-                v-if="nowLoading && focusedIndex === index"
-                class="mx-auto"
-                :size="100"
-                :width="4"
-                color="grey darken-1"
-                indeterminate
-              ></v-progress-circular>
-            </v-fade-transition>
             <v-scroll-y-transition>
               <div
                 v-show="!on.hover && !(focusedIndex === index) && view"
@@ -45,7 +35,6 @@
       <v-card
         v-if="!view"
         elevation="1"
-        shaped
         max-width="100"
         class="mt-1 pl-2 text-truncate font-weight-medium"
         style=""
@@ -113,7 +102,6 @@ export default {
     }
   },
   data: () => ({
-    nowLoading: false,
     focusedIndex: -1,
     show: false,
   }),
@@ -127,24 +115,14 @@ export default {
       else this.addToPlaylist(index)
     },
     goPlaylistContents(index) {
-      if(this.nowLoading) this.nowLoading = false
       this.focusedIndex = index
-      this.nowLoading = true
       this.focusedName = this.playlists[index].name
-      this.$store.dispatch('sendAsPlaylist', this.focusedName)
+      this.$router.push({ name: 'playlist-contents', query: { q: this.focusedName } })
+        .catch(err => err)
     },
     addToPlaylist(index){
       this.$emit('added', this.playlists[index].name)
     },
-  },
-  watch: {
-    focusedPlaylist: function(newPlaylist) {
-      setTimeout(()=>{
-        if(newPlaylist.name == this.focusedName){
-          this.$router.push({ name: 'playlist-contents', params: { name: newPlaylist.name } })
-        }
-      }, 1000)
-    }
   },
 }
 </script>

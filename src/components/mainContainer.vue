@@ -6,8 +6,8 @@
     :flat="false"
   >
     <router-link :to="{ name: 'playlist-view' }"></router-link>
-    <router-link :to="{ name: 'playlist-contents', params: { name: 'focused-playlist-name' }}"></router-link>
-    <router-link :to="{ name: 'search', params: { item: 'serched-item' }}"></router-link>
+    <router-link :to="{ name: 'playlist-contents', query: { q: 'focused-playlist-name' }}"></router-link>
+    <router-link :to="{ name: 'search', query: { q: 'searched-item' }}"></router-link>
     <router-link :to="{ name: 'play' }"></router-link>
     <v-fade-transition mode="out-in">
       <router-view
@@ -19,6 +19,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+
 export default {
   props: {
 		size: {
@@ -28,6 +29,6 @@ export default {
   },
   computed: {
     ...mapState(["theme"])
-  }
+  },
 }
 </script>

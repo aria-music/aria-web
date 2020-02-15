@@ -38,12 +38,8 @@
     <v-col
       :cols="isSmAndDown ? 12 : 8"
     >
-      <v-card
-        height="100%"
-        class="pa-3"
-      >
+      <v-card class="pa-3">
         <v-card
-          height="100%"
           class="pl-2"
           :color="theme"
         >

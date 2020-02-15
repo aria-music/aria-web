@@ -34,4 +34,4 @@ export default {
 
 }
 </script>
-<style src="./piano.scss" lang="scss">
+<style src="./piano.scss" lang="scss" scoped>

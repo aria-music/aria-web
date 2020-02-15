@@ -1,6 +1,7 @@
 export default {
   initFocus(state) {
     state.focusedPlaylist = {}
+    state.focusedPlaylistName = ""
   },
   changeState(state, result) {
     if (result.entry) {
@@ -23,10 +24,16 @@ export default {
     state.nowState = result.state
   },
   openSubQueue(state) {
-    setTimeout(() => state.subQueue = true, 0)
+    state.subQueue = true
   },
   closeSubQueue(state) {
     state.subQueue = false
+  },
+  removeEvents(state) {
+    state.stopEvents = true
+  },
+  addEvents(state) {
+    state.stopEvents = false
   },
   changeQueue(state, result) {
     if (result) state.queue = result
@@ -34,6 +41,9 @@ export default {
   changeTheme(state, nowTheme) {
     state.theme = nowTheme
     localStorage.color = nowTheme
+  },
+  changeFocusedPlaylistName(state, newFocusedPlaylistName) {
+    state.focusedPlaylistName = newFocusedPlaylistName
   },
   storeSearchResult(state, result) {
     state.searchData = result

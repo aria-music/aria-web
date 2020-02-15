@@ -20,8 +20,8 @@
           maxlength="30"
           ref="field"
           :color="theme"
-          @focus="isFocus = true"
-          @blur="isFocus = false"
+          @focus="focused"
+          @blur="blured"
         ></v-text-field>
       </v-card-text>
       <v-divider class="mx-3"></v-divider>
@@ -53,7 +53,15 @@ export default {
       this.dialog = true
     },
     dialog: function(val){
-      if(!val) this.close()
+      if(!val){
+        this.$store.commit('addEvents')
+        this.close()
+      }else{
+        this.$store.commit('removeEvents')
+        setTimeout(() => {
+          this.$refs.field.focus()
+        },250)
+      }
     }
   },
   methods: {
@@ -80,6 +88,12 @@ export default {
 				this.close()
 			}
     },
+    focused() {
+      this.isFocus = true
+    },
+    blured() {
+      this.isFocus = false
+    }
   }
 }
 </script>
