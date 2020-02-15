@@ -21,7 +21,7 @@
               inactive
             >
               <v-lazy
-                style="width: 100%"
+                style="width: 100%; cursor: pointer"
                 min-height="50"
                 :options="{threshold: .3}"
               >
