@@ -39,11 +39,9 @@ export const audioCore = function(){
   }
 }
 
-const refreshBuffer = function (core, packet_length) {
+const refreshBuffer = function (core, plen) {
   // console.log(`packet length ${packet_length}`)
-  core.buf = core.context.createBuffer(2, packet_length / 2, 48000)
-  core.leftchannel = core.buf.getChannelData(0)
-  core.rightchannel = core.buf.getChannelData(1)
+  core.buf = core.context.createBuffer(2, plen, 48000)
   core.bufSource = core.context.createBufferSource()
   core.bufSource.buffer = core.buf
   core.bufSource.connect(core.GainNode)
@@ -55,12 +53,8 @@ const queueAudio = function(core, msg) {
     return
 
   refreshBuffer(core, msg.len)
-  const decodedF32 = new Float32Array(msg.buf)
-  for (let x = 0; x < msg.len; x += 2) {
-    core.leftchannel[core.offset] = decodedF32[x]
-    core.rightchannel[core.offset] = decodedF32[x + 1]
-    core.offset++
-  }
+  core.buf.copyToChannel(new Float32Array(msg.left), 0)
+  core.buf.copyToChannel(new Float32Array(msg.right), 1)
 
   if (core.playing < core.context.currentTime)
     core.playing = core.context.currentTime + 0.1

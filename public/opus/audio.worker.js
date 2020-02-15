@@ -1,13 +1,11 @@
 import opusModule from './opus.js'
 
-
-let ws
-
 const FRAME_SIZE = 960 // 0.02s (20ms)
 const FLUSH_SIZE = FRAME_SIZE * 5
-const FLUSH_PACKET_SIZE = FLUSH_SIZE * 2
 
-let buf = new Float32Array(FLUSH_PACKET_SIZE)
+let ws
+let left = new Float32Array(FLUSH_SIZE)
+let right = new Float32Array(FLUSH_SIZE)
 let count = 0
 
 let rawU8
@@ -28,8 +26,14 @@ const opus = opusModule({
 // console.log(opus)
 
 function flushBuffer(dispose=false) {
-    postMessage({'buf': buf.buffer, 'len': dispose ? 0 : count}, [buf.buffer])
-    buf = new Float32Array(FLUSH_PACKET_SIZE)
+    postMessage(
+        {
+            'left': left.buffer,
+            'right': right.buffer,
+            'len': dispose ? 0 : count
+        }, [left.buffer, right.buffer])
+    left = new Float32Array(FLUSH_SIZE)
+    right = new Float32Array(FLUSH_SIZE)
     count = 0
 }
 
@@ -38,12 +42,12 @@ function queueAudio(packet) {
     const frames = opus.ccall('decode', 'number', ['number'], [packet.byteLength])
     // console.log(frames)
 
-    for (let x = 0; x < frames*2; ++x) {
-        buf[count++] = decodedF32[x]
+    for (let x = 0; x < frames*2;) {
+        left[count] = decodedF32[x++]
+        right[count++] = decodedF32[x++]
     }
-
-    // console.log(count)
-    if (count === FLUSH_PACKET_SIZE)
+    
+    if (count === FLUSH_SIZE)
         flushBuffer()
 }
 
@@ -55,9 +59,6 @@ onmessage = (event) => {
     switch (packet.op) {
         case 'connect':
             doConnect(packet)
-            break
-        case 'flush':
-            doFlush()
             break
         case 'kill':
             doKill()
@@ -85,10 +86,6 @@ function doConnect(payload) {
         if (ready)
             queueAudio(packet.data)
     }
-}
-
-function doFlush() {
-    flushBuffer(true)
 }
 
 function doKill() {
