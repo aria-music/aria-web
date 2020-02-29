@@ -16,5 +16,5 @@ export default {
   volume: localStorage.volume ? Number(JSON.parse(localStorage.volume)) : 100,
   aria: undefined,
   ws: undefined,
-  addr: ''
+  addr: 'sarisia.cc/player/'
 }

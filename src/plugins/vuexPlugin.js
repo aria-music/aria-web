@@ -14,12 +14,11 @@ export const webSocketPlugin = function () {
     const socket = new webSocketCore()
     store.commit('storeWebSoketObj', socket)
 
-    socket.connectWs(store)
+    socket.connectWs(store, store.state.addr)
     store.subscribe((mutation, state) => {
       switch (mutation.type) {
         case 'changeAddr':
-          if (!mutation.payload.indexOf('wss://') || !mutation.payload.indexOf('ws://'))
-            socket.connectWs(store, mutation.payload)
+          socket.connectWs(store, mutation.payload)
           break
         case 'setVolume':
           if (mutation.payload === 0)

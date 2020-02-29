@@ -44,15 +44,20 @@
 		<themeSelector
 			:show="selectTheme"
 		/>
+		<configWindow
+			:show="showConfig"
+		/><!-- fuck you fuck you fuck you -->
 	</v-menu>
 </template>
 <script>
 import themeSelector from '@/components/options/themeSelectDialog'
+import configWindow from '@/components/options/configWindow'
 import version from '@/components/options/version'
 import toaster from '@/mixin/toast'
 
 const settingItems = [
 	{content: "theme", text: "Theme Color", icon: "palette"},
+	{content: "config", text: "Config", icon: "fas fa-cog"},
 	{content: "init", text: "Init Audio", icon: "fas fa-sync"},
 	{content: "no", text: "No Idea", icon: "mood_bad"}
 ]
@@ -66,6 +71,7 @@ export default {
 		settingItems: settingItems,
 		subheader: "KANARI VERY FAST",
 		selectTheme: false,
+		showConfig: false,
 		shouldClose: true,
 		active: false,
 		pianoTimer: null,
@@ -77,6 +83,9 @@ export default {
 			switch(contents){
 				case "theme":
 					this.changeThemeColor()
+					break
+				case "config":
+					this.openConfig()
 					break
 				case "init":
 					this.initAudioContext()
@@ -124,6 +133,9 @@ export default {
 		changeThemeColor(){
 			this.selectTheme = !this.selectTheme
 		},
+		openConfig() {
+			this.showConfig = !this.showConfig
+		},
 		initAudioContext() {
 			this.$store.dispatch('initAudio')
             this.toast(
@@ -138,6 +150,7 @@ export default {
 	created: function() { this.resetPianoCount() },
 	components: {
 		themeSelector,
+		configWindow,
 		version
 	}
 }
