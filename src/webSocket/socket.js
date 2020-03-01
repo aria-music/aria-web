@@ -15,8 +15,8 @@ export const webSocketCore = function() {
   this.session_key
   // _connectWs(this, 'wss://sarisia.cc/player/')
 
-  this.connectWs = (store, addr = 'wss://sarisia.cc/player/') => {
-    return _connectWs(this, store, addr)
+  this.connectWs = (store, addr) => {
+    return _connectWs(this, store, `wss://${addr}`)
   }
 
   this.sendToSocket = (op, data) => {
@@ -56,6 +56,7 @@ const WSonmessage = function(event, resolve, core, store) {
       core.session_key = container.key
       sendJson.key = core.session_key
       if (store.state.volume !== 0)
+        // TODO: use stream endpoint given in hello packet
         store.state.aria.awPost({ op: 'connect', key: core.session_key })
       resolve()
       break
