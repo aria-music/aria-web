@@ -30,7 +30,7 @@
 					v-for="(item, index) in settingItems"
 					:key="index"
 					class="pl-2"
-					@click="setting(item.content)"
+					@click.stop="setting(item.content)"
 				>
 					<v-list-item-title class="mr-4">
 						<v-icon class="mb-1 mr-3">{{ item.icon }}</v-icon>
@@ -42,10 +42,10 @@
 			</v-list>
 		</v-alert>
 		<themeSelector
-			:show="selectTheme"
+			v-model="selectTheme"
 		/>
 		<configWindow
-			:show="showConfig"
+			v-model="showConfig"
 		/><!-- fuck you fuck you fuck you -->
 	</v-menu>
 </template>
@@ -124,6 +124,8 @@ export default {
 				default:
 					break
 			}
+			if (this.shouldClose)
+				this.active = false
 		},
 		resetPianoCount() {
 			this.pianoCount = 5
