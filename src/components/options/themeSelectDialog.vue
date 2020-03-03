@@ -1,6 +1,7 @@
 <template>
   <v-dialog
-    v-model="dialog"
+    :value="value"
+    @input="$emit('input')"
     scrollable
     max-width="400px"
   >
@@ -90,11 +91,8 @@ const accents = [
 ]
 
 export default {
-  props: {
-    show: Boolean
-  },
+  props: ['value'],
   data: () => ({
-    dialog: false,
     dark: false,
     colors,
     chroma,
@@ -107,13 +105,6 @@ export default {
     changeDarkNLight(dark) {
       this.$vuetify.theme.dark = dark
       localStorage.dark = dark
-    }
-  },
-  watch: {
-    show: function(){
-      setTimeout(() => {
-        this.dialog = true
-      }, 0);
     }
   },
   mounted() {

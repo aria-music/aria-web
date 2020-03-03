@@ -1,6 +1,7 @@
 <template>
     <v-dialog
-        v-model="isShown"
+        :value="value"
+        @input="close"
         max-width="400"
         persistent
     >
@@ -26,7 +27,7 @@
             <v-card-actions>
                 <v-spacer />
                 <v-btn @click="update" text :color="themeColor">Save</v-btn>
-                <v-btn @click="flush" text color="blue">Cancel</v-btn>
+                <v-btn @click="close" text color="blue">Cancel</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -35,31 +36,23 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 export default {
-    props: ["show"],
+    props: ["value"],
     data: () => ({
-        isShown: false,
         endpoint: ""
     }),
     computed: mapState({
         currentEndpoint: "addr",
         themeColor: "theme"
     }),
-    watch: {
-        show: function() {
-            setTimeout(() => {
-                this.isShown = true
-            }, 0)
-        }
-    },
     methods: {
         ...mapMutations(["changeAddr"]),
         update() {
             this.changeAddr(this.endpoint)
-            this.flush()
+            this.close()
         },
-        flush() {
+        close() {
             this.endpoint = ""
-            this.isShown = false
+            this.$emit("input")
         }
     }
 }
