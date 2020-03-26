@@ -16,7 +16,8 @@ export const webSocketCore = function() {
   // _connectWs(this, 'wss://sarisia.cc/player/')
 
   this.connectWs = (store, addr) => {
-    return _connectWs(this, store, `wss://${addr}`)
+    const cookie = document.cookie
+    return _connectWs(this, store, `wss://${addr}?${cookie}`)
   }
 
   this.sendToSocket = (op, data) => {
