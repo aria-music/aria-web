@@ -76,7 +76,7 @@ function doConnect(payload) {
         ws.close()
     } catch (e) {}
 
-    ws = new WebSocket("wss://sarisia.cc/stream/")
+    ws = new WebSocket("wss://aria.gaiji.pro/stream/")
     ws.binaryType ="arraybuffer"
     ws.onopen = () => {
         ws.send(payload.key)
