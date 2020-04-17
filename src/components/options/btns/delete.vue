@@ -29,10 +29,17 @@
               <span v-if="where == 'queue'" class="title">Are you sure to delete this queue?</span>
               <span v-if="where == 'playlist'" class="title">Are you sure to delete this playlist <strong>{{ listname }}</strong> ?</span>
             </div>
+            <v-text-field
+              v-if="where == 'playlist'"
+              v-model="confirmText"
+              label="Enter playlist name to confirm"
+              @keydown.stop
+            ></v-text-field>
             <div class="d-flex justify-end mt-5">
               <v-btn
                 color="error"
                 @click="remove"
+                :disabled="disabled"
               ><span>YES</span></v-btn>
               <v-btn
                 class="ml-5"
@@ -99,6 +106,13 @@ export default {
   },
   data: () => ({
     show: false,
-  })
+    confirmText: "",
+  }),
+  computed: {
+    disabled: function() {
+      if (this.where !== "playlist") return false
+      return this.confirmText !== this.listname
+    },
+  },
 }
 </script>
