@@ -13,10 +13,4 @@ var Module=typeof Module!=="undefined"?Module:{};var readyPromiseResolve,readyPr
 }
 );
 })();
-if (typeof exports === 'object' && typeof module === 'object')
-      module.exports = Module;
-    else if (typeof define === 'function' && define['amd'])
-      define([], function() { return Module; });
-    else if (typeof exports === 'object')
-      exports["Module"] = Module;
-    
+export default Module;
