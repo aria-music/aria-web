@@ -1,4 +1,4 @@
-import opusModule from './opus.js'
+import libopus from './opus.js'
 
 const FRAME_SIZE = 960 // 0.02s (20ms)
 const FLUSH_SIZE = FRAME_SIZE * 5
@@ -11,19 +11,22 @@ let count = 0
 let rawU8
 let decodedF32
 let ready = false
-const opus = opusModule({
-    onRuntimeInitialized: function() {
-        opus.ccall('init', 'number')
-        const encodePtr = opus.ccall('encode_buf', 'number')
-        const decodePtr = opus.ccall('decode_buf', 'number')
-        // console.log(decodePtr)
-        rawU8 = new Uint8Array(opus.HEAPU8.buffer, encodePtr)
-        decodedF32 = new Float32Array(opus.HEAPF32.buffer, decodePtr)
-        ready = true
-        console.log('[AudioWorker] Opus is ready!')
-    }
+let opus
+new libopus().then((that) => {
+    opus = that
+    initOpus()
 })
-// console.log(opus)
+
+function initOpus() {
+    opus.ccall('init', 'number')
+    const encodePtr = opus.ccall('encode_buf', 'number')
+    const decodePtr = opus.ccall('decode_buf', 'number')
+    // console.log(decodePtr)
+    rawU8 = new Uint8Array(opus.HEAPU8.buffer, encodePtr)
+    decodedF32 = new Float32Array(opus.HEAPF32.buffer, decodePtr)
+    ready = true
+    console.log('[AudioWorker] Opus is ready!')
+}
 
 function flushBuffer(dispose=false) {
     postMessage(
