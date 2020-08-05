@@ -1,4 +1,4 @@
-import libopus from './opus.js'
+import libopus from '@/../public/opus.js'
 
 const FRAME_SIZE = 960 // 0.02s (20ms)
 const FLUSH_SIZE = FRAME_SIZE * 5
