@@ -1,4 +1,4 @@
-import AudioWorker from 'worker-loader!@/../public/opus/audio.worker.js'
+import AudioWorker from 'worker-loader!@/../public/audio.worker.js'
 
 /**
  * core instance of aria audio
