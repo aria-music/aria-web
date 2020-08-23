@@ -34,7 +34,6 @@ jobs:
         deploy_key: ${{ secrets.DEPLOY_KEY }}
         external_repository: aria-music/aria-music.github.io
         publish_dir: dist
-        cname: gaiji.pro
     - uses: sarisia/actions-status-discord@v1
       if: always()
       with:
