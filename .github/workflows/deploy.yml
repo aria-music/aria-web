@@ -37,4 +37,4 @@ jobs:
     - uses: sarisia/actions-status-discord@v1
       if: always()
       with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK_RELEASE }}
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
