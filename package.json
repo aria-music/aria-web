@@ -13,7 +13,7 @@
     "@aria-music/vue-toasted": "^1.1.35",
     "core-js": "3.6.5",
     "vue": "^2.6.11",
-    "vue-router": "3.1.6",
+    "vue-router": "3.4.4",
     "vue2-perfect-scrollbar": "^1.2.4",
     "vuedraggable": "^2.23.2",
     "vuetify": "^2.1.15",
